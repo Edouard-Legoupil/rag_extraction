@@ -1,0 +1,112 @@
+/*-- scss:defaults --*/
+
+// UNHCR colors
+$unhcr-blue: #0072BC;
+$unhcr-white: #FFFFFF;
+$unhcr-black: #000000;
+$unhcr-yellow: #FAEB00;
+$unhcr-grey: #666666;
+$unhcr-navy: #18375F;
+$unhcr-green: #00B398;
+$unhcr-red: #EF4A60;
+$unhcr-lightgrey: #E6E6E6;
+$unhcr-mediumgrey: #CCCCCC;
+$unhcr-darkgrey: #222222;
+
+
+// Bootstrap default variable overrides
+
+// Grays
+$gray-100: #f2f2f2;
+$gray-200: $unhcr-lightgrey;
+$gray-300: $unhcr-mediumgrey;
+$gray-400: #b3b3b3;
+$gray-500: #999999;
+$gray-600: $unhcr-grey;
+$gray-700: #4d4d4d;
+$gray-800: #333333;
+$gray-900: $unhcr-darkgrey;
+
+// Main
+$blue: $unhcr-blue;
+$yellow: $unhcr-yellow;
+$green: $unhcr-green;
+$red: $unhcr-red;
+$orange: #f9a24a;
+
+// Theme
+$info: #338ec9;
+$warning: $unhcr-yellow;
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Lato|Source+Code+Pro&display=swap');
+$font-family-base: 'Lato', Arial, sans-serif;
+$font-family-code: 'Source Code Pro', monospace;
+$headings-font-weight: 700;
+$headings-color: $unhcr-black;
+$code-color: $unhcr-red;
+$lead-font-weight: 400;
+
+
+// Link
+$link-decoration: none;
+// $link-hover-color: $unhcr-blue;
+$link-hover-decoration: underline;
+
+// Type
+// $blockquote-footer-color: $unhcr-darkgrey;
+$mark-bg: #FFF9CB;
+
+// Breadcrumb
+$breadcrumb-divider: quote(">");
+
+// Button
+$btn-font-weight: bold;
+
+/*-- scss:rules --*/
+.title {
+    color: $unhcr-blue;
+}
+
+.quarto-title-banner .title {
+    color: $unhcr-yellow;
+}
+
+h2,
+.h2 {
+    color: $unhcr-blue;
+    border-bottom: none;
+}
+
+li::marker {
+    color: $unhcr-blue;
+}
+
+blockquote {
+    border-left: none;
+    text-align: center;
+}
+
+.blockquote {
+    padding-left: 1.5rem;
+    color: $unhcr-black;
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+blockquote p .blockquote-author {
+    color: $unhcr-darkgrey;
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 700;
+}
+
+
+.quarto-title-meta-heading,
+.abstract-title {
+    color: $unhcr-blue;
+}

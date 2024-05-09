@@ -1,0 +1,594 @@
+---
+title: Retrieval-Augmented Generation with Large Language Model
+subtitle: Create a Brief from an Evaluation Repor
+date: today
+author: Edouard Legoupil
+format: unhcr-html
+jupyter: python3
+---
+
+Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) framework that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems.
+
+Content can be created leveraging external specific knowledge from a report. Rather than relying on user interactions through a chat interface, it is possible to set up summarization scripts that can document and speed up specific process. In some situations, relying on automated retrieval can ensure that the summarization is "neutral" and do not omit key elements...
+
+In this example, we focus on creating an evaluation brief from the 2019 [Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf). The same approach could be applied to other textual analysis such as: extract causal theory of change from transcriptions of Focus Group Discussions Transcriptions or review the usage of Evidence within Country Strategic Plan. 
+
+Use cases are plenty and we hope that you can adjust this tutorial to your own use cases!
+
+The script below is based on [langChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) python library but the same pipeline could also be built with the other main LLM orchestration library called [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
+
+A robust RAG system comes with 3 main steps:
+
+1)  **Retrieval**: retrieve relevant information from a knowledge base with text embedding stored in a vector store;
+
+2)  **Generation**: insert the relevant information to the prompt for the LLM to generate information;
+
+3)  **Evaluation**: Explore and combine various options for both Retrieval and Generation and compare the results.
+
+# First get the required Python libraries
+
+Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This canbe done with conda
+
+First directly in your OS Shell, create a new environment - here called **evalenv**
+
+> !conda create --name evalenv python=3.11
+
+Then activate it! Et voila!
+
+> !conda activate evalenv
+
+Once this environment selected as a kernel to run the notebook, we can install the required python libraries for RAG:
+
+```{python}
+## Library to load the PDF
+%pip install --upgrade --quiet install pypdf
+
+## Library for chunking
+%pip install --upgrade --quiet  tiktoken
+%pip install --upgrade --quiet nltk
+
+## Library for the embedding
+%pip install --upgrade --quiet  gpt4all
+%pip install --upgrade --quiet  sentence-transformers
+
+## Library to store the embeddng in a vector DB
+%pip install --upgrade --quiet  chromadb
+
+## Library for the LLM interaction
+%pip install --upgrade --quiet install langchain
+%pip install --upgrade --quiet langchain-community
+
+## Library to save the results in a word document
+%pip install --upgrade --quiet python-docx 
+
+## Library to evaluat the RAG process
+%pip install --upgrade --quiet ragas 
+%pip install --upgrade --quiet ragas vllm
+
+```
+
+```{python}
+# You then Restart the kernel
+%reset -f
+```
+
+# Retrieval
+
+## Load the PDF
+
+There plenty of potential python packages to load pdf files... More details [here](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf). Note that more loader also exist for other type of data!!!
+
+```{python}
+from langchain_community.document_loaders import PyPDFLoader
+
+loader = PyPDFLoader("files/Info_Mngt_eval_2019.pdf")
+docs = loader.load_and_split()
+```
+
+## Chunking
+
+If you have a large document, beause of memory management, you will not be able to process it in one chunk. LangChain offers several built-in text splitters to **divide text into smaller chunks** based on different criteria.
+
+The options that can be tested are:
+
+-   Simple character-level processing with CharacterTextSplitter
+
+-   Recursive Splitting with RecursiveCharacterTextSplitter.
+
+-   Words or semantic units with TokenTextSplitter.
+
+-   Context-aware splitting with NLTKTextSplitter
+
+See example to understand how chunking works, see this online [viz](https://chunkviz.up.railway.app/).
+
+```{python}
+from langchain.text_splitter import CharacterTextSplitter
+splitter_text = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+chunks_text = splitter_text.split_documents(docs)
+```
+
+```{python}
+from langchain.text_splitter import RecursiveCharacterTextSplitter 
+splitter_recursivecharactertext = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+chunks_recursivecharactertext = splitter_recursivecharactertext.split_documents(docs)
+```
+
+```{python}
+from langchain.text_splitter import TokenTextSplitter
+splitter_tokentext = TokenTextSplitter(chunk_size=1000, chunk_overlap=200)
+chunks_tokentext = splitter_tokentext.split_documents(docs)
+```
+
+```{python}
+from langchain_text_splitters import NLTKTextSplitter
+splitter_nltktext = NLTKTextSplitter(chunk_size=1000)
+chunks_nltktext = splitter_nltktext.split_documents(docs)
+```
+
+## Instantiate a Vector Database
+
+A \[vector database\](https://python.langchain.com/docs/modules/data_connection/vectorstores/) is a database that allows you to efficiently store and query embedding data. Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified **similarity metric**, the vector database returns embeddings that are similar to a query.
+
+There are here again numerous options in terms of vector DB - for instance
+
+-   [ChromaDB](https://www.trychroma.com/)
+
+-   [Qdrant](https://qdrant.tech/)
+
+-   [Milvus](https://milvus.io/)
+
+-   [FAISS](https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/)
+
+Here we will just use Chroma
+
+```{python}
+from langchain_community.vectorstores import Chroma
+```
+
+```{python}
+import chromadb 
+chroma_client = chromadb.PersistentClient(path="persist/")
+```
+
+```{python}
+## A collection is created with the following
+#chroma_collection = chroma_client.create_collection('collection')
+```
+
+## Create Embedding to store in the database
+
+First we need a dedicated model to generate embedding from the text, i.e. a **numeric representation of text data**. Here again, there's no single "best" option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.
+
+LangChain often integrates with libraries like [Hugging Face Transformers](https://huggingface.co/sentence-transformers) for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages... For instance the Beijing Academy of Artificial Intelligence recently release https://huggingface.co/BAAI/bge-large-en-v1.5 for english
+
+```{python}
+from langchain_community.embeddings import GPT4AllEmbeddings 
+embeddings_bert = GPT4AllEmbeddings()
+```
+
+Now we can store the embeddings and associated metadata in the chroma vector database using a specific collection name
+
+```{python}
+vectorstore_text_bert = Chroma.from_documents(chunks_text, 
+                                              embeddings_bert, 
+                                              collection_name= "text_bert",
+                                              persist_directory = "persist")
+vectorstore_text_bert.persist()
+```
+
+```{python}
+vectorstore_recursivecharactertext_bert = Chroma.from_documents(chunks_recursivecharactertext,
+                                                                embeddings_bert,
+                                              collection_name= "recursivecharactertext_bert",
+                                              persist_directory = "persist")
+vectorstore_recursivecharactertext_bert.persist()
+```
+
+```{python}
+vectorstore_tokentext_bert = Chroma.from_documents(chunks_tokentext, 
+                                                   embeddings_bert, 
+                                              collection_name= "tokentext_bert",
+                                              persist_directory = "persist")
+vectorstore_tokentext_bert.persist()
+```
+
+```{python}
+vectorstore_nltktext_bert = Chroma.from_documents(chunks_nltktext, 
+                                                  embeddings_bert, 
+                                             collection_name= "nltktext_bert",
+                                              persist_directory = "persist")
+vectorstore_nltktext_bert.persist()
+```
+
+Let's try with a second embedding model...
+
+```{python}
+# from sentence_transformers import SentenceTransformer, util
+# model_name = "BAAI/bge-large-en-v1.5"
+# from langchain.embeddings import HuggingFaceBgeEmbeddings
+# embeddings_bge = HuggingFaceBgeEmbeddings(
+#     model_name=model_name,
+#     model_kwargs={'device': 'cuda'},
+#     encode_kwargs={'normalize_embeddings': True} # set True to compute cosine similarity
+# )
+```
+
+More embeddings model could be tested out...as below... [Hugging face](https://huggingface.co/models?pipeline_tag=feature-extraction&sort=trending) has many options...
+
+```{python}
+# more pre-trained embedding model to potentially test..
+model_name = "all-MiniLM-L6-v2"
+model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+model_name="bert-base-multilingual-cased"
+```
+
+```{python}
+# vectorstore_text_bge = Chroma.from_documents(chunks_text, 
+#                                               embeddings_bge, 
+#                                               collection_name= "text_bge",
+#                                               persist_directory = "persist")
+# vectorstore_text_bge.persist()
+```
+
+```{python}
+# vectorstore_recursivecharactertext_bge = Chroma.from_documents(chunks_recursivecharactertext,
+#                                                                 embeddings_bge,
+#                                               collection_name= "recursivecharactertext_bge",
+#                                               persist_directory = "persist")
+# vectorstore_recursivecharactertext_bge.persist()
+```
+
+```{python}
+# vectorstore_tokentext_bge = Chroma.from_documents(chunks_tokentext, 
+#                                                    embeddings_bge, 
+#                                               collection_name= "tokentext_bge",
+#                                               persist_directory = "persist")
+# vectorstore_tokentext_bge.persist()
+```
+
+```{python}
+# vectorstore_nltktext_bge = Chroma.from_documents(chunks_nltktext, 
+#                                                   embeddings_bge, 
+#                                              collection_name= "nltktext_bge",
+#                                               persist_directory = "persist")
+# vectorstore_nltktext_bge.persist()
+```
+
+## Retrieve Embedding from a persistant storage vector database
+
+```{python}
+import chromadb
+client = chromadb.PersistentClient(path="persist/")
+```
+
+```{python}
+collections = client.list_collections()
+print(collections)
+```
+
+```{python}
+# Store the embeddings and associated metadata in a vector database using Chroma
+# vectorstore_text_bert2 = client.get("text_bert")
+ 
+```
+
+# Generation
+
+## Set up a local LLM
+
+If do not have access to any LLM API, an alternative is to install a local one... There are multiple options to do that - but an easy one is to install [OLLAMA](https://ollama.com/). Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama).
+
+The temperature is setting the *creativeness* of the response - the higher the more creative - below we will remain conservative! It is the equivalent of the conversation style setting in copilot: creative \[1-0.7\], balanced \]0.7-0.4\], precise \]0.4,0\]...
+
+There are again plenty of Open Source LLM options to select from... Open-source Large Language Model (LLM) have multiple advantages:
+
+-   **Transparency and Flexibility**: accessible to the public, allowing developers to inspect, modify, and distribute the code. This transparency fosters a community-driven development process, leading to rapid innovation and diverse applications.
+
+-   **Cost Savings**: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup.
+
+-   **Added Features and Community Contributions**: can leverage multiple providers and internal teams for updates and support, which enables to stay at the forefront of technology and exercise greater control over their usage.
+
+-   **Customizability**: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.
+
+We are using here [Mixtral Sparse Mixture-of-Expert](https://mistral.ai/news/mixtral-of-experts/), and specifically the quantized version: [8x7b-instruct-v0.1-q4_K_M](https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods), an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance.
+
+```{python}
+from langchain_community.chat_models import ChatOllama
+llm_ollama = ChatOllama(
+    model="mixtral:8x7b-instruct-v0.1-q4_K_M",  
+    temperature=0.2, 
+    request_timeout=500
+)
+```
+
+## Summarisation Prompt
+
+Writing a good summarization prompt involves a few key steps:
+
+-   Be **Specific**: Clearly state what you want to summarize. For example, “Summarize this Operation Strategic Plan in 200 words using abstractive summarization” or "Provide a summary of this needs assessment report, highlighting its key takeaways".
+
+-   Define the **Scope**: Specify the length or depth of the summary you need. For instance, “Summarize this text into two paragraphs with simple language to make it easier to understand” or "Create a summary of this report by summarizing all chapters separately and then generating an overall summary of the report".
+
+-   Set the **Context**: If the summary is for a specific purpose or audience, mention it in the prompt. For example, “I need to write talking points based on this report. Help me summarize this text for better understanding so that I can use it as an introduction emai” or "Summarize this for me like I’m 8 years old".
+
+-   Use **Clear and Concise** Language: Avoid unnecessary complexity or ambiguity. A good prompt should provide enough direction to start but leave room for creativity.
+
+Here we will try to create a prompt that generate an "Evaluation Brief" from the larger evaluation report.
+
+Mixtral comes with specific tags to use for the prompt:
+
+> <s>\[INST\] Instruction \[/INST\] Model answer</s>\[INST\] Follow-up instruction \[/INST\]
+
+```{python}
+RAG_prompt = """
+<s> 
+
+[INST]Act if you were a public program evaluation specialist. 
+Your audience target is composed of Senior Executives that are managing the operation or program that got evaluated.[/INST]
+
+Your task is to generate an executive summary of the report you just ingested. </s>
+
+[INST]
+The summary should output should be in json and follow the following defined structure:
+ 
+ - In the first part titled "What have we learn?", start with a description of the Forcibly Displaced population in the operation and include as 5 bullet points, the main challenges n relation with the evaluation objectives that have been identified in the document. For each challenge explain why it's a problem and give a practical example to illustrate the consequence of this problem.
+ 
+ - In a second part titled: "How did we get there?" try to review the common root causes for all the challenges that have been identified.  
+ 
+ - In a third part, title: "What is working well?", provide a summary of the main success and achievement, i.e. things that have been identified as good practices and / or effective by the evaluators.
+ 
+ - In the fourth part: "Now What to do?", include and summarize the recommendations proposed by the evaluation. Classify the recommendations according to their relevant level:
+      
+      1. "Operational Level": i.e recommendations that need to be implemented in the field as an adaptation or change of current practices. Please flag clearly, if this is the case, the recommendations related to practice that should be stopped or discontinued;
+       
+      2. "Organizational level": i.e recommendations that require changes in staffing or capacity building. Please flag clearly, if this is the case, the recommendations related to practice that should be stopped or discontinued;
+    
+      3. "Strategic Level": i.e recommendations that require a change in existing policy and rules.
+ 
+ - At the end, for the "Conclusion", craft a reflective conclusion in one sentence that highlights the broader significance of the discussed topic. 
+[/INST]
+"""
+```
+
+## Set up the Retriever
+
+A [retriever](https://python.langchain.com/docs/modules/data_connection/retrievers/) acts as an information gatekeeper in the RAG architecture. Its primary function is to search through a large corpus of data to find relevant pieces of information that can be used for text generation. You can think of it as a specialized librarian who knows exactly which ‘books’ to pull off the ‘shelves’ when you ask a question. In other words, the retriever first fetches relevant parts of the document pertaining to the user query, and then the Large Language Model (LLM) uses this information to generate a response.
+
+The retriever also takes a series of potential parameters
+
+The `search_kwargs={"k": 2,"score_threshold":0.8}` argument is a dictionary used to configure how documents are retrieved during the search process. This argument lets you control how many results you get (up to two in this case) and how good those results need to be (with a score of at least 0.8):
+
+-   **k** (int): This parameter controls the number of documents to retrieve from the search. In this case, k: 2 specifies that the retriever should return up to two documents that match the search query.
+
+-   **score_threshold** (float): This parameter sets a minimum score threshold for retrieved documents. Documents with a score lower than 0.8 will be excluded from the results. This essentially acts as a quality filter, ensuring a certain level of relevance between the query and retrieved documents.
+
+The scoring mechanism used by the retriever might depend on the specific retriever implementation. It's likely based on how well the retrieved documents match the search query. The effectiveness of these parameters depends on your specific use case and the quality of the underlying retrieval system.
+
+The search_type argument within `vectorstore.as_retriever` for LangChain allows you to specify the retrieval strategy used to find relevant documents in your vector store. Different options are available:
+
+1.  If you simply want the most relevant documents, "**similarity**" (default): This is the most common search type and is used by default. It performs a standard nearest neighbor search based on vector similarity. The retriever searches for documents in the vector store whose vector representations are closest to the query vector. Documents with higher similarity scores are considered more relevant and are returned first.
+
+2.  If you need diverse results that cover different aspects of a topic, "**mmr**" (Maximum Marginal Relevance): This search type focuses on retrieving documents that are both relevant to the query and diverse from each other. It aims to avoid redundancy in the results. MMR is particularly useful when you want a collection of documents that cover different aspects of a topic, rather than just multiple copies of the most similar document.
+
+3.  If you want to ensure a minimum level of relevance,"**similarity_score_threshold**": This search type retrieves documents based on a similarity score threshold. It only returns documents that have a similarity score above the specified threshold. This allows you to filter out documents with low relevance to the query.
+
+Even with "similarity", the retrieved documents might have varying degrees of relevance. Consider using ranking techniques within LangChain to further refine the results based on additional criteria. The underlying vector store might have limitations on the supported search types. Always refer to the documentation of your specific vector store to confirm available options.
+
+```{python}
+ragRetriever_text_bert = vectorstore_text_bert.as_retriever()
+```
+
+```{python}
+ragRetriever_recursivecharactertext_bert = vectorstore_recursivecharactertext_bert.as_retriever()
+```
+
+```{python}
+ragRetriever_mmr_recursivecharactertext_bert = vectorstore_recursivecharactertext_bert.as_retriever(
+            search_type="mmr"
+)
+```
+
+```{python}
+ragRetriever_similarity_tokentext_bert = vectorstore_tokentext_bert.as_retriever(
+            search_type="similarity_score_threshold",
+            search_kwargs={
+                "k": 3,
+                "score_threshold": 0.4,
+            },
+)
+```
+
+```{python}
+ragRetriever_similarity_nltktext_bert = vectorstore_nltktext_bert.as_retriever(
+            search_type="similarity_score_threshold",
+            search_kwargs={
+                "k": 5,
+                "score_threshold": 0.8,
+            },
+)
+```
+
+## Build the Chain
+
+A retrieval chain act as a pipe: it takes an incoming question, look up relevant documents using a retriever, then pass those documents along with the original question into an LLM and return the answer the original question.
+
+Note that from this stage, the following steps may take time to run - this will be highly dependent on the power of your computer - obviously the availability of GPUs - Graphical Processing Unit - will significantly increase the speed!
+
+```{python}
+from langchain.chains import RetrievalQA
+qa_chain = RetrievalQA.from_chain_type(
+        llm=llm_ollama,
+        retriever=ragRetriever_recursivecharactertext_bert, 
+        chain_type="stuff",
+        return_source_documents=True)
+
+response_text_bert = qa_chain(RAG_prompt)
+```
+
+```{python}
+from langchain.chains import RetrievalQA
+qa_chain = RetrievalQA.from_chain_type(
+        llm=llm_ollama,
+        retriever=ragRetriever_mmr_recursivecharactertext_bert, 
+        chain_type="stuff",
+        return_source_documents=True)
+
+response_mmr_recursivecharactertext_bert = qa_chain(RAG_prompt)
+```
+
+```{python}
+# from langchain.chains import RetrievalQA
+# qa_chain = RetrievalQA.from_chain_type(
+#         llm=llm_ollama,
+#         retriever=ragRetriever_similarity_recursivecharactertext_bert, 
+#         chain_type="stuff",
+#         return_source_documents=True)
+
+# response_similarity_recursivecharactertext_bert = qa_chain(RAG_prompt)
+```
+
+## Save in a word document
+
+To complete the process, let's save the results within a a word document! This again can be automated
+
+```{python}
+import docx
+
+# Create a document
+doc = docx.Document()
+
+# add a heading of level 0 (largest heading)
+doc.add_heading('Evaluation Brief', 0) 
+
+# Add another paragraph
+p = doc.add_paragraph()
+
+# Add a run with the summary and format it
+run = p.add_run(response_text_bert["result"])
+run.font.name = 'Arial'
+run.font.size = docx.shared.Pt(12)
+
+
+## Add  a disclaimer... ----------------
+# add a page break to start a new page
+doc.add_page_break()
+# add a heading of level 2
+doc.add_heading('DISCLAIMER:', 2)
+doc_para = doc.add_paragraph() 
+doc_para.add_run('This document contains material generated by artificial intelligence technology. While efforts have been made to ensure accuracy, please be aware that AI-generated content may not always fully represent the intent or expertise of human-authored material and may contain errors or inaccuracies. An AI model might generate content that sounds plausible but that is either factually incorrect or unrelated to the given context. These unexpected outcomes, also called AI hallucinations, can stem from biases, lack of real-world understanding, or limitations in training data.').italic = True
+
+# Save the document ---------------
+doc.save("generated/Evaluation_Brief_response_text_bert.docx")
+```
+
+Let's try to generate a second report with different setttings...
+
+```{python}
+import docx
+
+# Create a document
+doc = docx.Document()
+
+# add a heading of level 0 (largest heading)
+doc.add_heading('Evaluation Brief', 0) 
+
+# Add another paragraph
+p = doc.add_paragraph()
+
+# Add a run with the summary and format it
+run = p.add_run(response_mmr_recursivecharactertext_bert["result"])
+run.font.name = 'Arial'
+run.font.size = docx.shared.Pt(12)
+
+
+## Add  a disclaimer... ----------------
+# add a page break to start a new page
+doc.add_page_break()
+# add a heading of level 2
+doc.add_heading('DISCLAIMER:', 2)
+doc_para = doc.add_paragraph() 
+doc_para.add_run('This document contains material generated by artificial intelligence technology. While efforts have been made to ensure accuracy, please be aware that AI-generated content may not always fully represent the intent or expertise of human-authored material and may contain errors or inaccuracies. An AI model might generate content that sounds plausible but that is either factually incorrect or unrelated to the given context. These unexpected outcomes, also called AI hallucinations, can stem from biases, lack of real-world understanding, or limitations in training data.').italic = True
+
+# Save the document ---------------
+doc.save("generated/Evaluation_Brief_response_mmr_recursivecharactertext_bert.docx")
+```
+
+# Evaluation
+
+Getting the RAG pipeline's performance to a satisfying state is not straightforward. [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/) is a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html). There are several criteria used to evaluate RAG applications:
+
+1.  Context-based for the **Retriever**: :
+
+-   [**Context recall**](https://docs.ragas.io/en/stable/concepts/metrics/context_recall.html): Measures whether the context contains the correct information, compared to a provided ground truth, in order to produce an answer.
+
+-   [**Context Precision**](https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html) (also called Grounding): Measures whether items present in the contexts are ranked higher or not.
+
+2.  Output-based for the **Generator** (LLM):
+
+-   [**Faithfulness**](https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html) (also called Correctness or Factuality): Measures whether the LLM outputs are based on the provided ground truth.
+
+-   [**Answer relevancy**](https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html): Measures how directly the answer addresses the question.
+
+We will use 2 different models: one to generate and the other to review...
+
+```{python}
+from langchain_community.chat_models import ChatOllama
+generator_llm = ChatOllama(model="dolphin-mistral:latest",  
+                        temperature=0.2, 
+                         request_timeout=500 )
+critic_llm = ChatOllama(model="dolphin-mistral:latest",  
+                        temperature=0.2, 
+                         request_timeout=500 )
+embeddings = GPT4AllEmbeddings()
+```
+
+```{python}
+# create the QA chain
+from langchain.chains import RetrievalQA
+qa_chain = RetrievalQA.from_chain_type(
+        llm=llm_ollama,
+        retriever=ragRetriever_mmr_recursivecharactertext_bert, 
+        return_source_documents=True)
+
+# testing it out
+question = "Provide a list of all organisational recommendations within the report"
+result = qa_chain({"query": question})
+```
+
+```{python}
+result["result"]
+```
+
+We can use a dedicated model to critise the first one https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#
+
+```{python}
+# from langchain_community.llms import VLLM
+
+# critic_llm = VLLM(
+#     model="explodinggradients/Ragas-critic-llm-Qwen1.5-GPTQ",
+#     trust_remote_code=True,  # mandatory for hf models
+#     max_new_tokens=512,
+#     top_k=10,
+#     top_p=0.95,
+#     temperature=0.0,)
+
+
+```
+
+> python -m vllm.entrypoints.openai.api_server --model explodinggradients/Ragas-critic-llm-Qwen1.5-GPTQ
+
+```{python}
+# from ragas import evaluate
+  
+```
+
+```{python}
+# from ragas.metrics import context_precision, answer_relevancy, faithfulness
+# from ragas import evaluate
+ 
+# raga_result = evaluate(
+#     dataset=result,
+#     llm=critic_llm,
+#     metrics=[context_precision, faithfulness, answer_relevancy],
+# )
+```

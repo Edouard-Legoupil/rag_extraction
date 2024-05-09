@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Edouard Legoupil">
-<meta name="dcterms.date" content="2024-05-08">
+<meta name="author" content="Edouard Legoupil, UNHCR Evaluation Office">
+<meta name="dcterms.date" content="2024-05-09">
 
-<title>Retrieval-Augmented Generation with Large Language Model</title>
+<title>Creating Brief from Evaluation Report</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,20 +69,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>html{ scroll-behavior: smooth; }</style>
+<link rel="shortcut icon" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNy43LjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA2OCA2OCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNjggNjg7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiMwMDcyQkM7fQ0KCS5zdDF7ZmlsbDojRkZGRkZGO30NCjwvc3R5bGU+DQo8Zz4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMCw1OGMwLDUuNSw0LjUsMTAsMTAsMTBoNDhjNS41LDAsMTAtNC41LDEwLTEwVjEwYzAtNS41LTQuNS0xMC0xMC0xMEgxMEM0LjUsMCwwLDQuNSwwLDEwVjU4eiIvPg0KPC9nPg0KPGc+DQoJPHBhdGggY2xhc3M9InN0MSIgZD0iTTM1LjYsNDRjMC42LDAsMC42LTAuNCwwLjYtMVY0MGMwLTAuNy0wLjEtMC45LDAuMy0wLjljMS4zLDAsMS41LTAuMSwxLjUtMS4yVjI2LjZjMC0zLjEtMi4yLTIuNi0yLjgtMy43DQoJCWMtMS0xLjQsMS42LTEuNCwwLjgtNC44Yy0wLjMtMC44LTEuMS0xLjMtMS45LTEuMmMtMC45LTAuMS0xLjYsMC40LTEuOSwxLjJjLTEsMy40LDEuNSwzLjQsMC44LDQuOGMtMC43LDEuMi0yLjgsMC43LTIuOCwzLjdWMzgNCgkJYzAsMS4yLDAuNCwxLjIsMS41LDEuMmMwLjQsMCwwLjMsMC4yLDAuMywwLjl2My4xYzAsMC43LTAuMSwxLDAuNiwxSDM1LjYiLz4NCgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMjUuNywxOS4zYy0xLjIsMS4yLTIuOSw0LTEuNyw2LjNjMi4zLDEsMi4xLTcuNCw1LjEtNy4zYzEuNCwxLjMtMC41LDUuMy0xLjEsNi45Yy0wLjgsMi4xLTEuMyw2LjYtMi43LDguOA0KCQljLTEuMiwxLjgtMC4zLDcuNS0wLjcsOS40Yy0xLDEtMy42LDAuMy00LjcsMC4xYy0wLjEtMi41LTAuMy01LjEtMC43LTcuNmMwLTAuOC0wLjktMTEuOC0wLjItMTNjMS4zLTIuOCw4LjEtOC4xLDkuMS05LjENCgkJUzMxLjgsMTAsMzMsMTBjMC45LDAuNiwwLjQsMS44LDAuMiwyLjNDMzIuMywxNS4xLDI3LjQsMTcuOSwyNS43LDE5LjMiLz4NCgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNDIuNSwxOS4zYzEuMiwxLjIsMi45LDQsMS43LDYuM2MtMi40LDEtMi4yLTcuNC01LjEtNy4zYy0xLjMsMS4zLDAuNSw1LjMsMS4xLDYuOWMwLjgsMi4xLDEuMyw2LjYsMi43LDguOA0KCQljMS4yLDEuOCwwLjMsNy41LDAuNyw5LjRjMS4xLDEsMy42LDAuMyw0LjcsMC4xYzAuMS0yLjUsMC4zLTUuMSwwLjctNy42YzAuMS0wLjgsMC45LTExLjgsMC4yLTEzYy0xLjMtMi44LTguMS04LjEtOS4xLTkuMQ0KCQlTMzYuMywxMCwzNS4yLDEwYy0wLjksMC42LTAuMywxLjgtMC4yLDIuM0MzNi4xLDE1LjEsNDAuOSwxNy45LDQyLjUsMTkuMyIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0xNS44LDE1LjdjLTAuNywwLjYtMS45LDEuMS0zLDIuMmMtMC40LTAuNywwLjYtMi4zLDEuNi0zLjRjMC45LTAuOCwxLjktMS40LDMtMS45DQoJCUMxNy44LDEzLjUsMTYuNSwxNC43LDE1LjgsMTUuNyIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0xMy45LDIwLjJjLTEuMSwxLTIuMSwxLjMtMy42LDMuMmMtMC41LTEuNy0wLjYtMy42LTAuMi01LjNjMC42LTEuNiwxLjMtMy41LDIuOC00Yy0wLjUsMS4zLTAuOCwyLjYtMC45LDQNCgkJYy0wLjcsMi40LTEsMi41LTAuOSwyLjhjMC4yLDAsMS0xLjMsMS45LTIuMmMxLjItMS4yLDIuNi0xLjMsMy41LTIuMUMxNS45LDE3LjgsMTQuOSwxOS4xLDEzLjksMjAuMiIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik04LjcsMzAuMkM3LjYsMjguMiw3LDI2LDcsMjMuN2MwLjEtMS40LDAuOS00LjksMS44LTUuNWMtMC4zLDMuMiwwLjYsMy41LDAuMiw1LjljMCwwLjEtMC40LDIuOC0wLjQsMw0KCQljMC41LTAuMSwwLTIuNCw1LTUuOWMtMS4yLDEuOC0wLjYsMi40LTIuNSw0LjlDMTAuMSwyNy4zLDkuMiwyOC43LDguNywzMC4yIi8+DQoJPHBhdGggY2xhc3M9InN0MSIgZD0iTTEwLjgsMzIuNmMtMC42LDAuOS0xLDEuOS0xLjIsM2MtMi41LTEuMy01LjQtNy4xLTQuMy0xMEM2LDI3LjYsNi44LDI4LjIsNy41LDMwYzEuMiwyLjcsMSwzLjUsMS42LDQuMQ0KCQlDOSwzMi43LDkuMywzMS4yLDEwLDI5LjljMC42LTEsMS4yLTEuOSwxLjctMi45QzEyLjIsMjguOSwxMS44LDMwLjUsMTAuOCwzMi42Ii8+DQoJPHBhdGggY2xhc3M9InN0MSIgZD0iTTEzLDM3LjVjLTAuMSwxLjYtMC4zLDMuMi0wLjYsNC44Yy00LjItMS4zLTYuNi02LjMtNi42LTguN2MxLjMsMywzLjMsMyw1LjgsNy4xYzAuMi0xLjUtMC41LTAuNC0wLjYtMy41DQoJCWMwLjEtMy4yLDAuOC0zLjMsMC45LTUuMkMxMi43LDMyLjgsMTMsMzYuNCwxMywzNy41Ii8+DQoJPHBhdGggY2xhc3M9InN0MSIgZD0iTTE2LjUsNDMuN2MwLjQsMS42LDAuNSwzLjUsMC44LDQuOWMtMi41LTEtMy4xLTAuMi02LTJjLTEuMy0wLjgtMy43LTMuOC0zLjYtNS45YzIuOSwzLjMsMy41LDIuOSw0LjgsNA0KCQljMS4zLDEuMSwyLjMsMi42LDMuNCwyLjRjMC4xLTAuOS0yLjEtMi44LTEuOC04LjFDMTUuMSw0MC40LDE2LDQyLDE2LjUsNDMuNyIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0yMS40LDQ3LjhjMC44LDEuMiwwLjYsMS41LDIuNSwzLjhjLTEuNiwwLjUtMy40LDAuOS01LjEsMS4xYy0xLjIsMC01LjYtMS4yLTctNGMyLjUsMS4zLDIuNSwxLjEsNS44LDEuNw0KCQljMi40LDAuNiw0LDEuMyw0LjcsMS4yYy0wLjEtMC4zLTEuOS0xLjItMy4zLTIuN3MtMS0zLjYtMi4xLTVDMTcuOCw0My40LDIwLjgsNDYuOSwyMS40LDQ3LjgiLz4NCgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNTIuMywxNS43YzAuNiwwLjYsMiwxLjEsMi45LDIuMmMwLjQtMC43LTAuNi0yLjMtMS42LTMuNGMtMC45LTAuOC0xLjktMS40LTMtMS45DQoJCUM1MC4yLDEzLjUsNTEuNCwxNC43LDUyLjMsMTUuNyIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik01NC4yLDIwLjJjMS4xLDEsMi4xLDEuMywzLjYsMy4yYzAuNS0xLjcsMC42LTMuNiwwLjItNS4zYy0wLjUtMS42LTEuMy0zLjUtMi44LTRjMC41LDEuMywwLjgsMi42LDAuOSw0DQoJCWMwLjcsMi40LDEsMi41LDAuOSwyLjhjLTAuMiwwLTEtMS4zLTEuOS0yLjJjLTEuMi0xLjItMi41LTEuMy0zLjUtMi4xQzUyLjIsMTcuOCw1My4yLDE5LjEsNTQuMiwyMC4yIi8+DQoJPHBhdGggY2xhc3M9InN0MSIgZD0iTTU5LjMsMzAuMmMxLjItMiwxLjctNC4yLDEuNi02LjVjLTAuMS0xLjQtMC45LTQuOS0xLjgtNS41YzAuMywzLjItMC42LDMuNS0wLjIsNS45YzAsMC4xLDAuMywyLjgsMC4zLDMNCgkJYy0wLjQtMC4xLDAtMi40LTQuOS01LjljMS4xLDEuOCwwLjYsMi40LDIuNSw0LjlDNTcuOSwyNy4zLDU4LjgsMjguNiw1OS4zLDMwLjIiLz4NCgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNTcuMywzMi42YzAuNiwwLjksMSwxLjksMS4yLDNjMi41LTEuNCw1LjQtNy4yLDQuMi0xMGMtMC43LDIuMS0xLjUsMi43LTIuMSw0LjRjLTEuMiwyLjctMS4xLDMuNS0xLjYsNC4xDQoJCWMwLTEuNC0wLjMtMi45LTAuOS00LjJjLTAuNS0xLTEuMS0xLjktMS43LTIuOUM1NS44LDI4LjksNTYuMiwzMC45LDU3LjMsMzIuNiIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik01NS4xLDM3LjVjMC4xLDEuNiwwLjMsMy4zLDAuNyw0LjhjNC4yLTEuMyw2LjYtNi4zLDYuNi04LjdjLTEuMywzLTMuMywzLTUuOCw3LjFjLTAuMi0xLjUsMC41LTAuNCwwLjUtMy41DQoJCWMwLTMuMS0wLjgtMy4zLTAuOS01LjJDNTUuNCwzMi44LDU1LjEsMzYuNCw1NS4xLDM3LjUiLz4NCgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNTEuNCw0My43Yy0wLjQsMS42LTAuNSwzLjUtMC43LDQuOWMyLjQtMSwzLjEtMC4yLDUuOS0yYzEuMy0wLjgsMy44LTMuOCwzLjYtNS45Yy0yLjksMy4zLTMuNSwyLjktNC44LDQNCgkJYy0xLjMsMS4xLTIuNCwyLjYtMy40LDIuNGMtMC4xLTAuOSwyLjEtMi44LDEuOC04LjFDNTIuOSw0MC40LDUyLDQyLDUxLjQsNDMuNyIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik00Ni42LDQ3LjhjLTAuNywxLjMtMS40LDIuNy0yLjUsMy44YzEuNiwwLjUsMy40LDAuOSw1LjEsMS4xYzEuMiwwLDUuNi0xLjIsNi45LTRjLTIuNSwxLjMtMi41LDEuMS01LjgsMS43DQoJCWMtMi40LDAuNi00LDEuMy00LjcsMS4yYzAuMi0wLjMsMi0xLjIsMy4zLTIuN2MxLjItMS41LDEtMy42LDIuMS01QzUwLjIsNDMuNCw0Ny4zLDQ2LjksNDYuNiw0Ny44Ii8+DQoJPHBhdGggY2xhc3M9InN0MSIgZD0iTTI3LjgsNThsLTAuOC0wLjRjMy4yLTMuNSw3LjgtNS40LDEyLjUtNS4yYzcuOSwwLjUsNy4zLDIuMywxMS42LDEuOWMwLjUsMC0wLjQsMC42LTAuNCwwLjYNCgkJYy0zLDEtNi4zLDAuOS05LjMtMC4yQzM2LjUsNTMuMSwzMy4xLDUyLDI3LjgsNTgiLz4NCgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNDAuMyw1OGwwLjgtMC40Yy0zLjItMy41LTcuNy01LjQtMTIuNC01LjJjLTcuOSwwLjUtNy4zLDIuMy0xMS42LDEuOWMtMC41LDAsMC40LDAuNiwwLjQsMC42DQoJCWMzLDEsNi4zLDAuOSw5LjMtMC4yQzMxLjgsNTMuMSwzNSw1Miw0MC4zLDU4Ii8+DQo8L2c+DQo8L3N2Zz4NCg==">
 
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
-<main class="content" id="quarto-document-content">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#stage-0-python-environment-and-libraries" id="toc-stage-0-python-environment-and-libraries" class="nav-link" data-scroll-target="#stage-0-python-environment-and-libraries">Stage 0: Python Environment and libraries</a></li>
+  <li><a href="#stage-1-retrieval" id="toc-stage-1-retrieval" class="nav-link" data-scroll-target="#stage-1-retrieval">Stage 1: Retrieval</a>
+  <ul class="collapse">
+  <li><a href="#load-the-pdf" id="toc-load-the-pdf" class="nav-link" data-scroll-target="#load-the-pdf">Load the PDF</a></li>
+  <li><a href="#chunking" id="toc-chunking" class="nav-link" data-scroll-target="#chunking">Chunking</a></li>
+  <li><a href="#instantiate-a-vector-database" id="toc-instantiate-a-vector-database" class="nav-link" data-scroll-target="#instantiate-a-vector-database">Instantiate a Vector Database</a></li>
+  <li><a href="#create-embedding-to-store-in-the-database" id="toc-create-embedding-to-store-in-the-database" class="nav-link" data-scroll-target="#create-embedding-to-store-in-the-database">Create Embedding to store in the database</a></li>
+  <li><a href="#retrieve-embedding-from-a-persistant-storage-vector-database" id="toc-retrieve-embedding-from-a-persistant-storage-vector-database" class="nav-link" data-scroll-target="#retrieve-embedding-from-a-persistant-storage-vector-database">Retrieve Embedding from a persistant storage vector database</a></li>
+  </ul></li>
+  <li><a href="#stage-2-generation" id="toc-stage-2-generation" class="nav-link" data-scroll-target="#stage-2-generation">Stage 2: Generation</a>
+  <ul class="collapse">
+  <li><a href="#set-up-a-local-llm" id="toc-set-up-a-local-llm" class="nav-link" data-scroll-target="#set-up-a-local-llm">Set up a local LLM</a></li>
+  <li><a href="#summarisation-prompt" id="toc-summarisation-prompt" class="nav-link" data-scroll-target="#summarisation-prompt">Summarisation Prompt</a></li>
+  <li><a href="#set-up-the-retriever" id="toc-set-up-the-retriever" class="nav-link" data-scroll-target="#set-up-the-retriever">Set up the Retriever</a></li>
+  <li><a href="#build-the-chain" id="toc-build-the-chain" class="nav-link" data-scroll-target="#build-the-chain">Build the Chain</a></li>
+  <li><a href="#save-in-a-word-document" id="toc-save-in-a-word-document" class="nav-link" data-scroll-target="#save-in-a-word-document">Save in a word document</a></li>
+  </ul></li>
+  <li><a href="#stage-3-evaluation" id="toc-stage-3-evaluation" class="nav-link" data-scroll-target="#stage-3-evaluation">Stage 3: Evaluation</a>
+  <ul class="collapse">
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
+  <li><a href="#critic-model" id="toc-critic-model" class="nav-link" data-scroll-target="#critic-model">Critic Model</a></li>
+  <li><a href="#evaluation-output" id="toc-evaluation-output" class="nav-link" data-scroll-target="#evaluation-output">Evaluation Output</a></li>
+  </ul></li>
+  <li><a href="#stage-4-deploy" id="toc-stage-4-deploy" class="nav-link" data-scroll-target="#stage-4-deploy">Stage 4: Deploy</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Retrieval-Augmented Generation with Large Language Model</h1>
-<p class="subtitle lead">Create a Brief from an Evaluation Repor</p>
+<h1 class="title">Creating Brief from Evaluation Report</h1>
+<p class="subtitle lead">An introduction to Retrieval-Augmented Generation with Large Language Model</p>
 </div>
 
 
@@ -92,14 +127,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Edouard Legoupil </p>
+             <p>Edouard Legoupil, UNHCR Evaluation Office </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 8, 2024</p>
+      <p class="date">9 May 2024</p>
     </div>
   </div>
   
@@ -109,19 +144,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) framework that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems.</p>
-<p>Content can be created leveraging external specific knowledge from a report. Rather than relying on user interactions through a chat interface, it is possible to set up summarization scripts that can document and speed up specific process. In some situations, relying on automated retrieval can ensure that the summarization is “neutral” and do not omit key elements…</p>
-<p>In this example, we focus on creating an evaluation brief from the 2019 <a href="https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf">Evaluation of UNHCR’s data use and information management approaches</a>. The same approach could be applied to other textual analysis such as: extract causal theory of change from transcriptions of Focus Group Discussions Transcriptions or review the usage of Evidence within Country Strategic Plan.</p>
-<p>Use cases are plenty and we hope that you can adjust this tutorial to your own use cases!</p>
-<p>The script below is based on <a href="https://python.langchain.com/v0.1/docs/use_cases/question_answering/">langChain</a> python library but the same pipeline could also be built with the other main LLM orchestration library called <a href="https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/">LlamaIndex</a></p>
-<p>A robust RAG system comes with 3 main steps:</p>
+<section id="summary" class="level1 bg-primary text-white p-3 column-page">
+<h1>Summary</h1>
+<p>Artificial Inteligence (AI) is presented as the potential source for the next, actually the <a href="https://www.nature.com/articles/s41599-019-0253-6">fifth waves</a> of the <strong>evidence revolution</strong>. This actually reflects a situation where after years of evaluation studies and <a href="https://www.uneval.org/evaluation/reports">thousands of published evaluation reports</a>, the new frontier is about <strong>information retrieval and evidence generalization</strong> : How to extract the most relevant findings and recommendations from a context and reuse them in a different but appropriate context?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GIZQ0_MWYAAZiUJ.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">From Nature: The twenty-first century experimenting society: the four waves of the evidence revolution, https://www.nature.com/articles/s41599-019-0253-6</figcaption>
+</figure>
+</div>
+<p>Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems, aka text mining. Indeed, in some situations, relying on automated retrieval can ensure that the summarization is “<em>objective</em>” and do not omit key elements… This paper is presenting the challenges and opportunities associated with those new approaches. It target a technical audience that would like to include such technique within their personal information management toolset, and this using open souce tool working safely fully offline.</p>
+<ul>
+<li><p>First, we explain how to create a two-pager evaluation brief using an orchestration of models and functions. Rather than relying on ad-hoc user interactions through a black box chat interface, it is possible to set up a documented and reproducible summarization scripts that can directly output a word document. The same approach could be applied to other textual analysis, for instance: extract causal theory of change from transcriptions of Focus Group Discussions Transcriptions, or review the usage of Evidence within Country Strategic Plan…</p></li>
+<li><p>Second, we review the techniques that can be used to optimize summarisation scripts by exploring different metrics to evaluate information retrieval process.</p></li>
+<li><p>Last we discuss how such approach can actually inform decisions and strategies on future AI Deployment approaches.</p></li>
+</ul>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>A robust RAG system comes with different steps:</p>
 <ol type="1">
 <li><p><strong>Retrieval</strong>: retrieve relevant information from a knowledge base with text embedding stored in a vector store;</p></li>
 <li><p><strong>Generation</strong>: insert the relevant information to the prompt for the LLM to generate information;</p></li>
 <li><p><strong>Evaluation</strong>: Explore and combine various options for both Retrieval and Generation and compare the results.</p></li>
+<li><p><strong>Deployment</strong>: Organise AI-ready feedback and data to prepare for fine-tuning.</p></li>
 </ol>
-<section id="first-get-the-required-python-libraries" class="level1">
-<h1>First get the required Python libraries</h1>
+<p>This paper compile the results of experimentations and findings from other articles and tutorials. RAG should definitely be part of the Information management toolbox. The paper includes both a cookbook with a reproducible recipes so that colleagues can rerun and learn from it. It also contains broader consideration on the usage of AI for public programme evaluations, especailly in the last part of deployment.</p>
+<p>The illustration from <a href="https://huggingface.co/learn/cookbook/en/rag_evaluation">HuggingFace</a> below nicely summarise the architecture of the system</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="RAG_workflow.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">RAG Evaluation, https://huggingface.co/learn/cookbook/en/rag_evaluation</figcaption>
+</figure>
+</div>
+<p>We use the the 2019 <a href="https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf">Evaluation of UNHCR’s data use and information management approaches</a> to illutrate the process.</p>
+<p>We hope that you can adjust this tutorial to your own use cases! The script below is based on <a href="https://python.langchain.com/v0.1/docs/use_cases/question_answering/">langChain</a> python library but the same pipeline could also be built with the other main LLM orchestration library called <a href="https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/">LlamaIndex</a></p>
+</section>
+<section id="stage-0-python-environment-and-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="stage-0-python-environment-and-libraries">Stage 0: Python Environment and libraries</h2>
 <p>Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This canbe done with conda</p>
 <p>First directly in your OS Shell, create a new environment - here called <strong>evalenv</strong></p>
 <blockquote class="blockquote">
@@ -176,10 +236,10 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>reset <span class="op">-</span>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="retrieval" class="level1">
-<h1>Retrieval</h1>
-<section id="load-the-pdf" class="level2">
-<h2 class="anchored" data-anchor-id="load-the-pdf">Load the PDF</h2>
+<section id="stage-1-retrieval" class="level2">
+<h2 class="anchored" data-anchor-id="stage-1-retrieval">Stage 1: Retrieval</h2>
+<section id="load-the-pdf" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-pdf">Load the PDF</h3>
 <p>There plenty of potential python packages to load pdf files… More details <a href="https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf">here</a>. Note that more loader also exist for other type of data!!!</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> PyPDFLoader</span>
@@ -188,15 +248,15 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> loader.load_and_split()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="chunking" class="level2">
-<h2 class="anchored" data-anchor-id="chunking">Chunking</h2>
-<p>If you have a large document, beause of memory management, you will not be able to process it in one chunk. LangChain offers several built-in text splitters to <strong>divide text into smaller chunks</strong> based on different criteria.</p>
+<section id="chunking" class="level3">
+<h3 class="anchored" data-anchor-id="chunking">Chunking</h3>
+<p>If you have a large document, because of memory management, you will not be able to process it in one chunk. LangChain offers several built-in text splitters to <strong>divide text into smaller chunks</strong> based on different criteria.</p>
 <p>The options that can be tested are:</p>
 <ul>
-<li><p>Simple character-level processing with CharacterTextSplitter</p></li>
-<li><p>Recursive Splitting with RecursiveCharacterTextSplitter.</p></li>
-<li><p>Words or semantic units with TokenTextSplitter.</p></li>
-<li><p>Context-aware splitting with NLTKTextSplitter</p></li>
+<li><p>Simple character-level processing with <code>CharacterTextSplitter,</code></p></li>
+<li><p>Recursive Splitting with <code>RecursiveCharacterTextSplitter</code>,</p></li>
+<li><p>Words or semantic units with <code>TokenTextSplitter</code>,</p></li>
+<li><p>Context-aware splitting with <code>NLTKTextSplitter</code> …</p></li>
 </ul>
 <p>See example to understand how chunking works, see this online <a href="https://chunkviz.up.railway.app/">viz</a>.</p>
 <div class="cell" data-execution_count="4">
@@ -220,9 +280,9 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>chunks_nltktext <span class="op">=</span> splitter_nltktext.split_documents(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="instantiate-a-vector-database" class="level2">
-<h2 class="anchored" data-anchor-id="instantiate-a-vector-database">Instantiate a Vector Database</h2>
-<p>A [vector database](https://python.langchain.com/docs/modules/data_connection/vectorstores/) is a database that allows you to efficiently store and query embedding data. Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified <strong>similarity metric</strong>, the vector database returns embeddings that are similar to a query.</p>
+<section id="instantiate-a-vector-database" class="level3">
+<h3 class="anchored" data-anchor-id="instantiate-a-vector-database">Instantiate a Vector Database</h3>
+<p>A <a href="https://python.langchain.com/docs/modules/data_connection/vectorstores/">vector database</a> is a database that allows you to efficiently store and query embedding data. Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified <strong>similarity metric</strong>, the vector database returns embeddings that are similar to a query.</p>
 <p>There are here again numerous options in terms of vector DB - for instance</p>
 <ul>
 <li><p><a href="https://www.trychroma.com/">ChromaDB</a></p></li>
@@ -230,7 +290,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <li><p><a href="https://milvus.io/">Milvus</a></p></li>
 <li><p><a href="https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/">FAISS</a></p></li>
 </ul>
-<p>Here we will just use Chroma</p>
+<p>Here we will just use Chroma.</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.vectorstores <span class="im">import</span> Chroma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -243,8 +303,8 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#chroma_collection = chroma_client.create_collection('collection')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="create-embedding-to-store-in-the-database" class="level2">
-<h2 class="anchored" data-anchor-id="create-embedding-to-store-in-the-database">Create Embedding to store in the database</h2>
+<section id="create-embedding-to-store-in-the-database" class="level3">
+<h3 class="anchored" data-anchor-id="create-embedding-to-store-in-the-database">Create Embedding to store in the database</h3>
 <p>First we need a dedicated model to generate embedding from the text, i.e.&nbsp;a <strong>numeric representation of text data</strong>. Here again, there’s no single “best” option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.</p>
 <p>LangChain often integrates with libraries like <a href="https://huggingface.co/sentence-transformers">Hugging Face Transformers</a> for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages… For instance the Beijing Academy of Artificial Intelligence recently release https://huggingface.co/BAAI/bge-large-en-v1.5 for english</p>
 <div class="cell" data-execution_count="11">
@@ -331,8 +391,8 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># vectorstore_nltktext_bge.persist()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="retrieve-embedding-from-a-persistant-storage-vector-database" class="level2">
-<h2 class="anchored" data-anchor-id="retrieve-embedding-from-a-persistant-storage-vector-database">Retrieve Embedding from a persistant storage vector database</h2>
+<section id="retrieve-embedding-from-a-persistant-storage-vector-database" class="level3">
+<h3 class="anchored" data-anchor-id="retrieve-embedding-from-a-persistant-storage-vector-database">Retrieve Embedding from a persistant storage vector database</h3>
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromadb</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> chromadb.PersistentClient(path<span class="op">=</span><span class="st">"persist/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -350,20 +410,33 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </section>
 </section>
-<section id="generation" class="level1">
-<h1>Generation</h1>
-<section id="set-up-a-local-llm" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-a-local-llm">Set up a local LLM</h2>
-<p>If do not have access to any LLM API, an alternative is to install a local one… There are multiple options to do that - but an easy one is to install <a href="https://ollama.com/">OLLAMA</a>. Langchain as dedicated <a href="https://python.langchain.com/docs/integrations/chat/ollama">module to work with ollama</a>.</p>
-<p>The temperature is setting the <em>creativeness</em> of the response - the higher the more creative - below we will remain conservative! It is the equivalent of the conversation style setting in copilot: creative [1-0.7], balanced ]0.7-0.4], precise ]0.4,0]…</p>
-<p>There are again plenty of Open Source LLM options to select from… Open-source Large Language Model (LLM) have multiple advantages:</p>
+<section id="stage-2-generation" class="level2">
+<h2 class="anchored" data-anchor-id="stage-2-generation">Stage 2: Generation</h2>
+<section id="set-up-a-local-llm" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-a-local-llm">Set up a local LLM</h3>
+<p>If do not have access to any LLM API, an alternative is to install a local one…</p>
+<p>There are again plenty of Open Source LLM options to select from…</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Open-source Large Language Model (LLM) have multiple advantages:</p>
 <ul>
 <li><p><strong>Transparency and Flexibility</strong>: accessible to the public, allowing developers to inspect, modify, and distribute the code. This transparency fosters a community-driven development process, leading to rapid innovation and diverse applications.</p></li>
 <li><p><strong>Cost Savings</strong>: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup.</p></li>
 <li><p><strong>Added Features and Community Contributions</strong>: can leverage multiple providers and internal teams for updates and support, which enables to stay at the forefront of technology and exercise greater control over their usage.</p></li>
 <li><p><strong>Customizability</strong>: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.</p></li>
+<li><p><strong>Data Protection</strong>: allow to use within the data enclave of your own computer without any data being sent to a remote server.</p></li>
 </ul>
-<p>We are using here <a href="https://mistral.ai/news/mixtral-of-experts/">Mixtral Sparse Mixture-of-Expert</a>, and specifically the quantized version: <a href="https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods">8x7b-instruct-v0.1-q4_K_M</a>, an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance.</p>
+</div>
+</div>
+<p>There are multiple options to do that - but an easy one is to install <a href="https://ollama.com/">OLLAMA</a>. Langchain as dedicated <a href="https://python.langchain.com/docs/integrations/chat/ollama">module to work with ollama</a>. We are using here <a href="https://mistral.ai/news/mixtral-of-experts/">Mixtral Sparse Mixture-of-Expert</a>, and specifically the quantized version: <a href="https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods">8x7b-instruct-v0.1-q4_K_M</a>, an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance. This download a file with the model which suze around 26Gb.</p>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.chat_models <span class="im">import</span> ChatOllama</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>llm_ollama <span class="op">=</span> ChatOllama(</span>
@@ -372,9 +445,10 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    request_timeout<span class="op">=</span><span class="dv">500</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The temperature is setting the <em>creativeness</em> of the response - the higher the more creative - below we will remain conservative! It is the equivalent of the <em>conversation style</em> setting in copilot: <em>creative [1-0.7], balanced ]0.7-0.4], precise ]0.4,0]</em>…</p>
 </section>
-<section id="summarisation-prompt" class="level2">
-<h2 class="anchored" data-anchor-id="summarisation-prompt">Summarisation Prompt</h2>
+<section id="summarisation-prompt" class="level3">
+<h3 class="anchored" data-anchor-id="summarisation-prompt">Summarisation Prompt</h3>
 <p>Writing a good summarization prompt involves a few key steps:</p>
 <ul>
 <li><p>Be <strong>Specific</strong>: Clearly state what you want to summarize. For example, “Summarize this Operation Strategic Plan in 200 words using abstractive summarization” or “Provide a summary of this needs assessment report, highlighting its key takeaways”.</p></li>
@@ -418,8 +492,8 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-up-the-retriever" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-the-retriever">Set up the Retriever</h2>
+<section id="set-up-the-retriever" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-the-retriever">Set up the Retriever</h3>
 <p>A <a href="https://python.langchain.com/docs/modules/data_connection/retrievers/">retriever</a> acts as an information gatekeeper in the RAG architecture. Its primary function is to search through a large corpus of data to find relevant pieces of information that can be used for text generation. You can think of it as a specialized librarian who knows exactly which ‘books’ to pull off the ‘shelves’ when you ask a question. In other words, the retriever first fetches relevant parts of the document pertaining to the user query, and then the Large Language Model (LLM) uses this information to generate a response.</p>
 <p>The retriever also takes a series of potential parameters</p>
 <p>The <code>search_kwargs={"k": 2,"score_threshold":0.8}</code> argument is a dictionary used to configure how documents are retrieved during the search process. This argument lets you control how many results you get (up to two in this case) and how good those results need to be (with a score of at least 0.8):</p>
@@ -465,8 +539,8 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="build-the-chain" class="level2">
-<h2 class="anchored" data-anchor-id="build-the-chain">Build the Chain</h2>
+<section id="build-the-chain" class="level3">
+<h3 class="anchored" data-anchor-id="build-the-chain">Build the Chain</h3>
 <p>A retrieval chain act as a pipe: it takes an incoming question, look up relevant documents using a retriever, then pass those documents along with the original question into an LLM and return the answer the original question.</p>
 <p>Note that from this stage, the following steps may take time to run - this will be highly dependent on the power of your computer - obviously the availability of GPUs - Graphical Processing Unit - will significantly increase the speed!</p>
 <div class="cell" data-execution_count="32">
@@ -504,8 +578,8 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co"># response_similarity_recursivecharactertext_bert = qa_chain(RAG_prompt)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="save-in-a-word-document" class="level2">
-<h2 class="anchored" data-anchor-id="save-in-a-word-document">Save in a word document</h2>
+<section id="save-in-a-word-document" class="level3">
+<h3 class="anchored" data-anchor-id="save-in-a-word-document">Save in a word document</h3>
 <p>To complete the process, let’s save the results within a a word document! This again can be automated</p>
 <div class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> docx</span>
@@ -568,9 +642,22 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </section>
 </section>
-<section id="evaluation" class="level1">
-<h1>Evaluation</h1>
-<p>Getting the RAG pipeline’s performance to a satisfying state is not straightforward. <a href="https://docs.ragas.io/en/stable/">RAGAS (Retrieval Augmented Generation Assessment)</a> is a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines. <em>“Reference-free”</em> evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the <a href="https://docs.ragas.io/en/stable/howtos/integrations/langchain.html">evaluations</a>. There are several criteria used to evaluate RAG applications:</p>
+<section id="stage-3-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="stage-3-evaluation">Stage 3: Evaluation</h2>
+<p>Getting the RAG pipeline’s performance to a satisfying state is not straightforward. <a href="https://docs.ragas.io/en/stable/">RAGAS (Retrieval Augmented Generation Assessment)</a> is a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines. <em>“Reference-free”</em> evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the <a href="https://docs.ragas.io/en/stable/howtos/integrations/langchain.html">evaluations</a>.</p>
+<section id="metrics" class="level3">
+<h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
+<p>There are several criteria used to evaluate RAG applications:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li>Context-based for the <strong>Retriever</strong>: :</li>
 </ol>
@@ -585,6 +672,11 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <li><p><a href="https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html"><strong>Faithfulness</strong></a> (also called Correctness or Factuality): Measures whether the LLM outputs are based on the provided ground truth.</p></li>
 <li><p><a href="https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html"><strong>Answer relevancy</strong></a>: Measures how directly the answer addresses the question.</p></li>
 </ul>
+</div>
+</div>
+</section>
+<section id="critic-model" class="level3">
+<h3 class="anchored" data-anchor-id="critic-model">Critic Model</h3>
 <p>We will use 2 different models: one to generate and the other to review…</p>
 <div class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.chat_models <span class="im">import</span> ChatOllama</span>
@@ -611,10 +703,10 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <div class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>result[<span class="st">"result"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
-<pre><code>" Based on the provided context, here are the organization-wide recommendations related to data transformation and results-based management revision in UNHCR:\n\n1. Develop a data transformation strategy and roadmap with the following key elements:\n\t* Enforcing data norms and standards throughout the organization\n\t* Cultivating strong data leadership\n\t* Developing systems to integrate and pull data together\n\t* Creating a data-first culture\n\t* Building capacities and confidence around statistics and evidence on persons of concern\n\tResponsible: SET\n\tAnticipated timeframe: Complete by Q4\n2. Revamp UNHCR's results-based management approach, including the following:\n\t* Recognizing the need for more outcome-focused monitoring leading to longer-term impact\n\t* Designing a new RBM tool that will transform how the organization reports on its programming, advocacy, and coordination efforts\n\tResponsible: UNHCR\n\tAnticipated timeframe: N/A (as the process is ongoing)\n\nThese recommendations aim to transform data into a valuable asset for UNHCR and improve its results-based management approach to better focus on outcomes and longer-term impact."</code></pre>
+<pre><code>" Here are the organizational recommendations provided in the report:\n1. Develop and implement a global data governance framework that provides standards and procedures for country operations to follow for any data collected and processed by UNHCR staff or implementing partners.\n2. Establish quality assurance guidelines, including data management requirements, data cleaning and verification checks, standardized data collection tools and processes, and routine data quality assessment exercises with partners.\n3. Implement a standard project management system across UNHCR's global operations to improve the monitoring and management of program data from country and field offices.\n4. Develop a new results-based management tool that focuses on outcomes and longer-term impact rather than just outputs.\n5. Continuously monitor and assess the evolving contextual landscape, including the growth of personal access to information, increased levels of displacement globally, and limited availability of funds, to ensure that UNHCR's policies and programs remain relevant and effective."</code></pre>
 </div>
 </div>
-<p>We can use a dedicated model to critise the first one https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#</p>
+<p>We can use a <a href="https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#">dedicated model</a> to critise the first one</p>
 <div class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from langchain_community.llms import VLLM</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -626,9 +718,9 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     top_p=0.95,</span></span>
 <span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     temperature=0.0,)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<blockquote class="blockquote">
-<p>python -m vllm.entrypoints.openai.api_server –model explodinggradients/Ragas-critic-llm-Qwen1.5-GPTQ</p>
-</blockquote>
+</section>
+<section id="evaluation-output" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation-output">Evaluation Output</h3>
 <div class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from ragas import evaluate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -643,9 +735,26 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+</section>
+<section id="stage-4-deploy" class="level2">
+<h2 class="anchored" data-anchor-id="stage-4-deploy">Stage 4: Deploy</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.gartner.com/en/information-technology/topics/ai-readiness"><img src="GL0vYd_WcAAqUDZ.png" class="img-fluid figure-img"></a></p>
+<figcaption class="figure-caption">From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness</figcaption>
+</figure>
+</div>
+</section>
 
 </main>
 <!-- /main column -->
+<div class="py-4 column-screen page-columns page-full" style="background-color: #333333">
+  <div class="column-body">
+    <a href="https://www.unhcr.org/" target="_blank" rel="noopener noreferrer">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjIuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyMjUuOSA1NC4zIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMjUuOSA1NC4zOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zMywzNi43YzAuNiwwLDAuNi0wLjQsMC42LTF2LTMuM2MwLTAuNy0wLjEtMC45LDAuMy0wLjljMS40LDAsMS43LTAuMSwxLjctMS4zVjE3LjljMC0zLjMtMi40LTIuOC0zLTQKCWMtMS0xLjYsMS44LTEuNiwwLjgtNS4yYy0wLjMtMC45LTEuMi0xLjQtMi4xLTEuM2MtMC45LTAuMS0xLjgsMC40LTIuMSwxLjNjLTEsMy42LDEuNywzLjYsMC44LDUuMmMtMC43LDEuMi0zLDAuNy0zLDR2MTIuMwoJYzAsMS4yLDAuNCwxLjMsMS43LDEuM2MwLjQsMCwwLjMsMC4yLDAuMywwLjl2My4zYzAsMC43LTAuMSwxLDAuNiwxSDMzIi8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yMi4zLDEwLjFjLTEuMiwxLjMtMy4xLDQuMy0xLjksNi44YzIuNSwxLDIuMy04LDUuNS03LjljMS42LDEuNC0wLjUsNS43LTEuMSw3LjVjLTAuOCwyLjMtMS40LDcuMS0yLjksOS41CgljLTEuMiwyLTAuMyw4LjEtMC43LDEwLjJjLTEsMS0zLjksMC4zLTUuMSwwLjFjLTAuMS0yLjctMC4zLTUuNS0wLjctOC4yYzAtMC44LTAuOS0xMi43LTAuMi0xNC4xYzEuNC0zLDguOC04LjcsOS44LTkuOAoJUzI5LDAsMzAuMywwYzAuOSwwLjYsMC40LDIsMC4yLDIuNUMyOS4zLDUuNSwyNCw4LjUsMjIuMywxMC4xIi8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MC40LDEwLjFjMS4yLDEuMywzLjEsNC4zLDEuOSw2LjhjLTIuNiwxLTIuNC04LTUuNS03LjljLTEuNSwxLjQsMC41LDUuNywxLjEsNy41YzAuOCwyLjMsMS40LDcuMSwyLjksOS41CgljMS4yLDIsMC4zLDguMSwwLjcsMTAuMmMxLjEsMSwzLjksMC4zLDUuMSwwLjFjMC4xLTIuNywwLjMtNS41LDAuNy04LjJjMC4xLTAuOCwwLjktMTIuNywwLjItMTQuMWMtMS40LTMtOC44LTguNy05LjgtOS44CglTMzMuNiwwLDMyLjQsMGMtMC45LDAuNi0wLjMsMi0wLjIsMi41QzMzLjUsNS41LDM4LjcsOC41LDQwLjQsMTAuMSIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTEuNSw2LjFjLTAuNywwLjYtMi4xLDEuMS0zLjIsMi40QzcuOSw3LjgsOC45LDYsMTAuMSw0LjljMS0wLjgsMi4xLTEuNSwzLjItMi4xQzEzLjcsMy43LDEyLjMsNS4xLDExLjUsNi4xIgoJLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTkuNCwxMWMtMS4xLDEtMi4zLDEuNS0zLjksMy40QzUsMTIuNSw0LjksMTAuNiw1LjMsOC43YzAuNi0xLjgsMS41LTMuOCwzLTQuNEM3LjgsNS43LDcuNSw3LjEsNy40LDguNgoJYy0wLjcsMi42LTEsMi43LTAuOSwzYzAuMiwwLDEtMS40LDIuMS0yLjRjMS4yLTEuMiwyLjgtMS41LDMuOC0yLjNDMTEuNiw4LjQsMTAuNiw5LjgsOS40LDExIi8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zLjksMjEuOGMtMS4yLTIuMS0xLjgtNC42LTEuOC03YzAuMS0xLjYsMC45LTUuMywyLTUuOWMtMC4zLDMuNCwwLjYsMy43LDAuMiw2LjRjMCwwLjEtMC40LDMtMC40LDMuMgoJYzAuNS0wLjEsMC0yLjYsNS40LTYuNGMtMS4yLDItMC42LDIuNi0yLjcsNS4zQzUuNCwxOC42LDQuNCwyMC4xLDMuOSwyMS44Ii8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik02LjEsMjQuM2MtMC43LDAuOS0xLjEsMi0xLjIsMy4yQzIuMiwyNi0wLjksMTkuOCwwLjIsMTYuN2MwLjcsMi4zLDEuNywyLjksMi40LDQuOGMxLjIsMi45LDEsMy44LDEuOCw0LjUKCWMtMC4xLTEuNiwwLjItMy4yLDAuOS00LjZjMC42LTEuMSwxLjItMi4xLDEuOS0zLjFDNy43LDIwLjQsNy4zLDIyLjEsNi4xLDI0LjMiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTguNSwyOS42Yy0wLjEsMS43LTAuMywzLjUtMC42LDUuMmMtNC42LTEuNS03LjEtNi44LTcuMS05LjRjMS40LDMuMiwzLjUsMy4yLDYuMiw3LjdjMC4yLTEuNy0wLjUtMC40LTAuNi0zLjcKCWMwLjEtMy40LDAuOC0zLjUsMC45LTUuNkM4LjIsMjQuNyw4LjUsMjguNSw4LjUsMjkuNiIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTIuMywzNi40YzAuNCwxLjgsMC41LDMuOCwwLjgsNS4zYy0yLjctMS0zLjMtMC4yLTYuNS0yLjJjLTEuNC0wLjgtNC00LjEtMy45LTYuNGMzLjEsMy41LDMuNywzLjEsNS4yLDQuNAoJYzEuNCwxLjEsMi41LDIuOCwzLjYsMi42YzAuMS0wLjktMi4zLTMtMi04LjhDMTAuOCwzMi44LDExLjcsMzQuNSwxMi4zLDM2LjQiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTE3LjYsNDAuOGMwLjgsMS4yLDAuNiwxLjcsMi43LDQuMWMtMS44LDAuNi0zLjYsMC45LTUuNSwxLjFjLTEuMywwLTYtMS4yLTcuNi00LjRjMi43LDEuNCwyLjcsMS4xLDYuMywxLjkKCWMyLjYsMC42LDQuNCwxLjQsNS4xLDEuM2MtMC4xLTAuMy0yLjEtMS4yLTMuNS0yLjlzLTEtMy45LTIuMy01LjRDMTMuNywzNi4xLDE2LjksMzkuOSwxNy42LDQwLjgiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTUxLDYuMWMwLjYsMC42LDIuMiwxLjEsMy4xLDIuNGMwLjQtMC43LTAuNi0yLjUtMS44LTMuNmMtMS0wLjgtMi0xLjUtMy4yLTIuMUM0OC43LDMuNyw1MC4xLDUuMSw1MSw2LjEiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTUzLjEsMTFjMS4xLDEsMi4zLDEuNSwzLjksMy40YzAuNS0xLjksMC42LTMuOCwwLjItNS43Yy0wLjUtMS44LTEuNS0zLjgtMy00LjRjMC41LDEuNCwwLjgsMi44LDAuOSw0LjMKCWMwLjcsMi42LDEsMi43LDAuOSwzYy0wLjIsMC0xLTEuNC0yLjEtMi40Yy0xLjItMS4yLTIuNy0xLjUtMy44LTIuM0M1MC45LDguNCw1MS45LDkuOCw1My4xLDExIi8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01OC41LDIxLjhjMS4yLTIuMSwxLjgtNC41LDEuOC03Yy0wLjEtMS42LTAuOS01LjMtMi01LjljMC4zLDMuNC0wLjYsMy43LTAuMiw2LjRjMCwwLjEsMC4zLDMsMC4zLDMuMgoJYy0wLjQtMC4xLDAtMi42LTUuMy02LjRjMS4xLDIsMC42LDIuNiwyLjcsNS4zQzU3LjEsMTguNiw1OCwyMC4xLDU4LjUsMjEuOCIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNTYuNCwyNC4zYzAuNiwxLDEsMi4xLDEuMiwzLjJjMi43LTEuNiw1LjgtNy44LDQuNi0xMC44Yy0wLjcsMi4zLTEuNywyLjktMi4zLDQuOGMtMS4zLDIuOS0xLjEsMy44LTEuOCw0LjUKCWMwLTEuNi0wLjMtMy4xLTAuOS00LjZjLTAuNS0xLjEtMS4yLTIuMS0xLjktMy4xQzU0LjgsMjAuNCw1NS4yLDIyLjUsNTYuNCwyNC4zIi8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01NCwyOS42YzAuMSwxLjgsMC4zLDMuNSwwLjcsNS4yYzQuNi0xLjUsNy4xLTYuOCw3LjEtOS40Yy0xLjUsMy4yLTMuNSwzLjItNi4yLDcuN2MtMC4yLTEuNywwLjUtMC40LDAuNS0zLjcKCXMtMC44LTMuNS0wLjktNS42QzU0LjMsMjQuNyw1NCwyOC41LDU0LDI5LjYiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTUwLjEsMzYuNGMtMC40LDEuOC0wLjUsMy44LTAuNyw1LjNjMi42LTEsMy4zLTAuMiw2LjQtMi4yYzEuNC0wLjgsNC4xLTQuMSwzLjktNi40Yy0zLjEsMy41LTMuNywzLjEtNS4yLDQuNAoJYy0xLjQsMS4xLTIuNiwyLjgtMy42LDIuNmMtMC4xLTAuOSwyLjMtMywyLTguOEM1MS43LDMyLjgsNTAuNywzNC41LDUwLjEsMzYuNCIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDQuOSw0MC44Yy0wLjcsMS41LTEuNiwyLjktMi43LDQuMWMxLjgsMC42LDMuNiwwLjksNS41LDEuMWMxLjMsMCw2LTEuMiw3LjUtNC40Yy0yLjcsMS40LTIuNywxLjEtNi4zLDEuOQoJYy0yLjYsMC42LTQuNCwxLjQtNS4xLDEuM2MwLjItMC4zLDIuMi0xLjIsMy41LTIuOXMxLTMuOSwyLjMtNS40QzQ4LjcsMzYuMSw0NS42LDM5LjksNDQuOSw0MC44Ii8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNC42LDUxLjhsLTAuOC0wLjRjMy40LTMuOCw4LjQtNS44LDEzLjUtNS42YzguNSwwLjUsNy45LDIuNSwxMi41LDIuMWMwLjUsMC0wLjQsMC42LTAuNCwwLjYKCWMtMy4zLDEtNi44LDEtMTAtMC4yQzMzLjksNDYuNSwzMC4zLDQ1LjQsMjQuNiw1MS44Ii8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zOCw1MS44bDAuOC0wLjRjLTMuNC0zLjgtOC4zLTUuOC0xMy40LTUuNmMtOC41LDAuNS03LjksMi41LTEyLjUsMi4xYy0wLjUsMCwwLjQsMC42LDAuNCwwLjYKCWMzLjMsMSw2LjgsMSwxMC0wLjJDMjguOCw0Ni41LDMyLjMsNDUuNCwzOCw1MS44Ii8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik05OC4zLDI1LjVjMCw4LjEtNC40LDEyLjEtMTMuNCwxMi4xcy0xMy40LTMuOS0xMy40LTEyLjF2LTE4aDl2MTZjMCwzLDAsNi44LDQuNCw2LjhzNC4zLTMuOCw0LjMtNi44di0xNmg5LjEKCVYyNS41Ii8+Cjxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTAzLjcsNy40IDExMyw3LjQgMTIxLjYsMjMuMSAxMjEuNiwyMy4xIDEyMS42LDcuNCAxMzAuMiw3LjQgMTMwLjIsMzYuOCAxMjEuNCwzNi44IDExMi40LDIwLjggCgkxMTIuMywyMC44IDExMi4zLDM2LjggMTAzLjcsMzYuOCAiLz4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIxMzUuOCw3LjQgMTQ0LjgsNy40IDE0NC44LDE3LjYgMTUzLjMsMTcuNiAxNTMuMyw3LjQgMTYyLjMsNy40IDE2Mi4zLDM2LjggMTUzLjMsMzYuOCAxNTMuMywyNS4yIAoJMTQ0LjgsMjUuMiAxNDQuOCwzNi44IDEzNS44LDM2LjggIi8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xODUuNSwxOC40Yy0wLjItMi40LTIuMy00LjMtNC43LTQuM2MtNC4yLDAtNS42LDQuMS01LjYsOC4xczEuNCw4LjEsNS42LDguMWMzLDAsNC4yLTIuMSw0LjgtNC45aDguOQoJYzAsNS45LTQuOCwxMi4yLTEzLjQsMTIuMmMtOS41LDAtMTQuOS02LjctMTQuOS0xNS40YzAtOS4zLDUuOC0xNS40LDE0LjktMTUuNGM4LjEsMCwxMi41LDQuMywxMy4zLDExLjZMMTg1LjUsMTguNCIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjA3LjMsMTQuNGg0LjJjMy41LDAsNC41LDEuMSw0LjUsMi45YzAsMi42LTIuMywyLjktNCwyLjloLTQuN1YxNC40eiBNMTk4LjIsMzYuOGg5LjFWMjYuNmg0LjgKCWMzLjYsMCwzLjgsMi45LDQuMSw1LjdjMC4xLDEuNSwwLjMsMywwLjcsNC41aDljLTAuOC0xLjQtMC45LTQuOS0xLTYuM2MtMC4zLTMuNy0xLjktNi40LTQuMy03LjNjMy0xLjEsNC40LTQuMyw0LjQtNy40CgljMC01LjYtNC40LTguNC05LjYtOC40aC0xNy4yVjM2LjgiLz4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSI3NC41LDQzLjYgNzEuNSw0My42IDcxLjUsNDEuNyA3OS42LDQxLjcgNzkuNiw0My42IDc2LjYsNDMuNiA3Ni42LDUxLjYgNzQuNSw1MS42ICIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNODAuMyw0MS43aDJ2My43bDAsMGMwLjQtMC43LDEuMi0xLjIsMi4xLTEuMmMyLjEsMCwyLjYsMS4yLDIuNiwyLjl2NC40aC0ydi00YzAtMS4yLTAuMy0xLjgtMS4zLTEuOAoJcy0xLjUsMC42LTEuNSwydjMuN2gtMkw4MC4zLDQxLjciLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTg5LjcsNDguNWMwLjEsMS4yLDAuNywxLjgsMS44LDEuOGMwLjYsMCwxLjItMC4zLDEuNS0wLjloMS43Yy0wLjQsMS41LTEuOCwyLjUtMy4zLDIuNAoJYy0xLjksMC4xLTMuNS0xLjQtMy42LTMuM3YtMC40Yy0wLjEtMiwxLjQtMy43LDMuNC0zLjhjMCwwLDAsMCwwLDBoMC4zYzIuNCwwLDMuNiwyLDMuNSw0LjJIODkuN3ogTTkyLjksNDcuMwoJYy0wLjItMS0wLjYtMS41LTEuNi0xLjVjLTAuOCwwLTEuNSwwLjYtMS42LDEuNHYwLjFIOTIuOSIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTA3LjYsNDcuOWMwLDIuNy0xLjYsNC00LjIsNHMtNC4yLTEuMy00LjItNHYtNi4xaDIuMnY2LjFjMCwxLjEsMC4zLDIuMSwyLDIuMWMxLjUsMCwyLTAuNywyLTIuMXYtNi4xaDIuMgoJVjQ3LjkiLz4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIxMDksNDEuNyAxMTEuMiw0MS43IDExNS4zLDQ4LjMgMTE1LjMsNDguMyAxMTUuMyw0MS43IDExNy40LDQxLjcgMTE3LjQsNTEuNiAxMTUuMiw1MS42IDExMS4xLDQ1IAoJMTExLjEsNDUgMTExLjEsNTEuNiAxMDksNTEuNiAiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTEyNC4yLDQzLjRoMi40YzEsMCwxLjUsMC40LDEuNSwxLjRzLTAuNSwxLjQtMS41LDEuNGgtMi40TDEyNC4yLDQzLjR6IE0xMjIuMSw1MS42aDIuMnYtMy44aDIuMgoJYzEuMSwwLDEuNSwwLjUsMS42LDEuNWMwLDAuOCwwLjEsMS42LDAuNCwyLjRoMi4yYy0wLjMtMC43LTAuNC0xLjUtMC40LTIuM2MtMC4xLTEtMC40LTItMS40LTIuM2wwLDBjMS0wLjQsMS43LTEuNCwxLjYtMi41CgljMC0xLjUtMS4yLTIuNy0yLjctMi43YzAsMCwwLDAsMCwwaC01LjVMMTIyLjEsNTEuNiIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTMzLjIsNDcuM2MwLTAuOCwwLjctMS41LDEuNS0xLjVoMC4xYzAuOSwwLDEuNCwwLjUsMS42LDEuNUgxMzMuMnogTTEzOC4zLDQ4LjVjMC4xLTIuMi0xLTQuMi0zLjUtNC4yCgljLTEuOS0wLjEtMy41LDEuNS0zLjYsMy40YzAsMCwwLDAuMSwwLDAuMVY0OGMtMC4yLDEuOSwxLjIsMy41LDMuMSwzLjdjMCwwLDAuMSwwLDAuMSwwaDAuNGMxLjUsMC4xLDIuOS0wLjksMy4zLTIuNGgtMS43CgljLTAuMywwLjYtMC45LDEtMS41LDAuOWMtMS4xLDAtMS43LTAuNi0xLjgtMS44TDEzOC4zLDQ4LjUiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTEzOS42LDQ1LjhoLTEuMnYtMS4zaDEuMlY0NGMtMC4xLTEuMSwwLjgtMi4xLDEuOS0yLjJjMCwwLDAuMSwwLDAuMSwwaDAuNGMwLjMsMCwwLjcsMCwxLDAuMXYxLjVoLTAuNwoJYy0wLjUsMC0wLjcsMC4yLTAuNywwLjh2MC40aDEuNHYxLjNoLTEuNHY1LjhoLTJWNDUuOCIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTUwLjIsNTEuNmgtMS45di0xbDAsMGMtMC41LDAuNy0xLjMsMS4yLTIuMiwxLjJjLTIuMSwwLTIuNi0xLjItMi42LTIuOXYtNC40aDJ2NGMwLDEuMiwwLjQsMS44LDEuMywxLjgKCWMxLjEsMCwxLjUtMC42LDEuNS0ydi0zLjhoMnY3LjEiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTE1NC43LDQ5LjljLTEuMiwwLTEuNi0xLjEtMS42LTIuMXMwLjUtMiwxLjYtMmMxLjMsMCwxLjcsMSwxLjcsMi4yYzAuMiwwLjktMC41LDEuOC0xLjQsMmMwLDAtMC4xLDAtMC4xLDAKCUMxNTQuOCw1MCwxNTQuOCw1MCwxNTQuNyw0OS45IE0xNTguMyw0NC41aC0xLjl2MWwwLDBjLTAuNC0wLjgtMS4yLTEuMi0yLjEtMS4xYy0xLjgsMC4xLTMuMiwxLjUtMy4xLDMuM2MwLDAuMSwwLDAuMSwwLDAuMgoJYzAsMS44LDAuOSwzLjYsMywzLjZjMC44LDAsMS42LTAuNCwyLjEtMS4xbDAsMHYwLjljMCwxLTAuNSwxLjgtMS42LDEuOGMtMC43LDAuMS0xLjMtMC4zLTEuNS0xaC0xLjljMC4xLDEuNiwxLjcsMi4zLDMuMSwyLjMKCWMzLjMsMCwzLjctMiwzLjctMy4yTDE1OC4zLDQ0LjUiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTE2MS4yLDQ3LjNjMC0wLjgsMC43LTEuNSwxLjUtMS41aDAuMWMxLDAsMS40LDAuNSwxLjYsMS41SDE2MS4yeiBNMTY2LjMsNDguNWMwLjEtMi4yLTEtNC4yLTMuNS00LjIKCWMtMS45LTAuMS0zLjUsMS41LTMuNiwzLjRjMCwwLDAsMC4xLDAsMC4xVjQ4Yy0wLjIsMS45LDEuMiwzLjUsMy4xLDMuN2MwLDAsMC4xLDAsMC4xLDBoMC40YzEuNSwwLjEsMi45LTAuOSwzLjMtMi40aC0xLjcKCWMtMC4zLDAuNi0wLjksMS0xLjUsMC45Yy0xLjEsMC0xLjctMC42LTEuOC0xLjhMMTY2LjMsNDguNSIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTY4LjksNDcuM2MwLTAuOCwwLjctMS41LDEuNS0xLjVjMCwwLDAuMSwwLDAuMSwwaDAuMWMwLjksMCwxLjQsMC41LDEuNiwxLjVIMTY4Ljl6IE0xNzQsNDguNQoJYzAuMS0yLjItMS00LjItMy41LTQuMmMtMS45LTAuMS0zLjUsMS41LTMuNiwzLjRjMCwwLDAsMC4xLDAsMC4xVjQ4Yy0wLjIsMS45LDEuMiwzLjUsMy4xLDMuN2MwLDAsMC4xLDAsMC4xLDBoMC40CgljMS41LDAuMSwyLjktMC45LDMuMy0yLjRoLTEuN2MtMC4zLDAuNi0wLjksMS0xLjYsMC45Yy0xLjEsMC0xLjctMC42LTEuOC0xLjhMMTc0LDQ4LjUiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTE4Myw0NC4yTDE4Myw0NC4ybDEuMiwzLjZoLTIuNkwxODMsNDQuMnogTTE3OC4yLDUxLjZoMi4ybDAuOC0yLjJoMy43bDAuNywyLjJoMi4zbC0zLjctOS44SDE4MkwxNzguMiw1MS42eiIKCS8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOTEuNSw0OS45Yy0xLjIsMC0xLjYtMS4xLTEuNi0yLjFzMC41LTIsMS42LTJjMS4zLDAsMS43LDEsMS43LDIuMmMwLjEsMS0wLjUsMS44LTEuNSwyCglDMTkxLjYsNTAsMTkxLjUsNTAsMTkxLjUsNDkuOSBNMTk1LDQ0LjVoLTEuOXYxbDAsMGMtMC40LTAuOC0xLjItMS4yLTIuMS0xLjFjLTEuOCwwLjEtMy4yLDEuNS0zLjEsMy4zYzAsMC4xLDAsMC4xLDAsMC4yCgljMCwxLjgsMC45LDMuNiwzLjEsMy42YzAuOCwwLDEuNi0wLjQsMi4xLTEuMWwwLDB2MC45YzAsMS0wLjUsMS44LTEuNiwxLjhjLTAuNywwLjEtMS4zLTAuMy0xLjUtMWgtMS45YzAuMSwxLjYsMS43LDIuMywzLjEsMi4zCgljMy4zLDAsMy43LTIsMy43LTMuMkwxOTUsNDQuNSIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTk3LjksNDcuM2MwLTAuOCwwLjctMS41LDEuNS0xLjVjMCwwLDAuMSwwLDAuMSwwaDAuMWMwLjksMCwxLjQsMC41LDEuNiwxLjVIMTk3Ljl6IE0yMDMuMSw0OC41CgljMC4xLTIuMi0xLTQuMi0zLjUtNC4yYy0yLDAtMy42LDEuNS0zLjYsMy41VjQ4Yy0wLjIsMS45LDEuMiwzLjUsMy4xLDMuN2MwLDAsMC4xLDAsMC4xLDBoMC40YzEuNSwwLjEsMi45LTAuOSwzLjMtMi40aC0xLjcKCWMtMC4zLDAuNi0wLjksMS0xLjYsMC45Yy0xLjEsMC0xLjctMC42LTEuOC0xLjhMMjAzLjEsNDguNSIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjAzLjksNDQuNWgxLjl2MWgwLjFjMC41LTAuNywxLjMtMS4yLDIuMi0xLjJjMi4xLDAsMi42LDEuMiwyLjYsMi45djQuNGgtMnYtNGMwLTEuMi0wLjMtMS44LTEuMy0xLjgKCXMtMS41LDAuNi0xLjUsMnYzLjdoLTJWNDQuNSIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjE2LjYsNDdjLTAuMS0wLjctMC43LTEuMi0xLjQtMS4ybDAsMGMtMS4zLDAtMS43LDEuMy0xLjcsMi4zczAuNCwyLjIsMS42LDIuMmMwLjgsMCwxLjUtMC42LDEuNi0xLjRoMS45CgljLTAuMSwxLjctMS41LDMtMy4yLDIuOWMtMC4xLDAtMC4xLDAtMC4yLDBsMCwwYy0xLjksMC4xLTMuNS0xLjQtMy42LTMuM3YtMC4zYy0wLjItMS45LDEuMS0zLjYsMy0zLjhjMC4xLDAsMC4xLDAsMC4yLDBoMC41CgljMS43LTAuMiwzLjIsMSwzLjQsMi43TDIxNi42LDQ3Ii8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yMjMsNTIuNWMtMC4zLDEuMS0xLjQsMS44LTIuNSwxLjZjLTAuNCwwLTAuOCwwLTEuMi0wLjF2LTEuNmMwLjQsMCwwLjgsMC4xLDEuMSwwLjFjMC41LTAuMSwwLjgtMC42LDAuOC0xLjEKCWMwLTAuMSwwLTAuMi0wLjEtMC4zbC0yLjUtNi43aDIuMWwxLjYsNC45bDAsMGwxLjYtNC45aDJMMjIzLDUyLjUiLz4KPC9zdmc+Cg==" alt="UNHCR Logo" class="img-fluid" style="max-height: 2.5rem">
+    </a>
+  </div>
+</div>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -883,4 +992,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="index_files/libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

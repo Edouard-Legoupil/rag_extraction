@@ -1,23 +1,32 @@
 ---
-title: Retrieval-Augmented Generation with Large Language Model
-subtitle: Create a Brief from an Evaluation Repor
+title: Creating Brief from Evaluation Report
+subtitle: An introduction to Retrieval-Augmented Generation with Large Language Model
 date: today
-author: Edouard Legoupil
+author: Edouard Legoupil, UNHCR Evaluation Office
 format: unhcr-html
 jupyter: python3
+toc: true
 ---
 
-Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) framework that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems.
+::: {.bg-primary .text-white .p-3 .column-page}
+# Summary
 
-Content can be created leveraging external specific knowledge from a report. Rather than relying on user interactions through a chat interface, it is possible to set up summarization scripts that can document and speed up specific process. In some situations, relying on automated retrieval can ensure that the summarization is "neutral" and do not omit key elements...
+Artificial Inteligence (AI) is presented as the potential source for the next, actually the [fifth waves](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution**. This actually reflects a situation where after years of evaluation studies and [thousands of published evaluation reports](https://www.uneval.org/evaluation/reports), the new frontier is about **information retrieval and evidence generalization** : How to extract the most relevant findings and recommendations from a context and reuse them in a different but appropriate context?
 
-In this example, we focus on creating an evaluation brief from the 2019 [Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf). The same approach could be applied to other textual analysis such as: extract causal theory of change from transcriptions of Focus Group Discussions Transcriptions or review the usage of Evidence within Country Strategic Plan. 
+![From Nature: The twenty-first century experimenting society: the four waves of the evidence revolution, https://www.nature.com/articles/s41599-019-0253-6](GIZQ0_MWYAAZiUJ.png){fig-align="center"}
 
-Use cases are plenty and we hope that you can adjust this tutorial to your own use cases!
+Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems, aka text mining. Indeed, in some situations, relying on automated retrieval can ensure that the summarization is "*objective*" and do not omit key elements... This paper is presenting the challenges and opportunities associated with those new approaches. It target a technical audience that would like to include such technique within their personal information management toolset, and this using open souce tool working safely fully offline.
 
-The script below is based on [langChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) python library but the same pipeline could also be built with the other main LLM orchestration library called [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
+-   First, we explain how to create a two-pager evaluation brief using an orchestration of models and functions. Rather than relying on ad-hoc user interactions through a black box chat interface, it is possible to set up a documented and reproducible summarization scripts that can directly output a word document. The same approach could be applied to other textual analysis, for instance: extract causal theory of change from transcriptions of Focus Group Discussions Transcriptions, or review the usage of Evidence within Country Strategic Plan...
 
-A robust RAG system comes with 3 main steps:
+-   Second, we review the techniques that can be used to optimize summarisation scripts by exploring different metrics to evaluate information retrieval process.
+
+-   Last we discuss how such approach can actually inform decisions and strategies on future AI Deployment approaches.
+:::
+
+## Introduction
+
+A robust RAG system comes with different steps:
 
 1)  **Retrieval**: retrieve relevant information from a knowledge base with text embedding stored in a vector store;
 
@@ -25,7 +34,19 @@ A robust RAG system comes with 3 main steps:
 
 3)  **Evaluation**: Explore and combine various options for both Retrieval and Generation and compare the results.
 
-# First get the required Python libraries
+4)  **Deployment**: Organise AI-ready feedback and data to prepare for fine-tuning.
+
+This paper compile the results of experimentations and findings from other articles and tutorials. RAG should definitely be part of the Information management toolbox. The paper includes both a cookbook with a reproducible recipes so that colleagues can rerun and learn from it. It also contains broader consideration on the usage of AI for public programme evaluations, especailly in the last part of deployment.
+
+The illustration from [HuggingFace](https://huggingface.co/learn/cookbook/en/rag_evaluation) below nicely summarise the architecture of the system
+
+![RAG Evaluation, https://huggingface.co/learn/cookbook/en/rag_evaluation](RAG_workflow.png){fig-align="center"}
+
+We use the the 2019 [Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) to illutrate the process.
+
+We hope that you can adjust this tutorial to your own use cases! The script below is based on [langChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) python library but the same pipeline could also be built with the other main LLM orchestration library called [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
+
+## Stage 0: Python Environment and libraries
 
 Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This canbe done with conda
 
@@ -72,9 +93,9 @@ Once this environment selected as a kernel to run the notebook, we can install t
 %reset -f
 ```
 
-# Retrieval
+## Stage 1: Retrieval
 
-## Load the PDF
+### Load the PDF
 
 There plenty of potential python packages to load pdf files... More details [here](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf). Note that more loader also exist for other type of data!!!
 
@@ -85,19 +106,19 @@ loader = PyPDFLoader("files/Info_Mngt_eval_2019.pdf")
 docs = loader.load_and_split()
 ```
 
-## Chunking
+### Chunking
 
-If you have a large document, beause of memory management, you will not be able to process it in one chunk. LangChain offers several built-in text splitters to **divide text into smaller chunks** based on different criteria.
+If you have a large document, because of memory management, you will not be able to process it in one chunk. LangChain offers several built-in text splitters to **divide text into smaller chunks** based on different criteria.
 
 The options that can be tested are:
 
--   Simple character-level processing with CharacterTextSplitter
+-   Simple character-level processing with `CharacterTextSplitter,`
 
--   Recursive Splitting with RecursiveCharacterTextSplitter.
+-   Recursive Splitting with `RecursiveCharacterTextSplitter`,
 
--   Words or semantic units with TokenTextSplitter.
+-   Words or semantic units with `TokenTextSplitter`,
 
--   Context-aware splitting with NLTKTextSplitter
+-   Context-aware splitting with `NLTKTextSplitter` ...
 
 See example to understand how chunking works, see this online [viz](https://chunkviz.up.railway.app/).
 
@@ -125,9 +146,9 @@ splitter_nltktext = NLTKTextSplitter(chunk_size=1000)
 chunks_nltktext = splitter_nltktext.split_documents(docs)
 ```
 
-## Instantiate a Vector Database
+### Instantiate a Vector Database
 
-A \[vector database\](https://python.langchain.com/docs/modules/data_connection/vectorstores/) is a database that allows you to efficiently store and query embedding data. Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified **similarity metric**, the vector database returns embeddings that are similar to a query.
+A [vector database](https://python.langchain.com/docs/modules/data_connection/vectorstores/) is a database that allows you to efficiently store and query embedding data. Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified **similarity metric**, the vector database returns embeddings that are similar to a query.
 
 There are here again numerous options in terms of vector DB - for instance
 
@@ -139,7 +160,7 @@ There are here again numerous options in terms of vector DB - for instance
 
 -   [FAISS](https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/)
 
-Here we will just use Chroma
+Here we will just use Chroma.
 
 ```{python}
 from langchain_community.vectorstores import Chroma
@@ -155,7 +176,7 @@ chroma_client = chromadb.PersistentClient(path="persist/")
 #chroma_collection = chroma_client.create_collection('collection')
 ```
 
-## Create Embedding to store in the database
+### Create Embedding to store in the database
 
 First we need a dedicated model to generate embedding from the text, i.e. a **numeric representation of text data**. Here again, there's no single "best" option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.
 
@@ -254,7 +275,7 @@ model_name="bert-base-multilingual-cased"
 # vectorstore_nltktext_bge.persist()
 ```
 
-## Retrieve Embedding from a persistant storage vector database
+### Retrieve Embedding from a persistant storage vector database
 
 ```{python}
 import chromadb
@@ -272,15 +293,16 @@ print(collections)
  
 ```
 
-# Generation
+## Stage 2: Generation
 
-## Set up a local LLM
+### Set up a local LLM
 
-If do not have access to any LLM API, an alternative is to install a local one... There are multiple options to do that - but an easy one is to install [OLLAMA](https://ollama.com/). Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama).
+If do not have access to any LLM API, an alternative is to install a local one...
 
-The temperature is setting the *creativeness* of the response - the higher the more creative - below we will remain conservative! It is the equivalent of the conversation style setting in copilot: creative \[1-0.7\], balanced \]0.7-0.4\], precise \]0.4,0\]...
+There are again plenty of Open Source LLM options to select from...
 
-There are again plenty of Open Source LLM options to select from... Open-source Large Language Model (LLM) have multiple advantages:
+::: callout-note
+Open-source Large Language Model (LLM) have multiple advantages:
 
 -   **Transparency and Flexibility**: accessible to the public, allowing developers to inspect, modify, and distribute the code. This transparency fosters a community-driven development process, leading to rapid innovation and diverse applications.
 
@@ -290,7 +312,10 @@ There are again plenty of Open Source LLM options to select from... Open-source 
 
 -   **Customizability**: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.
 
-We are using here [Mixtral Sparse Mixture-of-Expert](https://mistral.ai/news/mixtral-of-experts/), and specifically the quantized version: [8x7b-instruct-v0.1-q4_K_M](https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods), an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance.
+-   **Data Protection**: allow to use within the data enclave of your own computer without any data being sent to a remote server.
+:::
+
+There are multiple options to do that - but an easy one is to install [OLLAMA](https://ollama.com/). Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama). We are using here [Mixtral Sparse Mixture-of-Expert](https://mistral.ai/news/mixtral-of-experts/), and specifically the quantized version: [8x7b-instruct-v0.1-q4_K_M](https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods), an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance. This download a file with the model which suze around 26Gb.
 
 ```{python}
 from langchain_community.chat_models import ChatOllama
@@ -301,7 +326,9 @@ llm_ollama = ChatOllama(
 )
 ```
 
-## Summarisation Prompt
+The temperature is setting the *creativeness* of the response - the higher the more creative - below we will remain conservative! It is the equivalent of the *conversation style* setting in copilot: *creative \[1-0.7\], balanced \]0.7-0.4\], precise \]0.4,0\]*...
+
+### Summarisation Prompt
 
 Writing a good summarization prompt involves a few key steps:
 
@@ -350,7 +377,7 @@ The summary should output should be in json and follow the following defined str
 """
 ```
 
-## Set up the Retriever
+### Set up the Retriever
 
 A [retriever](https://python.langchain.com/docs/modules/data_connection/retrievers/) acts as an information gatekeeper in the RAG architecture. Its primary function is to search through a large corpus of data to find relevant pieces of information that can be used for text generation. You can think of it as a specialized librarian who knows exactly which ‘books’ to pull off the ‘shelves’ when you ask a question. In other words, the retriever first fetches relevant parts of the document pertaining to the user query, and then the Large Language Model (LLM) uses this information to generate a response.
 
@@ -408,7 +435,7 @@ ragRetriever_similarity_nltktext_bert = vectorstore_nltktext_bert.as_retriever(
 )
 ```
 
-## Build the Chain
+### Build the Chain
 
 A retrieval chain act as a pipe: it takes an incoming question, look up relevant documents using a retriever, then pass those documents along with the original question into an LLM and return the answer the original question.
 
@@ -447,7 +474,7 @@ response_mmr_recursivecharactertext_bert = qa_chain(RAG_prompt)
 # response_similarity_recursivecharactertext_bert = qa_chain(RAG_prompt)
 ```
 
-## Save in a word document
+### Save in a word document
 
 To complete the process, let's save the results within a a word document! This again can be automated
 
@@ -513,10 +540,15 @@ doc_para.add_run('This document contains material generated by artificial intell
 doc.save("generated/Evaluation_Brief_response_mmr_recursivecharactertext_bert.docx")
 ```
 
-# Evaluation
+## Stage 3: Evaluation
 
-Getting the RAG pipeline's performance to a satisfying state is not straightforward. [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/) is a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html). There are several criteria used to evaluate RAG applications:
+Getting the RAG pipeline's performance to a satisfying state is not straightforward. [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/) is a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html).
 
+### Metrics
+
+There are several criteria used to evaluate RAG applications:
+
+::: callout-note
 1.  Context-based for the **Retriever**: :
 
 -   [**Context recall**](https://docs.ragas.io/en/stable/concepts/metrics/context_recall.html): Measures whether the context contains the correct information, compared to a provided ground truth, in order to produce an answer.
@@ -528,6 +560,9 @@ Getting the RAG pipeline's performance to a satisfying state is not straightforw
 -   [**Faithfulness**](https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html) (also called Correctness or Factuality): Measures whether the LLM outputs are based on the provided ground truth.
 
 -   [**Answer relevancy**](https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html): Measures how directly the answer addresses the question.
+:::
+
+### Critic Model
 
 We will use 2 different models: one to generate and the other to review...
 
@@ -559,7 +594,7 @@ result = qa_chain({"query": question})
 result["result"]
 ```
 
-We can use a dedicated model to critise the first one https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#
+We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#) to critise the first one
 
 ```{python}
 # from langchain_community.llms import VLLM
@@ -575,7 +610,7 @@ We can use a dedicated model to critise the first one https://docs.ragas.io/en/s
 
 ```
 
-> python -m vllm.entrypoints.openai.api_server --model explodinggradients/Ragas-critic-llm-Qwen1.5-GPTQ
+### Evaluation Output
 
 ```{python}
 # from ragas import evaluate
@@ -592,3 +627,7 @@ We can use a dedicated model to critise the first one https://docs.ragas.io/en/s
 #     metrics=[context_precision, faithfulness, answer_relevancy],
 # )
 ```
+
+## Stage 4: Deploy
+
+[![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)

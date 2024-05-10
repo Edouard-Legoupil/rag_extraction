@@ -8,9 +8,9 @@ jupyter: python3
 toc: true
 ---
 
+## Abstract
 
 >  We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely.  - E. O. Wilson
-
 
 
 Artificial Inteligence (AI) is presented as the potential source for the next, actually the  [fifth waves](https://www.nature.com/articles/s41599-019-0253-6)  of the **evidence revolution** (following the 4 previous waves: #1 outcome monitoring, #2 impact evaluation, #3 systematic reviews and #4 knowledge brokering). This actually reflects a situation where after years of evaluation studies and [thousands of published evaluation reports](https://www.uneval.org/evaluation/reports), the new frontier is about **information retrieval and evidence generalization** : How to extract the most relevant findings and recommendations from a context and reuse them in a different but appropriate context?
@@ -593,12 +593,10 @@ We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisat
 # )
 ```
 
-## Stage 4: Deploy
+## Stage 4: Deployment
 
+As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness), there are potential graduated steps in terms of deployment.
 
-
-There are potential graduated steps in terms of AI deployment - https://www.gartner.com/en/information-technology/topics/ai-readiness  - 
-
-Building some inter-agency common knowledge first on "data retrieval" could be first achievable target? Given the size of linked investment, pooling expertise (sharing scripts) and capacity (server infrastructure) between organizations around this objective could make sense. 
+Building common knowledge first on "data retrieval" could be first achievable target. Given the size of linked investment, pooling expertise (sharing scripts) and capacity (server infrastructure) around this objective could make sense. 
 
 [![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)

@@ -9,7 +9,7 @@
 <meta name="author" content="Edouard Legoupil, UNHCR Evaluation Office">
 <meta name="dcterms.date" content="2024-05-10">
 
-<title>Creating Brief from Evaluation Report</title>
+<title>Generating and Improving Evaluation Report “Brief”</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,16 +85,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#stage-0-environment-set-up" id="toc-stage-0-environment-set-up" class="nav-link" data-scroll-target="#stage-0-environment-set-up">Stage 0: Environment Set up</a></li>
-  <li><a href="#stage-1-retrieval" id="toc-stage-1-retrieval" class="nav-link" data-scroll-target="#stage-1-retrieval">Stage 1: Retrieval</a>
+  <li><a href="#environment-set-up" id="toc-environment-set-up" class="nav-link" data-scroll-target="#environment-set-up">Environment Set up</a></li>
+  <li><a href="#information-retrieval" id="toc-information-retrieval" class="nav-link" data-scroll-target="#information-retrieval">Information Retrieval</a>
   <ul class="collapse">
   <li><a href="#load-the-pdf" id="toc-load-the-pdf" class="nav-link" data-scroll-target="#load-the-pdf">Load the PDF</a></li>
   <li><a href="#chunking" id="toc-chunking" class="nav-link" data-scroll-target="#chunking">Chunking</a></li>
   <li><a href="#instantiate-a-vector-database" id="toc-instantiate-a-vector-database" class="nav-link" data-scroll-target="#instantiate-a-vector-database">Instantiate a Vector Database</a></li>
-  <li><a href="#create-embedding-to-store-in-the-database" id="toc-create-embedding-to-store-in-the-database" class="nav-link" data-scroll-target="#create-embedding-to-store-in-the-database">Create Embedding to store in the database</a></li>
-  <li><a href="#retrieve-embedding-from-a-persistant-storage-vector-database" id="toc-retrieve-embedding-from-a-persistant-storage-vector-database" class="nav-link" data-scroll-target="#retrieve-embedding-from-a-persistant-storage-vector-database">Retrieve Embedding from a persistant storage vector database</a></li>
+  <li><a href="#generate-embedding" id="toc-generate-embedding" class="nav-link" data-scroll-target="#generate-embedding">Generate Embedding</a></li>
+  <li><a href="#get-from-persistent-storage" id="toc-get-from-persistent-storage" class="nav-link" data-scroll-target="#get-from-persistent-storage">Get from persistent storage</a></li>
   </ul></li>
-  <li><a href="#stage-2-generation" id="toc-stage-2-generation" class="nav-link" data-scroll-target="#stage-2-generation">Stage 2: Generation</a>
+  <li><a href="#content-generation" id="toc-content-generation" class="nav-link" data-scroll-target="#content-generation">Content Generation</a>
   <ul class="collapse">
   <li><a href="#set-up-a-local-llm" id="toc-set-up-a-local-llm" class="nav-link" data-scroll-target="#set-up-a-local-llm">Set up a local LLM</a></li>
   <li><a href="#summarisation-prompt" id="toc-summarisation-prompt" class="nav-link" data-scroll-target="#summarisation-prompt">Summarisation Prompt</a></li>
@@ -102,23 +102,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#build-the-chain" id="toc-build-the-chain" class="nav-link" data-scroll-target="#build-the-chain">Build the Chain</a></li>
   <li><a href="#save-in-a-word-document" id="toc-save-in-a-word-document" class="nav-link" data-scroll-target="#save-in-a-word-document">Save in a word document</a></li>
   </ul></li>
-  <li><a href="#stage-3-evaluation" id="toc-stage-3-evaluation" class="nav-link" data-scroll-target="#stage-3-evaluation">Stage 3: Evaluation</a>
+  <li><a href="#process-evaluation" id="toc-process-evaluation" class="nav-link" data-scroll-target="#process-evaluation">Process Evaluation</a>
   <ul class="collapse">
-  <li><a href="#a-second-report-with-different-embedding-retriever-and-llm" id="toc-a-second-report-with-different-embedding-retriever-and-llm" class="nav-link" data-scroll-target="#a-second-report-with-different-embedding-retriever-and-llm">A second report with different embedding, retriever and LLM!</a></li>
-  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
-  <li><a href="#critic-model" id="toc-critic-model" class="nav-link" data-scroll-target="#critic-model">Critic Model</a></li>
-  <li><a href="#evaluation-output" id="toc-evaluation-output" class="nav-link" data-scroll-target="#evaluation-output">Evaluation Output</a></li>
+  <li><a href="#build-an-alternate-brief" id="toc-build-an-alternate-brief" class="nav-link" data-scroll-target="#build-an-alternate-brief">Build an alternate “Brief”</a></li>
+  <li><a href="#building-the-evaluation-dataset" id="toc-building-the-evaluation-dataset" class="nav-link" data-scroll-target="#building-the-evaluation-dataset">Building the evaluation dataset</a></li>
+  <li><a href="#metrics-measurement" id="toc-metrics-measurement" class="nav-link" data-scroll-target="#metrics-measurement">Metrics Measurement</a></li>
   </ul></li>
-  <li><a href="#stage-4-deployment" id="toc-stage-4-deployment" class="nav-link" data-scroll-target="#stage-4-deployment">Stage 4: Deployment</a></li>
+  <li><a href="#ai-deployment" id="toc-ai-deployment" class="nav-link" data-scroll-target="#ai-deployment">AI Deployment</a>
+  <ul class="collapse">
+  <li><a href="#buy-or-build" id="toc-buy-or-build" class="nav-link" data-scroll-target="#buy-or-build">Buy or Build?</a></li>
+  <li><a href="#ai-ready-data-human-review" id="toc-ai-ready-data-human-review" class="nav-link" data-scroll-target="#ai-ready-data-human-review">AI ready data &amp; Human Review</a></li>
+  <li><a href="#fine-tuning" id="toc-fine-tuning" class="nav-link" data-scroll-target="#fine-tuning">Fine-Tuning</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
 </div>
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Creating Brief from Evaluation Report</h1>
-<p class="subtitle lead">An introduction to Retrieval-Augmented Generation with Large Language Model</p>
+<h1 class="title">Generating and Improving Evaluation Report “<strong>Brief</strong>”</h1>
+<p class="subtitle lead">Evaluating Retrieval-Augmented Generation with Large Language Model</p>
 </div>
 
 
@@ -145,47 +150,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<div class="bg-primary text-white p-3 column-page">
+<p><em>“We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely.”</em> - E. O. Wilson</p>
+</div>
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<blockquote class="blockquote">
-<p>We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely. - E. O. Wilson</p>
-</blockquote>
-<p>Artificial Inteligence (AI) is presented as the potential source for the next, actually the <a href="https://www.nature.com/articles/s41599-019-0253-6">fifth waves</a> of the <strong>evidence revolution</strong> (following the 4 previous waves: #1 outcome monitoring, #2 impact evaluation, #3 systematic reviews and #4 knowledge brokering). This actually reflects a situation where after years of evaluation studies and <a href="https://www.uneval.org/evaluation/reports">thousands of published evaluation reports</a>, the new frontier is about <strong>information retrieval and evidence generalization</strong> : How to extract the most relevant findings and recommendations from a context and reuse them in a different but appropriate context?</p>
-<p>Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems, aka text mining. Indeed, in some situations, relying on automated retrieval can ensure that the summarization is “<em>objective</em>” and do not omit key elements… This paper is presenting the challenges and opportunities associated with those new approaches. It target a technical audience that would like to include such technique within their personal information management toolset, and this using open souce tool working safely fully offline.</p>
-<p>First, we explain how to create a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pager evaluation brief</a> using an orchestration of models and functions. Rather than relying on ad-hoc user interactions through a black box chat interface, it is possible to set up a documented and reproducible summarization scripts that can directly output a word document. The same approach could be applied to other textual analysis, for instance: extract causal chains from the transcriptions of Focus Group Discussions, generate potential theories of change from needs assessment reports or review the usage of Evidence within Country Strategic Plan…</p>
-<p>Second, we review the techniques that can be used to optimize summarisation scripts. We generate a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bert.docx">second alternative brief</a>, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.</p>
-<p>Last we discuss how such approach can actually inform decisions and strategies on future AI Deployment approaches: i.e.&nbsp;what needs to be set up to create training dataset that would allow to fine-tune models and further increase the performance of evidence retrieval and re-injection.</p>
+<p>Artificial Inteligence (AI) is presented as the potential trigger for the <a href="https://www.nature.com/articles/s41599-019-0253-6">fifth wave</a> of the <strong>evidence revolution</strong> (<em>following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering</em>). This actually reflects a situation where considering the <a href="https://www.uneval.org/evaluation/reports">numbers of published evaluation reports across the UN system</a>, <strong>information retrieval and evidence generalization</strong> challenges have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?</p>
+<p>The key deliverable from an evaluation process is usually a long report (<em>often over 60 pages PDF file</em>). From this report, two-pagers executive “briefs” are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains more challenging is the subjective dimensions involved in <strong>choosing what to include and what to exclude</strong>, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit… The potential fear of being, like Cassandra, the bearer of bad news comes with the structural risk of “cushioning” the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity of the summarization.</p>
+<p>Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems, also called text mining. This paper is presenting the challenges and opportunities associated with those new approaches. It targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer.</p>
+<p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of models and functions. Rather than relying on ad-hoc user interactions through a black box chat interface, it is possible to set up documented and <strong>reproducible</strong> scripts that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.</p>
+<p>Second, we review the techniques that can be used to <strong>evaluate</strong> and optimize summarisation scripts to minimize the risk of AI hallucinations. We generate a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx">second alternative brief</a>, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.</p>
+<p>Last we discuss how such approach can actually inform decisions and strategies on future AI <strong>deployment</strong> approaches: i.e.&nbsp;what needs to be set up to create training dataset that would allow to fine-tune models and further increase the performance of evidence retrieval and re-injection.</p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>A robust RAG system comes with different steps:</p>
+<p>Building a robust information retrieval system requires to configure different components:</p>
 <ol type="1">
-<li><p><strong>Retrieval</strong>: retrieve relevant information from a knowledge base with text embedding stored in a vector store;</p></li>
-<li><p><strong>Generation</strong>: insert the relevant information to the prompt for the LLM to generate information;</p></li>
-<li><p><strong>Evaluation</strong>: Explore and combine various options for both Retrieval and Generation and compare the results.</p></li>
-<li><p><strong>Deployment</strong>: Organise AI-ready feedback and data to prepare for fine-tuning.</p></li>
+<li><p><strong>Retrieval</strong>: Build a knowledge base and configure how to retrieve the information from it;</p></li>
+<li><p><strong>Generation</strong>: Define efficient prompt to query the system;</p></li>
+<li><p><strong>Evaluation</strong>: Explore and combine various options for both Retrieval and Generation to compare the results.</p></li>
+<li><p><strong>Deployment</strong>: Organise AI-ready feedback and prepare data for fine-tuning.</p></li>
 </ol>
-<p>This paper compile the results of experimentations and findings from other articles and tutorials. RAG should definitely be part of the Information management toolbox. The paper includes both a cookbook with a reproducible recipes so that colleagues can rerun and learn from it. It also contains broader consideration on the usage of AI for public programme evaluations, especailly in the last part of deployment.</p>
-<p>The illustration from <a href="https://huggingface.co/learn/cookbook/en/rag_evaluation">HuggingFace</a> below nicely summarise the architecture of the system</p>
+<p>This paper compiles the results of experimentation applied to a practical use case. It includes a <em>cookbook</em> with a reproducible recipes so that colleagues can rerun and learn from it. It also contains broader considerations on the usage of AI for public programme evaluations, especially in the last part around deployment. We used here the <a href="https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf">2019 Evaluation of UNHCR’s data use and information management approaches</a> to illustrate the process. We hope that eaders will be able to adjust this tutorial to their own use cases! Script below re based on <a href="https://python.langchain.com/v0.1/docs/use_cases/question_answering/">langChain</a> python library but the same pipeline could also be built with the other main LLM orchestration library called <a href="https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/">LlamaIndex</a></p>
+<p>The illustration from <a href="https://huggingface.co/learn/cookbook/en/rag_evaluation">HuggingFace RAG Evaluation</a> below nicely visualize the first two elements of the system architecture: retrieval (that includes: chunking, embedding, storing and retrieving) and generation (that includes prompting an LLM).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="RAG_workflow.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">RAG Evaluation, https://huggingface.co/learn/cookbook/en/rag_evaluation</figcaption>
 </figure>
 </div>
-<p>We use the the 2019 <a href="https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf">Evaluation of UNHCR’s data use and information management approaches</a> to illustrate the process.</p>
-<p>We hope that you can adjust this tutorial to your own use cases! The script below is based on <a href="https://python.langchain.com/v0.1/docs/use_cases/question_answering/">langChain</a> python library but the same pipeline could also be built with the other main LLM orchestration library called <a href="https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/">LlamaIndex</a></p>
 </section>
-<section id="stage-0-environment-set-up" class="level2">
-<h2 class="anchored" data-anchor-id="stage-0-environment-set-up">Stage 0: Environment Set up</h2>
-<p>Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This canbe done with conda</p>
-<p>First directly in your OS Shell, create a new environment - here called <strong>evalenv</strong></p>
+<section id="environment-set-up" class="level2">
+<h2 class="anchored" data-anchor-id="environment-set-up">Environment Set up</h2>
+<p>Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with <a href="https://docs.conda.io/en/latest/">conda</a> python modules management utility.</p>
+<p>First directly in your OS Shell, create a new environment - here called <strong><code>evalenv</code></strong></p>
 <blockquote class="blockquote">
-<p>!conda create –name evalenv python=3.11</p>
+<p>conda create –name evalenv python=3.11</p>
 </blockquote>
 <p>Then activate it! Et voila!</p>
 <blockquote class="blockquote">
-<p>!conda activate evalenv</p>
+<p>conda activate evalenv</p>
 </blockquote>
 <p>Once this environment selected as a kernel to run the notebook, we can install the required python libraries for RAG:</p>
 <div class="cell" data-execution_count="1">
@@ -211,11 +215,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">--</span>upgrade <span class="op">--</span>quiet python<span class="op">-</span>docx </span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">## Library to evaluat the RAG process</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">--</span>upgrade <span class="op">--</span>quiet ragas </span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">--</span>upgrade <span class="op">--</span>quiet ragas vllm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">--</span>upgrade <span class="op">--</span>quiet ragas  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Note: you may need to restart the kernel to use updated packages.
-Note: you may need to restart the kernel to use updated packages.
 Note: you may need to restart the kernel to use updated packages.
 Note: you may need to restart the kernel to use updated packages.
 Note: you may need to restart the kernel to use updated packages.
@@ -228,33 +230,32 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You then Restart the kernel</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># then Restart the jupyter kernel for this notebook</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>reset <span class="op">-</span>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="stage-1-retrieval" class="level2">
-<h2 class="anchored" data-anchor-id="stage-1-retrieval">Stage 1: Retrieval</h2>
+<section id="information-retrieval" class="level2">
+<h2 class="anchored" data-anchor-id="information-retrieval">Information Retrieval</h2>
 <section id="load-the-pdf" class="level3">
 <h3 class="anchored" data-anchor-id="load-the-pdf">Load the PDF</h3>
 <p>There plenty of potential python packages to load pdf files… More details <a href="https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf">here</a>. Note that more loader also exist for other type of data!!!</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> PyPDFLoader</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> PyPDFLoader(<span class="st">"files/Info_Mngt_eval_2019.pdf"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> loader.load_and_split()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> PyPDFLoader(<span class="st">"files/Info_Mngt_eval_2019.pdf"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> loader.load_and_split()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="chunking" class="level3">
 <h3 class="anchored" data-anchor-id="chunking">Chunking</h3>
 <p>If you have a large document, because of memory management, you will not be able to process it in one chunk. LangChain offers several built-in text splitters to <strong>divide text into smaller chunks</strong> based on different criteria.</p>
-<p>The options that can be tested are:</p>
+<p>Example of options that can be tested are:</p>
 <ul>
 <li><p>Simple character-level processing with <code>CharacterTextSplitter,</code></p></li>
 <li><p>Recursive Splitting with <code>RecursiveCharacterTextSplitter</code>,</p></li>
 <li><p>Words or semantic units with <code>TokenTextSplitter</code>,</p></li>
-<li><p>Context-aware splitting with <code>NLTKTextSplitter</code> …</p></li>
+<li><p>Context-aware splitting with <code>NLTKTextSplitter</code> .</p></li>
 </ul>
-<p>See example to understand how chunking works, see this online <a href="https://chunkviz.up.railway.app/">viz</a>.</p>
+<p>See example to understand how chunking works, see this online <a href="https://huggingface.co/spaces/m-ric/chunk_visualizer">viz</a>.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.text_splitter <span class="im">import</span> CharacterTextSplitter</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>splitter_text <span class="op">=</span> CharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">1000</span>, chunk_overlap<span class="op">=</span><span class="dv">200</span>)</span>
@@ -278,15 +279,9 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </section>
 <section id="instantiate-a-vector-database" class="level3">
 <h3 class="anchored" data-anchor-id="instantiate-a-vector-database">Instantiate a Vector Database</h3>
-<p>A <a href="https://python.langchain.com/docs/modules/data_connection/vectorstores/">vector database</a> is a database that allows you to efficiently store and query embedding data. Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified <strong>similarity metric</strong>, the vector database returns embeddings that are similar to a query.</p>
-<p>There are here again numerous options in terms of vector DB - for instance</p>
-<ul>
-<li><p><a href="https://www.trychroma.com/">ChromaDB</a></p></li>
-<li><p><a href="https://qdrant.tech/">Qdrant</a></p></li>
-<li><p><a href="https://milvus.io/">Milvus</a></p></li>
-<li><p><a href="https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/">FAISS</a></p></li>
-</ul>
-<p>Here we will just use Chroma.</p>
+<p>A <a href="https://python.langchain.com/docs/modules/data_connection/vectorstores/">vector database</a> is a database that allows to efficiently store and query embeddings. Embedding are actually a <strong>numeric representation of text data</strong>. This conversion from text to numeric is used to represent words, sentences, or even entire documents in a compact and meaningful way. It captures the essence of a word’s meaning, context, and relationships with other words.</p>
+<p>Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified <strong>similarity metric</strong>, the vector database returns data that are similar to a query.</p>
+<p>There are here again numerous options in terms of Open Source vector DB that can be used - for instance: <a href="https://www.trychroma.com/">ChromaDB</a>, <a href="https://qdrant.tech/">Qdrant</a>, <a href="https://milvus.io/">Milvus</a> or <a href="https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/">FAISS</a>. Here we will just use Chroma.</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.vectorstores <span class="im">import</span> Chroma</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromadb </span>
@@ -295,73 +290,81 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#chroma_collection = chroma_client.create_collection('collection')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="create-embedding-to-store-in-the-database" class="level3">
-<h3 class="anchored" data-anchor-id="create-embedding-to-store-in-the-database">Create Embedding to store in the database</h3>
-<p>First we need a dedicated model to generate embedding from the text, i.e.&nbsp;a <strong>numeric representation of text data</strong>. Here again, there’s no single “best” option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.</p>
-<p>LangChain often integrates with libraries like <a href="https://huggingface.co/sentence-transformers">Hugging Face Transformers</a> for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages…</p>
+<section id="generate-embedding" class="level3">
+<h3 class="anchored" data-anchor-id="generate-embedding">Generate Embedding</h3>
+<p>To generate embedding, we need a dedicated model and there’s no single “best” option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.</p>
+<p>LangChain often integrates with libraries like <a href="https://huggingface.co/sentence-transformers">Hugging Face Transformers</a> for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.</p>
+<p>Here we start with testing with <a href="https://python.langchain.com/v0.1/docs/integrations/text_embedding/gpt4all/">GPT4ALL</a></p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.embeddings <span class="im">import</span> GPT4AllEmbeddings </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>embeddings_bert <span class="op">=</span> GPT4AllEmbeddings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we can store the embeddings and associated metadata in the chroma vector database using a specific collection name</p>
+<p>Now we can store the embeddings and associated metadata in the <code>chroma vector</code> database using a specific collection name. Below we create distinct stores for each chunking options.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>vectorstore_text_bert <span class="op">=</span> Chroma.from_documents(chunks_text, </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                              embeddings_bert, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                              collection_name<span class="op">=</span> <span class="st">"text_bert"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                                              persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>vectorstore_text_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>vectorstore_text_bert <span class="op">=</span> Chroma.from_documents(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    documents<span class="op">=</span>chunks_text, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    embedding<span class="op">=</span>embeddings_bert, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span> <span class="st">"text_bert"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>vectorstore_text_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/edouard/.pyenv/versions/3.11.6/lib/python3.11/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: Since Chroma 0.4.x the manual persistence method is no longer supported as docs are automatically persisted.
   warn_deprecated(</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>vectorstore_recursivecharactertext_bert <span class="op">=</span> Chroma.from_documents(chunks_recursivecharactertext,</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                                                                embeddings_bert,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                                              collection_name<span class="op">=</span> <span class="st">"recursivecharactertext_bert"</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                                              persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>vectorstore_recursivecharactertext_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>vectorstore_recursivecharactertext_bert <span class="op">=</span> Chroma.from_documents(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    documents<span class="op">=</span>chunks_recursivecharactertext,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    embedding<span class="op">=</span>embeddings_bert,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span> <span class="st">"recursivecharactertext_bert"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>vectorstore_recursivecharactertext_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>vectorstore_tokentext_bert <span class="op">=</span> Chroma.from_documents(chunks_tokentext, </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                                   embeddings_bert, </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                              collection_name<span class="op">=</span> <span class="st">"tokentext_bert"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                                              persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>vectorstore_tokentext_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>vectorstore_tokentext_bert <span class="op">=</span> Chroma.from_documents(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    documents<span class="op">=</span>chunks_tokentext, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    embedding<span class="op">=</span>embeddings_bert, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span> <span class="st">"tokentext_bert"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>vectorstore_tokentext_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>vectorstore_nltktext_bert <span class="op">=</span> Chroma.from_documents(chunks_nltktext, </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                                                  embeddings_bert, </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                                             collection_name<span class="op">=</span> <span class="st">"nltktext_bert"</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                                              persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>vectorstore_nltktext_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>vectorstore_nltktext_bert <span class="op">=</span> Chroma.from_documents(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    documents<span class="op">=</span>chunks_nltktext, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    embedding<span class="op">=</span>embeddings_bert, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span> <span class="st">"nltktext_bert"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>vectorstore_nltktext_bert.persist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="retrieve-embedding-from-a-persistant-storage-vector-database" class="level3">
-<h3 class="anchored" data-anchor-id="retrieve-embedding-from-a-persistant-storage-vector-database">Retrieve Embedding from a persistant storage vector database</h3>
+<section id="get-from-persistent-storage" class="level3">
+<h3 class="anchored" data-anchor-id="get-from-persistent-storage">Get from persistent storage</h3>
+<p>Chroma can run in various modes. Here we used the <code>persist</code> mode that allows to save to disk and load later. We can then re-open a previous database using its folder path:</p>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromadb</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> chromadb.PersistentClient(path<span class="op">=</span><span class="st">"persist/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Then we can get the name of collection available within that database</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>collections <span class="op">=</span> client.list_collections()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(collections)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[Collection(name=recursivecharactertext_bge), Collection(name=tokentext_bert), Collection(name=recursivecharactertext_bert), Collection(name=text_bge), Collection(name=text_bert), Collection(name=nltktext_bert)]</code></pre>
+<pre><code>[Collection(name=recursivecharactertext_bge), Collection(name=tokentext_bert), Collection(name=recursivecharactertext_bert), Collection(name=text_bge), Collection(name=langchain), Collection(name=text_bert), Collection(name=nltktext_bert)]</code></pre>
 </div>
 </div>
+<p>and get a previously saved vector collection</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the embeddings and associated metadata in a vector database using Chroma</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># vectorstore_text_bert2 = client.get("text_bert")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>vectorstore2_text_bert <span class="op">=</span> Chroma(collection_name<span class="op">=</span><span class="st">"text_bert"</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                persist_directory<span class="op">=</span><span class="st">"persist/"</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                embedding_function<span class="op">=</span>embeddings_bert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="stage-2-generation" class="level2">
-<h2 class="anchored" data-anchor-id="stage-2-generation">Stage 2: Generation</h2>
+<section id="content-generation" class="level2">
+<h2 class="anchored" data-anchor-id="content-generation">Content Generation</h2>
 <section id="set-up-a-local-llm" class="level3">
 <h3 class="anchored" data-anchor-id="set-up-a-local-llm">Set up a local LLM</h3>
-<p>If do not have access to any LLM API, an alternative is to install a local one…</p>
-<p>There are again plenty of Open Source LLM options to select from…</p>
+<p>If do not have access to a LLM API, an alternative is to install a local one and there are again plenty of Foundation LLM options to select from. Foundation models are AI neural networks trained on massive amounts of raw data (usually with unsupervised learning) that can be adapted to a wide variety of tasks.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -372,18 +375,18 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Open-source Large Language Model (LLM) have multiple advantages:</p>
+<p>Open-source Large Language Models (LLM) have multiple advantages:</p>
 <ul>
 <li><p><strong>Transparency and Flexibility</strong>: accessible to the public, allowing developers to inspect, modify, and distribute the code. This transparency fosters a community-driven development process, leading to rapid innovation and diverse applications.</p></li>
-<li><p><strong>Cost Savings</strong>: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup.</p></li>
+<li><p><strong>Cost Savings</strong>: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer.</p></li>
 <li><p><strong>Added Features and Community Contributions</strong>: can leverage multiple providers and internal teams for updates and support, which enables to stay at the forefront of technology and exercise greater control over their usage.</p></li>
 <li><p><strong>Customizability</strong>: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.</p></li>
 <li><p><strong>Data Protection</strong>: allow to use within the data enclave of your own computer without any data being sent to a remote server.</p></li>
 </ul>
 </div>
 </div>
-<p>There are multiple options to do that - but an easy one is to install <a href="https://ollama.com/">OLLAMA</a>, which offers a wide <a href="https://ollama.com/library">variety of open models</a> from plenty of providers: <a href="https://ollama.com/library/llama3">LLama3</a> from Facebook, <a href="https://ollama.com/library/gemma">gemma</a> from Google, <a href="https://ollama.com/library/phi3">phi3</a> Microsoft but also <a href="https://ollama.com/library/qwen">quwen</a> from the chinese AliBaba, <a href="https://ollama.com/library/falcon">falcon</a> from the Emirati Technology Innovation Institute, or Mixtral from the french Mistral_AI. Langchain as dedicated <a href="https://python.langchain.com/docs/integrations/chat/ollama">module to work with ollama</a>.</p>
-<p>Below, we start with <a href="https://mistral.ai/news/mixtral-of-experts/">Mixtral Sparse Mixture-of-Expert</a>, and specifically the quantized version: <a href="https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods">8x7b-instruct-v0.1-q4_K_M</a>, an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance. This download a file with the model which suze around 26Gb.</p>
+<p>There are multiple options to do that. An easy one is to install <a href="https://ollama.com/">OLLAMA</a>, which offers a wide <a href="https://ollama.com/library">variety of open models</a> from the “AI Race” competitors <a href="https://chat.lmsys.org/">arena</a>: <a href="https://ollama.com/library/llama3">LLama3</a> from Facebook, <a href="https://ollama.com/library/gemma">gemma</a> from Google, <a href="https://ollama.com/library/phi3">phi3</a> Microsoft but also <a href="https://ollama.com/library/qwen">qwen</a> from the Chinese AliBaba, <a href="https://ollama.com/library/falcon">falcon</a> from the Emirati Technology Innovation Institute, or <a href="https://ollama.com/library/mixtral">Mixtral</a> from the french startup Mistral_AI. Langchain as dedicated <a href="https://python.langchain.com/docs/integrations/chat/ollama">module to work with ollama</a>.</p>
+<p>Below, we start with <a href="https://mistral.ai/news/mixtral-of-experts/">Mixtral Sparse Mixture-of-Expert</a>, and specifically the quantized version: <a href="https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods">8x7b-instruct-v0.1-q4_K_M</a>, an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance. This download a file with the model which size around 26Gb.</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.chat_models <span class="im">import</span> ChatOllama</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>llm_ollama <span class="op">=</span> ChatOllama(</span>
@@ -396,7 +399,7 @@ Note
 </section>
 <section id="summarisation-prompt" class="level3">
 <h3 class="anchored" data-anchor-id="summarisation-prompt">Summarisation Prompt</h3>
-<p>Writing a good summarization prompt involves a few key steps:</p>
+<p>A prompt is is a piece of text or a set of instructions, used by the LLM to generate a response or perform a task. Writing a good summarization prompt involves a few key steps:</p>
 <ul>
 <li><p>Be <strong>Specific</strong>: Clearly state what you want to summarize. For example, “Summarize this Operation Strategic Plan in 200 words using abstractive summarization” or “Provide a summary of this needs assessment report, highlighting its key takeaways”.</p></li>
 <li><p>Define the <strong>Scope</strong>: Specify the length or depth of the summary you need. For instance, “Summarize this text into two paragraphs with simple language to make it easier to understand” or “Create a summary of this report by summarizing all chapters separately and then generating an overall summary of the report”.</p></li>
@@ -441,21 +444,20 @@ Note
 <section id="set-up-the-retriever" class="level3">
 <h3 class="anchored" data-anchor-id="set-up-the-retriever">Set up the Retriever</h3>
 <p>A <a href="https://python.langchain.com/docs/modules/data_connection/retrievers/">retriever</a> acts as an information gatekeeper in the RAG architecture. Its primary function is to search through a large corpus of data to find relevant pieces of information that can be used for text generation. You can think of it as a specialized librarian who knows exactly which ‘books’ to pull off the ‘shelves’ when you ask a question. In other words, the retriever first fetches relevant parts of the document pertaining to the user query, and then the Large Language Model (LLM) uses this information to generate a response.</p>
-<p>The retriever also takes a series of potential parameters</p>
-<p>The <code>search_kwargs={"k": 2,"score_threshold":0.8}</code> argument is a dictionary used to configure how documents are retrieved during the search process. This argument lets you control how many results you get (up to two in this case) and how good those results need to be (with a score of at least 0.8):</p>
-<ul>
-<li><p><strong>k</strong> (int): This parameter controls the number of documents to retrieve from the search. In this case, k: 2 specifies that the retriever should return up to two documents that match the search query.</p></li>
-<li><p><strong>score_threshold</strong> (float): This parameter sets a minimum score threshold for retrieved documents. Documents with a score lower than 0.8 will be excluded from the results. This essentially acts as a quality filter, ensuring a certain level of relevance between the query and retrieved documents.</p></li>
-</ul>
-<p>The scoring mechanism used by the retriever might depend on the specific retriever implementation. It’s likely based on how well the retrieved documents match the search query. The effectiveness of these parameters depends on your specific use case and the quality of the underlying retrieval system.</p>
 <p>The search_type argument within <code>vectorstore.as_retriever</code> for LangChain allows you to specify the retrieval strategy used to find relevant documents in your vector store. Different options are available:</p>
 <ol type="1">
 <li><p>If you simply want the most relevant documents, “<strong>similarity</strong>” (default): This is the most common search type and is used by default. It performs a standard nearest neighbor search based on vector similarity. The retriever searches for documents in the vector store whose vector representations are closest to the query vector. Documents with higher similarity scores are considered more relevant and are returned first.</p></li>
 <li><p>If you need diverse results that cover different aspects of a topic, “<strong>mmr</strong>” (Maximum Marginal Relevance): This search type focuses on retrieving documents that are both relevant to the query and diverse from each other. It aims to avoid redundancy in the results. MMR is particularly useful when you want a collection of documents that cover different aspects of a topic, rather than just multiple copies of the most similar document.</p></li>
 <li><p>If you want to ensure a minimum level of relevance,“<strong>similarity_score_threshold</strong>”: This search type retrieves documents based on a similarity score threshold. It only returns documents that have a similarity score above the specified threshold. This allows you to filter out documents with low relevance to the query.</p></li>
 </ol>
+<p>The retriever also takes a series of potential parameters. The <code>search_kwargs={"k": 2,"score_threshold":0.8}</code> argument is a dictionary used to configure how documents are retrieved during the search process. This argument lets you control how many results you get (up to two in this case) and how good those results need to be (with a score of at least 0.8):</p>
+<ul>
+<li><p><strong>k</strong> (int): This parameter controls the number of documents to retrieve from the search. In this case, k: 2 specifies that the retriever should return up to two documents that match the search query.</p></li>
+<li><p><strong>score_threshold</strong> (float): This parameter sets a minimum score threshold for retrieved documents. Documents with a score lower than 0.8 will be excluded from the results. This essentially acts as a quality filter, ensuring a certain level of relevance between the query and retrieved documents.</p></li>
+</ul>
+<p>The scoring mechanism used by the retriever might depend on the specific retriever implementation. It’s likely based on how well the retrieved documents match the search query. The effectiveness of these parameters depends on your specific use case and the quality of the underlying retrieval system.</p>
 <p>Even with “similarity”, the retrieved documents might have varying degrees of relevance. Consider using ranking techniques within LangChain to further refine the results based on additional criteria. The underlying vector store might have limitations on the supported search types. Always refer to the documentation of your specific vector store to confirm available options.</p>
-<p>We can build many different retrievers out of the same vectorstore…</p>
+<p>We can build multiple retrievers out of the same <code>vectorstore</code>:</p>
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ragRetriever_text_bert <span class="op">=</span> vectorstore_text_bert.as_retriever()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -484,7 +486,7 @@ Note
 <section id="build-the-chain" class="level3">
 <h3 class="anchored" data-anchor-id="build-the-chain">Build the Chain</h3>
 <p>A retrieval question-answer chain act as a pipe: it takes an incoming question, look up relevant documents using a retriever, then pass those documents along with the original question into an LLM and return the answer the original question.</p>
-<p>Note that from this stage, the following steps may take time to run - this will be highly dependent on the power of your computer - obviously the availability of GPUs - Graphical Processing Unit - will significantly increase the speed! This notebook was built on a thinkpad P53 with a Quadro T1000 GPU.</p>
+<p>Note that from this stage, the following steps may take time to run - this will be highly dependent on the power of your computer - obviously the availability of GPUs - Graphical Processing Unit - will significantly increase the speed! FYI, this notebook was built on a Thinkpad P53 with a Quadro T1000 GPU.</p>
 <div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains <span class="im">import</span> RetrievalQA</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>qa_chain <span class="op">=</span> RetrievalQA.from_chain_type(</span>
@@ -533,12 +535,12 @@ Note
 </div>
 </section>
 </section>
-<section id="stage-3-evaluation" class="level2">
-<h2 class="anchored" data-anchor-id="stage-3-evaluation">Stage 3: Evaluation</h2>
-<section id="a-second-report-with-different-embedding-retriever-and-llm" class="level3">
-<h3 class="anchored" data-anchor-id="a-second-report-with-different-embedding-retriever-and-llm">A second report with different embedding, retriever and LLM!</h3>
-<p>Let’s try to generate a second report with different setttings…</p>
-<p>Let’s try with a second embedding model… <a href="https://huggingface.co/models?pipeline_tag=feature-extraction&amp;sort=trending">Hugging face</a> has many options… and there is even a <a href="https://huggingface.co/spaces/mteb/leaderboard">leaderboard</a> to see how they compete… We will select here the emebeding model from the Beijing Academy of Artificial Intelligence:<a href="https://huggingface.co/BAAI/bge-large-en-v1.5">bge-large-en-v1.5</a>. It is small in size but performant and it does not comsume too much memory.</p>
+<section id="process-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="process-evaluation">Process Evaluation</h2>
+<p>We were able to get a first brief… still how can we assess how good is this report?</p>
+<section id="build-an-alternate-brief" class="level3">
+<h3 class="anchored" data-anchor-id="build-an-alternate-brief">Build an alternate “Brief”</h3>
+<p>Let’s try to generate a second report with different settings. Let’s try first with a second embedding model… <a href="https://huggingface.co/models?pipeline_tag=feature-extraction&amp;sort=trending">Hugging face</a> has many options… and there is even a <a href="https://huggingface.co/spaces/mteb/leaderboard">leaderboard</a> to see how they compete… We will select here the embedding model <a href="https://huggingface.co/BAAI/bge-large-en-v1.5">bge-large-en-v1.5</a> from the Beijing Academy of Artificial Intelligence. It is small in size but efficient and it does not consume too much memory.</p>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.embeddings <span class="im">import</span> HuggingFaceBgeEmbeddings</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -570,7 +572,7 @@ To disable this warning, you can either:
     - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)</code></pre>
 </div>
 </div>
-<p>…create our retriever now with mmr…</p>
+<p>…create our retriever now using Maximum Marginal Relevance…</p>
 <div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ragRetriever_mmr_recursivecharactertext_bge <span class="op">=</span> vectorstore_recursivecharactertext_bge.as_retriever(</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>            search_type<span class="op">=</span><span class="st">"mmr"</span></span>
@@ -626,11 +628,69 @@ To disable this warning, you can either:
 <span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the document ---------------</span></span>
 <span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>doc.save(<span class="st">"generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>When reading the two reports, we can see significant difference… which is ok as it would be if it was human doing it.. Though, it remains key to assess the quality of the summarization!</p>
+<p>Et voila! When reading the two reports, we can see significant differences… which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let’s <strong>evaluate</strong> the quality of the summarization to objectively find out about this!</p>
 </section>
-<section id="metrics" class="level3">
-<h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
-<p>Getting the RAG pipeline’s performance to a satisfying state is not straightforward. <a href="https://docs.ragas.io/en/stable/">RAGAS (Retrieval Augmented Generation Assessment)</a> is a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines. <em>“Reference-free”</em> evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the <a href="https://docs.ragas.io/en/stable/howtos/integrations/langchain.html">evaluations</a>.</p>
+<section id="building-the-evaluation-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="building-the-evaluation-dataset">Building the evaluation dataset</h3>
+<p>To do the evaluation, first we need to build an large-enough evaluation dataset so that the evaluation is based on multiple output. One approach is to extract from the report both:</p>
+<ul>
+<li><p>all <strong>findings and evidence</strong>, i.e.&nbsp;what can be learnt from the specific context of this evaluation study, what are the root causes for the finding in this context and what are the main risks and difficulties in this context.</p></li>
+<li><p>all <strong>recommendations</strong>, flagging clearly if the recommendations relate to practices that should be either discontinued on one side or on the other side to practices that should be scaled up.</p></li>
+</ul>
+<p>To provide more perspectives for the extraction, the report can be reviewed from the angle of each of the potential 26 different type of experts that may look at UNHCR programme:</p>
+<ul>
+<li><p><strong>4 experts for Strategic Impact</strong> Peer Review: i.e., finding or recommendations that require a change in existing policy and regulations in relation within the specific impact area:</p>
+<ol type="1">
+<li>Attaining favorable protection environments</li>
+<li>Realizing rights in safe environments</li>
+<li>Empowering communities and achieving gender equality</li>
+<li>Securing durable solutions</li>
+</ol></li>
+<li><p><strong>17 experts for Operational Outcome</strong> Peer Review: i.e., finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities in relation within the specific outcome area:</p>
+<ol type="1">
+<li>Access to territory registration and documentation</li>
+<li>Status determination</li>
+<li>Protection policy and law</li>
+<li>Gender-based violence</li>
+<li>Child protection</li>
+<li>Safety and access to justice</li>
+<li>Community engagement and women’s empowerment</li>
+<li>Well-being and basic needs</li>
+<li>Sustainable housing and settlements</li>
+<li>Healthy lives</li>
+<li>Education</li>
+<li>Clean water sanitation and hygiene</li>
+<li>Self-reliance, Economic inclusion, and livelihoods</li>
+<li>Voluntary repatriation and sustainable reintegration</li>
+<li>Resettlement and complementary pathways</li>
+<li>Local integration and other local solutions</li>
+</ol></li>
+<li><p><strong>5 experts on Organizational Enabler</strong> Peer Review: i.e., finding or recommendations that require changes in management practices, technical approach, business processes, staffing allocation or capacity building in relation with:</p>
+<ol type="1">
+<li>Systems and processes</li>
+<li>Operational support and supply chain</li>
+<li>People and culture</li>
+<li>External engagement and resource mobilization</li>
+<li>Leadership and governance</li>
+</ol></li>
+</ul>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the QA chain</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains <span class="im">import</span> RetrievalQA</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>qa_chain <span class="op">=</span> RetrievalQA.from_chain_type(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        llm<span class="op">=</span>llm_ollama,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>        retriever<span class="op">=</span>ragRetriever_mmr_recursivecharactertext_bge, </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        return_source_documents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># testing it out</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"Provide a list of all organisational recommendations within the report"</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">#result = qa_chain({"query": question})</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">#result["result"]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="metrics-measurement" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-measurement">Metrics Measurement</h3>
+<p>Getting the RAG pipeline’s performance to a satisfying state is not straightforward. <a href="https://docs.ragas.io/en/stable/">RAGAS (Retrieval Augmented Generation Assessment)</a> is a framework for reference-free evaluation of RAG pipelines. <em>“Reference-free”</em> evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the <a href="https://docs.ragas.io/en/stable/howtos/integrations/langchain.html">evaluations</a>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -658,23 +718,7 @@ Note
 </ul>
 </div>
 </div>
-</section>
-<section id="critic-model" class="level3">
-<h3 class="anchored" data-anchor-id="critic-model">Critic Model</h3>
-<div class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the QA chain</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains <span class="im">import</span> RetrievalQA</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>qa_chain <span class="op">=</span> RetrievalQA.from_chain_type(</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        llm<span class="op">=</span>llm_ollama,</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>        retriever<span class="op">=</span>ragRetriever_mmr_recursivecharactertext_bge, </span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        return_source_documents<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># testing it out</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"Provide a list of all organisational recommendations within the report"</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">#result = qa_chain({"query": question})</span></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">#result["result"]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We can use a <a href="https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#">dedicated model</a> to critise the first one</p>
+<p>We can use a <a href="https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#">dedicated model</a> as a critic of the first one</p>
 <div class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from langchain_community.llms import VLLM</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -686,9 +730,6 @@ Note
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     top_p=0.95,</span></span>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     temperature=0.0,)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="evaluation-output" class="level3">
-<h3 class="anchored" data-anchor-id="evaluation-output">Evaluation Output</h3>
 <div class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from ragas import evaluate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -704,16 +745,48 @@ Note
 </div>
 </section>
 </section>
-<section id="stage-4-deployment" class="level2">
-<h2 class="anchored" data-anchor-id="stage-4-deployment">Stage 4: Deployment</h2>
-<p>As presented in <a href="https://www.gartner.com/en/information-technology/topics/ai-readiness">Gartner AI readiness framework</a>, there are potential graduated steps in terms of deployment.</p>
-<p>Building common knowledge first on “data retrieval” could be first achievable target. Given the size of linked investment, pooling expertise (sharing scripts) and capacity (server infrastructure) around this objective could make sense.</p>
+<section id="ai-deployment" class="level2">
+<h2 class="anchored" data-anchor-id="ai-deployment">AI Deployment</h2>
+<section id="buy-or-build" class="level3">
+<h3 class="anchored" data-anchor-id="buy-or-build">Buy or Build?</h3>
+<p>As presented in <a href="https://www.gartner.com/en/information-technology/topics/ai-readiness">Gartner AI readiness framework</a>, there are potential graduated steps in terms of deployment: consume, embed, extend and build, and for each strategic decisions between outsourced/internalized are required.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://www.gartner.com/en/information-technology/topics/ai-readiness"><img src="GL0vYd_WcAAqUDZ.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness</figcaption>
 </figure>
 </div>
+<p>Using off-the-shelves solutions, such as Commercial Copilot, in a “consume or embed” mode comes with inherent limitations:</p>
+<ul>
+<li>to incorporate organization specific Knowledge in a systematic way;</li>
+<li>to continuously update the knowledge base with any latest content;</li>
+<li>to prevent what is called “Hallucinations”, in other words the risk of generating incorrect or misleading information, that would not be context-aware.</li>
+</ul>
+<p>This paper actually presented a recipe to extend existing foundation model, using the first step: Data Retrival and Prompt engineering. We highlighted the importance of the configuration to ensure the <strong>reliability of the system</strong> and therefore the relevance of managing directly such process.</p>
+<p>The next step, Fine Tuning comes first with the additional requirement to build AI ready and validated data.</p>
+</section>
+<section id="ai-ready-data-human-review" class="level3">
+<h3 class="anchored" data-anchor-id="ai-ready-data-human-review">AI ready data &amp; Human Review</h3>
+<p>Building common knowledge on “data retrieval scripts” could be the first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.</p>
+<p>Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like <a href="https://labelstud.io/">labelStudioo</a> can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope”.</p>
+<p>After the peer review is sent to observation, operation feedback on the review can also be collected and use at a later stage to further fine tune the model</p>
+</section>
+<section id="fine-tuning" class="level3">
+<h3 class="anchored" data-anchor-id="fine-tuning">Fine-Tuning</h3>
+<p>Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open “foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and <a href="https://www.un.org/techenvoy/content/digital-public-goods">“open artificial intelligence models”</a>, the resulting fine-tuned model could also be published on <a href="https://huggingface.co/">huggingface</a>.</p>
+<p>A fine tune model could help front-loading many more contexts that a simple foundation model:</p>
+<ul>
+<li><p><strong>Situation</strong> – The fine-tune model would be relevant and specific in relation with Operation profile, Area of focus between one of the strategic impact, operational outcome, or organizational topics</p></li>
+<li><p><strong>Task</strong> - The fine-tune model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the Plan/Get/Show.</p></li>
+<li><p><strong>Activity</strong> – Based on the combination of situation and task, the fine-tune model would help re-injecting previously found evidence and/or recalling recommendations</p></li>
+<li><p><strong>Results</strong> – The fine-tune model output would be systematically saved in order to be re-assessed by humans to fine-tune it further from this feedback and improve over time (also called reinforcement learning.)</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure.</p>
+<p>Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.</p>
 </section>
 
 </main>

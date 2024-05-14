@@ -16,9 +16,9 @@ toc: true
 
 Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports across the UN system](https://www.uneval.org/evaluation/reports), **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
-The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independance of the evluation report summarization.
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independance of the evaluation report summarization.
 
-Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from domain specific internal data (like an evaluation report). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation. 
+Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from domain specific internal data (like an evaluation report). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
 
 First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of unctions and models from the [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a black box chat interface, it is more relevant to set up documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.
 
@@ -34,13 +34,14 @@ Building a robust information retrieval system requires to configure different c
 
 2)  **A Continuous Evaluation Process**: Explore and combine various options for both Retrieval and Generation to compare the results.
 
-2)  **A Production Deployment Strategy**: Organise AI-ready feedback and prepare data for fine-tuning.
+3)  **A Production Deployment Strategy**: Organise AI-ready feedback and prepare data for fine-tuning.
 
-This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can rerun and learn from it. It also contains broader suggestions on the usage of AI for public programme evaluations. 
+This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can rerun and learn from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
 
-Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new)! 
+Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new)!
 
 ### Environment Set up
+
 The world of LLMs is a python one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
 
 Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with [conda](https://docs.conda.io/en/latest/) python modules management utility.
@@ -93,7 +94,7 @@ Once this environment selected as a kernel to run the notebook, we can install t
 %reset -f
 ```
 
-## Retrieval & Generation Pipeline 
+## Retrieval & Generation Pipeline
 
 The illustration from [HuggingFace RAG Evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation) below nicely visualize the first two elements of the system architecture: retrieval (that includes: chunking, embedding, storing and retrieving) and generation (that includes prompting an LLM).
 
@@ -384,7 +385,7 @@ ragRetriever_similarity_nltktext_bert = vectorstore_nltktext_bert.as_retriever(
 )
 ```
 
-Advance retrieving strategies can also be used. For instance, using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the  context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged  based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get ued to augment generation.
+Advance retrieving strategies can also be used. For instance, using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get ued to augment generation.
 
 ```{python}
 from langchain.retrievers import ParentDocumentRetriever
@@ -404,9 +405,7 @@ from langchain.storage import InMemoryStore
 # parent_document_retriever.add_documents(docs)
 ```
 
- 
-**Ensemble retrieval** is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs  are "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
-
+**Ensemble retrieval** is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs are "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
 
 ```{python}
 from langchain.retrievers import BM25Retriever, EnsembleRetriever
@@ -502,7 +501,7 @@ We were able to get a first brief... still how can we assess how good is this re
 
 ### Build an alternate "Brief"
 
-Let's try to generate a second report with different settings. 
+Let's try to generate a second report with different settings.
 
 LangChain often integrates with libraries like [Hugging Face Transformers](https://huggingface.co/sentence-transformers) for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.
 
@@ -598,19 +597,17 @@ doc_para.add_run('This document contains material generated by artificial intell
 doc.save("generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx")
 ```
 
-Et voila! 
-Though When reading the two briefs, [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), we can see significant differences... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let's **evaluate** the quality of the summarization to objectively find out about this!
+Et voila! Though When reading the two briefs, [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), we can see significant differences... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let's **evaluate** the quality of the summarization to objectively find out about this!
 
 ### Building the evaluation dataset
 
 To do the evaluation, first we need to build an large-enough evaluation dataset so that the evaluation is based on multiple output. We need to build the following data
 
- -  **question**: list[str] - These are the questions the RAG pipeline will be evaluated on.
+-   **question**: list\[str\] - These are the questions the RAG pipeline will be evaluated on.
 
- -  **contexts**: list[list[str]] - The contexts which were retrieved and passed into the LLM corresponding to each question. This is a list[list] since each question can retrieve multiple text chunks.
+-   **contexts**: list\[list\[str\]\] - The contexts which were retrieved and passed into the LLM corresponding to each question. This is a list\[list\] since each question can retrieve multiple text chunks.
 
- -  **answer**: list[str] - The answer that got generated from the RAG pipeline.
-
+-   **answer**: list\[str\] - The answer that got generated from the RAG pipeline.
 
 One approach is to extract from the report both:
 
@@ -654,7 +651,7 @@ To provide more perspectives for the extraction, the report can be reviewed from
     4.  External engagement and resource mobilization
     5.  Leadership and governance
 
-First let's set up the prompt questions 
+First let's set up the prompt questions
 
 ```{python}
 # Define the list of experts on impact - outcome - organisation
@@ -717,8 +714,7 @@ Be concise in the response and  when relevant include precise citations from the
 """
 ```
 
-then reset the 2 RAG pipleline
-we have 2 llm
+then reset the 2 RAG pipleline we have 2 llm
 
 ```{python}
 from langchain_community.chat_models import ChatOllama
@@ -819,6 +815,7 @@ qa_chain_command_mmr_recursivecharactertext_bge = create_retrieval_chain(
 ```
 
 and now build the two evaluation dataset by iterating over expert profiles and questions!
+
 ```{python}
 # Create dataset (empty list for now)
 dataset_mixtral_recursivecharactertext_bert = []
@@ -864,30 +861,26 @@ dataset_command_mmr_recursivecharactertext_bge_d.to_excel("dataset_command_mmr_r
 ```
 
 ### Metrics Measurement
- 
 
 ::: callout-note
 Developing a proof-of-concept RAG application might seem straightforward, but ensuring its performance meets production standards is a challenging task. Similar to machine learning projects, it's essential to assess the RAG pipeline's performance using a validation dataset and appropriate evaluation metrics.
 
 Several criteria can be used to **evaluate RAG pipeline**. Among them, the diagramm below provides a simple perspective:
 
-![Reference: https://www.trulens.org/trulens_eval/getting_started/core_concepts/rag_triad/](img/ragas_question.jpeg){fig-align="center"} 
+![Reference: https://www.trulens.org/trulens_eval/getting_started/core_concepts/rag_triad/](img/ragas_question.jpeg){fig-align="center"}
 
 Satisfactory evaluations on context relevance (good chunking and embedding), groundedness (good retriever) and answer relevance (good prompt and LLM) will provide confidence that **hallucination risks** are minimized.
 :::
 
 There are different [framework available for RAG Evaluation](https://community.sap.com/t5/technology-blogs-by-members/generative-ai-with-sap-rag-evaluations/ba-p/13572136). Here we test [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/), a framework for reference-free evaluation of RAG pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html). It includes the metrics below:
 
--  [**Context Precision**](https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html) (also called Grounding): Measures whether items present in the contexts are ranked higher or not.
+-   [**Context Precision**](https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html) (also called Grounding): Measures whether items present in the contexts are ranked higher or not.
 
 -   [**Faithfulness**](https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html) (also called Cgroundedness): Measures whether the LLM outputs are based on the provided ground truth.
 
 -   [**Answer relevancy**](https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html): Measures how directly the answer addresses the question.
 
-
-RAGAS is expecting data to be provided in the [datasets format](https://pypi.org/project/datasets/), a format  designed to let the community easily add and share new datasets.
-We need to convert our currentl list into a dictionnary and then export it to the correct format.
-
+RAGAS is expecting data to be provided in the [datasets format](https://pypi.org/project/datasets/), a format designed to let the community easily add and share new datasets. We need to convert our currentl list into a dictionnary and then export it to the correct format.
 
 ```{python}
 from datasets import Dataset 
@@ -904,9 +897,6 @@ response_evaluation_dataset_command_mmr_recursivecharactertext_bge = Dataset.fro
 })
 
 ```
-
-
-
 
 RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#) as a critic of the first one.
 
@@ -928,7 +918,6 @@ critic_llm = HuggingFaceEndpoint(
 )
 
 ```
-
 
 Now we can compile the different metrics!
 
@@ -1050,7 +1039,7 @@ The next step, Fine Tuning comes first with the additional requirement to build 
 
 Building common knowledge on "data retrieval scripts" could be the first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
 
-Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such  **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
+Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
 
 It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudioo](https://labelstud.io/) can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope".
 

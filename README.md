@@ -2,6 +2,8 @@
 
 Retrieval-Augmented Generation (RAG) is an architecture that enhances the capabilities of a Large Language Model (LLM), by incorporating an information retrieval system. This system retrieves relevant data from external sources, here an evaluation report to ground the LLM’s responses. 
 
+Check the [paper here](https://edouard-legoupil.github.io/rag_extraction/)
+
 ## How RAG Works?
 
  - __Generative AI Model__: The LLM generates responses based on the input prompt.

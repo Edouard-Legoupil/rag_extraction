@@ -14,37 +14,34 @@ toc: true
 
 ## Abstract
 
-Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports across the UN system](https://www.uneval.org/evaluation/reports), **information retrieval and evidence generalization** challenges have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
+Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports across the UN system](https://www.uneval.org/evaluation/reports), **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
-The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains more challenging is the subjective dimensions involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... The potential fear of being, like Cassandra, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity of the summarization.
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independance of the evluation report summarization.
 
-Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems, also called text mining. This paper is presenting the challenges and opportunities associated with those new approaches. It targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer.
+Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from domain specific internal data (like an evaluation report). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation. 
 
-First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of models and functions. Rather than relying on ad-hoc user interactions through a black box chat interface, it is possible to set up documented and **reproducible** scripts that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.
+First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of unctions and models from the [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a black box chat interface, it is more relevant to set up documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.
 
-Second, we review the techniques that can be used to **evaluate** and optimize summarisation scripts to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
+Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimise them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
 
-Last we discuss how such approach can actually inform decisions and strategies on future AI **deployment** approaches: i.e. what needs to be set up to create training dataset that would allow to fine-tune models and further increase the performance of evidence retrieval and re-injection.
+Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tune models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.
 
 ## Introduction
 
 Building a robust information retrieval system requires to configure different components:
 
-1)  **Retrieval**: Build a knowledge base and configure how to retrieve the information from it;
+1)  **A Retrieval & Generation Pipeline**: Build a knowledge base and configure how to retrieve the information from it then define efficient prompt to query the system;
 
-2)  **Generation**: Define efficient prompt to query the system;
+2)  **A Continuous Evaluation Process**: Explore and combine various options for both Retrieval and Generation to compare the results.
 
-3)  **Evaluation**: Explore and combine various options for both Retrieval and Generation to compare the results.
+2)  **A Production Deployment Strategy**: Organise AI-ready feedback and prepare data for fine-tuning.
 
-4)  **Deployment**: Organise AI-ready feedback and prepare data for fine-tuning.
+This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can rerun and learn from it. It also contains broader suggestions on the usage of AI for public programme evaluations. 
 
-This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook* with a reproducible recipes so that colleagues can rerun and learn from it. It also contains broader considerations on the usage of AI for public programme evaluations, especially in the last part around deployment. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) to illustrate the process. We hope that eaders will be able to adjust this tutorial to their own use cases! Script below re based on [langChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) python library but the same pipeline could also be built with the other main LLM orchestration library called [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
+Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new)! 
 
-The illustration from [HuggingFace RAG Evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation) below nicely visualize the first two elements of the system architecture: retrieval (that includes: chunking, embedding, storing and retrieving) and generation (that includes prompting an LLM).
-
-![RAG Evaluation, https://huggingface.co/learn/cookbook/en/rag_evaluation](RAG_workflow.png){fig-align="center"}
-
-## Environment Set up
+### Environment Set up
+The world of LLMs is a python one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
 
 Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with [conda](https://docs.conda.io/en/latest/) python modules management utility.
 
@@ -56,7 +53,7 @@ Then activate it! Et voila!
 
 > conda activate evalenv
 
-Once this environment selected as a kernel to run the notebook, we can install the required python libraries for RAG:
+Once this environment selected as a kernel to run the notebook, we can install the required python modules for RAG:
 
 ```{python}
 ## Library to load the PDF
@@ -80,8 +77,15 @@ Once this environment selected as a kernel to run the notebook, we can install t
 ## Library to save the results in a word document
 %pip install --upgrade --quiet python-docx 
 
-## Library to evaluat the RAG process
+## Library to evaluate the RAG process
+%pip install --upgrade --quiet datasets
 %pip install --upgrade --quiet ragas  
+
+## Library to save evaluation dataset in excel
+%pip install --upgrade --quiet panda
+%pip install --upgrade --quiet openpyxl
+%pip install --upgrade --quiet plotly
+
 ```
 
 ```{python}
@@ -89,9 +93,15 @@ Once this environment selected as a kernel to run the notebook, we can install t
 %reset -f
 ```
 
-## Information Retrieval
+## Retrieval & Generation Pipeline 
 
-### Load the PDF
+The illustration from [HuggingFace RAG Evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation) below nicely visualize the first two elements of the system architecture: retrieval (that includes: chunking, embedding, storing and retrieving) and generation (that includes prompting an LLM).
+
+![RAG Evaluation, https://huggingface.co/learn/cookbook/en/rag_evaluation](img/RAG_workflow.png){fig-align="center"}
+
+### Information Retrieval
+
+#### Load the PDF
 
 There plenty of potential python packages to load pdf files... More details [here](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf). Note that more loader also exist for other type of data!!!
 
@@ -101,7 +111,7 @@ loader = PyPDFLoader("files/Info_Mngt_eval_2019.pdf")
 docs = loader.load_and_split()
 ```
 
-### Chunking
+#### Chunking
 
 If you have a large document, because of memory management, you will not be able to process it in one chunk. LangChain offers several built-in text splitters to **divide text into smaller chunks** based on different criteria.
 
@@ -119,19 +129,30 @@ See example to understand how chunking works, see this online [viz](https://hugg
 
 ```{python}
 from langchain.text_splitter import CharacterTextSplitter
-splitter_text = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+splitter_text = CharacterTextSplitter(
+    chunk_size=1000, 
+    chunk_overlap=200
+)
 chunks_text = splitter_text.split_documents(docs)
 ```
 
 ```{python}
 from langchain.text_splitter import RecursiveCharacterTextSplitter 
-splitter_recursivecharactertext = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+splitter_recursivecharactertext = RecursiveCharacterTextSplitter(
+    chunk_size=1000, 
+    chunk_overlap=200,
+    add_start_index=True,
+    separators=["\n\n", "\n", ".", " ", ""],
+)
 chunks_recursivecharactertext = splitter_recursivecharactertext.split_documents(docs)
 ```
 
 ```{python}
 from langchain.text_splitter import TokenTextSplitter
-splitter_tokentext = TokenTextSplitter(chunk_size=1000, chunk_overlap=200)
+splitter_tokentext = TokenTextSplitter(
+    chunk_size=1000, 
+    chunk_overlap=200
+)
 chunks_tokentext = splitter_tokentext.split_documents(docs)
 ```
 
@@ -141,7 +162,7 @@ splitter_nltktext = NLTKTextSplitter(chunk_size=1000)
 chunks_nltktext = splitter_nltktext.split_documents(docs)
 ```
 
-### Instantiate a Vector Database
+#### Instantiate a Vector Database
 
 A [vector database](https://python.langchain.com/docs/modules/data_connection/vectorstores/) is a database that allows to efficiently store and query embeddings. Embedding are actually a **numeric representation of text data**. This conversion from text to numeric is used to represent words, sentences, or even entire documents in a compact and meaningful way. It captures the essence of a word’s meaning, context, and relationships with other words.
 
@@ -157,11 +178,9 @@ chroma_client = chromadb.PersistentClient(path="persist/")
 #chroma_collection = chroma_client.create_collection('collection')
 ```
 
-### Generate Embedding
+#### Generate Embedding
 
 To generate embedding, we need a dedicated model and there's no single "best" option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.
-
-LangChain often integrates with libraries like [Hugging Face Transformers](https://huggingface.co/sentence-transformers) for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.
 
 Here we start with testing with [GPT4ALL](https://python.langchain.com/v0.1/docs/integrations/text_embedding/gpt4all/)
 
@@ -178,7 +197,6 @@ vectorstore_text_bert = Chroma.from_documents(
     embedding=embeddings_bert, 
     collection_name= "text_bert",
     persist_directory = "persist")
-vectorstore_text_bert.persist()
 ```
 
 ```{python}
@@ -187,7 +205,6 @@ vectorstore_recursivecharactertext_bert = Chroma.from_documents(
     embedding=embeddings_bert,
     collection_name= "recursivecharactertext_bert",
     persist_directory = "persist")
-vectorstore_recursivecharactertext_bert.persist()
 ```
 
 ```{python}
@@ -196,7 +213,6 @@ vectorstore_tokentext_bert = Chroma.from_documents(
     embedding=embeddings_bert, 
     collection_name= "tokentext_bert",
     persist_directory = "persist")
-vectorstore_tokentext_bert.persist()
 ```
 
 ```{python}
@@ -205,10 +221,9 @@ vectorstore_nltktext_bert = Chroma.from_documents(
     embedding=embeddings_bert, 
     collection_name= "nltktext_bert",
     persist_directory = "persist")
-vectorstore_nltktext_bert.persist()
 ```
 
-### Get from persistent storage
+#### Get from persistent storage
 
 Chroma can run in various modes. Here we used the `persist` mode that allows to save to disk and load later. We can then re-open a previous database using its folder path:
 
@@ -227,15 +242,14 @@ print(collections)
 and get a previously saved vector collection
 
 ```{python}
-vectorstore2_text_bert = Chroma(collection_name="text_bert",
+vectorstore_text_bert = Chroma(collection_name="text_bert",
                                 persist_directory="persist/", 
-                                embedding_function=embeddings_bert)
- 
+                                embedding_function=embeddings_bert) 
 ```
 
-## Content Generation
+### Content Generation
 
-### Set up a local LLM
+#### Set up a local LLM
 
 If do not have access to a LLM API, an alternative is to install a local one and there are again plenty of Foundation LLM options to select from. Foundation models are AI neural networks trained on massive amounts of raw data (usually with unsupervised learning) that can be adapted to a wide variety of tasks.
 
@@ -259,7 +273,7 @@ Below, we start with [Mixtral Sparse Mixture-of-Expert](https://mistral.ai/news/
 
 ```{python}
 from langchain_community.chat_models import ChatOllama
-llm_ollama = ChatOllama(
+ollama_mixtral = ChatOllama(
     model="mixtral:8x7b-instruct-v0.1-q4_K_M",  
     temperature=0.2, 
     request_timeout=500
@@ -268,7 +282,7 @@ llm_ollama = ChatOllama(
 
 The temperature is setting the *creativeness* of the response - the higher the more creative - below we will remain conservative! It is the equivalent of the *conversation style* setting in copilot: *creative \[1-0.7\], balanced \]0.7-0.4\], precise \]0.4,0\]*...
 
-### Summarisation Prompt
+#### Summarisation Prompt
 
 A prompt is is a piece of text or a set of instructions, used by the LLM to generate a response or perform a task. Writing a good summarization prompt involves a few key steps:
 
@@ -289,11 +303,11 @@ Mixtral comes with specific tags to use for the prompt:
 ```{python}
 RAG_prompt = """
 <s> 
-
-[INST]Act if you were a public program evaluation specialist. 
+[INST]Act if you were a public program evaluation expert working for UNHCR. 
 Your audience target is composed of Senior Executives that are managing the operation or program that got evaluated.[/INST]
 
-Your task is to generate an executive summary of the report you just ingested. </s>
+Your task is to generate an executive summary of the report you just ingested. 
+</s>
 
 [INST]
 The summary should follow the following defined structure:
@@ -318,7 +332,7 @@ The summary should follow the following defined structure:
 """
 ```
 
-### Set up the Retriever
+#### Set up the Retriever
 
 A [retriever](https://python.langchain.com/docs/modules/data_connection/retrievers/) acts as an information gatekeeper in the RAG architecture. Its primary function is to search through a large corpus of data to find relevant pieces of information that can be used for text generation. You can think of it as a specialized librarian who knows exactly which ‘books’ to pull off the ‘shelves’ when you ask a question. In other words, the retriever first fetches relevant parts of the document pertaining to the user query, and then the Large Language Model (LLM) uses this information to generate a response.
 
@@ -370,26 +384,88 @@ ragRetriever_similarity_nltktext_bert = vectorstore_nltktext_bert.as_retriever(
 )
 ```
 
-### Build the Chain
+Advance retrieving strategies can also be used. For instance, using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the  context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged  based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get ued to augment generation.
+
+```{python}
+from langchain.retrievers import ParentDocumentRetriever
+from langchain.storage import InMemoryStore
+
+# parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)
+# child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)
+
+# store = InMemoryStore()
+
+# parent_document_retriever = ParentDocumentRetriever(
+#     vectorstore= vectorstore_nltktext_bert,
+#     docstore=store,
+#     child_splitter=child_splitter,
+#     parent_splitter=parent_splitter,
+# )
+# parent_document_retriever.add_documents(docs)
+```
+
+ 
+**Ensemble retrieval** is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs  are "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
+
+
+```{python}
+from langchain.retrievers import BM25Retriever, EnsembleRetriever
+
+# text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=16)
+# docs = text_splitter.split_documents(all_docs)
+# bm25_retriever = BM25Retriever.from_documents(docs)
+# bm25_retriever.k = 3
+
+# vectorstore = Chroma.from_documents(docs, hf_bge_embeddings)
+# chroma_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+
+# ensemble_retriever = EnsembleRetriever(
+#     retrievers=[bm25_retriever, chroma_retriever], 
+#    # Relative weighting of each retriever needs to sums to 1!
+#     weights=[0.42, 0.58])
+
+```
+
+#### Build the Chain
 
 A retrieval question-answer chain act as a pipe: it takes an incoming question, look up relevant documents using a retriever, then pass those documents along with the original question into an LLM and return the answer the original question.
+
+```{python}
+from langchain_core.prompts import ChatPromptTemplate
+prompt_retrieval = ChatPromptTemplate.from_template(
+"""Answer the following question based only on the provided context:
+<context>
+{context}
+</context>
+Question: {input}"""
+)
+```
+
+and last the retrieval chain!
+
+```{python}
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
+
+combine_docs_chain_mixtral = create_stuff_documents_chain(
+    ollama_mixtral ,
+    prompt_retrieval
+)
+qa_chain = create_retrieval_chain(
+    ragRetriever_recursivecharactertext_bert, 
+    combine_docs_chain_mixtral
+)
+```
 
 Note that from this stage, the following steps may take time to run - this will be highly dependent on the power of your computer - obviously the availability of GPUs - Graphical Processing Unit - will significantly increase the speed! FYI, this notebook was built on a Thinkpad P53 with a Quadro T1000 GPU.
 
 ```{python}
-from langchain.chains import RetrievalQA
-qa_chain = RetrievalQA.from_chain_type(
-        llm=llm_ollama,
-        retriever=ragRetriever_recursivecharactertext_bert, 
-        chain_type="stuff",
-        return_source_documents=True)
-
-response_text_bert = qa_chain(RAG_prompt)
+response_text_bert = qa_chain.invoke({"input": RAG_prompt}) 
 ```
 
-### Save in a word document
+#### Save in a word document
 
-To complete the process, let's save the results within a a word document! This again can be automated
+To complete the process, let's save the result directly within a [word document](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx)! This again can be automated as below:
 
 ```{python}
 import docx
@@ -404,7 +480,7 @@ doc.add_heading('Evaluation Brief', 0)
 p = doc.add_paragraph()
 
 # Add a run with the summary and format it
-run = p.add_run(response_text_bert["result"])
+run = p.add_run(response_text_bert["answer"])
 run.font.name = 'Arial'
 run.font.size = docx.shared.Pt(12)
 
@@ -420,35 +496,43 @@ doc_para.add_run('This document contains material generated by artificial intell
 doc.save("generated/Evaluation_Brief_response_text_bert.docx")
 ```
 
-## Process Evaluation
+## Continuous Evaluation Process
 
 We were able to get a first brief... still how can we assess how good is this report?
 
 ### Build an alternate "Brief"
 
-Let's try to generate a second report with different settings. Let's try first with a second embedding model... [Hugging face](https://huggingface.co/models?pipeline_tag=feature-extraction&sort=trending) has many options... and there is even a [leaderboard](https://huggingface.co/spaces/mteb/leaderboard) to see how they compete... We will select here the embedding model [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) from the Beijing Academy of Artificial Intelligence. It is small in size but efficient and it does not consume too much memory.
+Let's try to generate a second report with different settings. 
+
+LangChain often integrates with libraries like [Hugging Face Transformers](https://huggingface.co/sentence-transformers) for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.
+
+Let's try first with a second embedding model... [Hugging face](https://huggingface.co/models?pipeline_tag=feature-extraction&sort=trending) has many options... and there is even a [leaderboard](https://huggingface.co/spaces/mteb/leaderboard) to see how they compete... We will select here the embedding model [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) from the Beijing Academy of Artificial Intelligence. It is small in size but efficient and it does not consume too much memory.
 
 ```{python}
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
-
-model_name = "BAAI/bge-small-en"
-model_kwargs = {"device": "cpu"}
-encode_kwargs = {"normalize_embeddings": True}
 embeddings_bge= HuggingFaceBgeEmbeddings(
-    model_name=model_name, model_kwargs=model_kwargs, encode_kwargs=encode_kwargs
+    model_name="BAAI/bge-small-en",
+    model_kwargs={"device": "cpu"}, 
+    encode_kwargs={"normalize_embeddings": True}
 )
 ```
 
 We build the vector store using the new embedding...
 
 ```{python}
+# Disable TOKENIZERS warning
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+```
+
+```{python}
 vectorstore_recursivecharactertext_bge = Chroma.from_documents(chunks_recursivecharactertext,
                                                    embeddings_bge,
                                                collection_name= "recursivecharactertext_bge",
-                                               persist_directory = "persist")
+                                               persist_directory = "persist" )
 ```
 
-...create our retriever now using Maximum Marginal Relevance...
+...create a different retriever now using Maximum Marginal Relevance...
 
 ```{python}
 ragRetriever_mmr_recursivecharactertext_bge = vectorstore_recursivecharactertext_bge.as_retriever(
@@ -460,7 +544,7 @@ and let's use a different model for the LLM: [command-r)](https://cohere.com/blo
 
 ```{python}
 from langchain_community.chat_models import ChatOllama
-llm_ollama2 = ChatOllama(
+ollama_commandR = ChatOllama(
     model="command-r:35b-v0.1-q4_K_M",  
     temperature=0.2, 
     request_timeout=500
@@ -470,35 +554,37 @@ llm_ollama2 = ChatOllama(
 ... and then get our summary with the second LLM!
 
 ```{python}
-from langchain.chains import RetrievalQA
-qa_chain = RetrievalQA.from_chain_type(
-        llm=llm_ollama2,
-        retriever=ragRetriever_mmr_recursivecharactertext_bge, 
-        chain_type="stuff",
-        return_source_documents=True)
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
 
-response_mmr_recursivecharactertext_bge = qa_chain(RAG_prompt)
+combine_docs_chain_commandR = create_stuff_documents_chain(
+    ollama_commandR ,
+    prompt_retrieval
+)
+qa_chain = create_retrieval_chain(
+    ragRetriever_mmr_recursivecharactertext_bge, 
+    combine_docs_chain_commandR
+)
+
+response_mmr_recursivecharactertext_bge = qa_chain.invoke({"input": RAG_prompt}) 
 ```
 
-Now saving it in a word document!
+Now saving it in a [word document](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx)!
 
 ```{python}
 import docx
 
 # Create a document
 doc = docx.Document()
-
 # add a heading of level 0 (largest heading)
 doc.add_heading('Evaluation Brief', 0) 
-
 # Add another paragraph
 p = doc.add_paragraph()
 
 # Add a run with the summary and format it
-run = p.add_run(response_mmr_recursivecharactertext_bge["result"])
+run = p.add_run(response_mmr_recursivecharactertext_bge["answer"])
 run.font.name = 'Arial'
 run.font.size = docx.shared.Pt(12)
-
 
 ## Add  a disclaimer... ----------------
 # add a page break to start a new page
@@ -512,15 +598,25 @@ doc_para.add_run('This document contains material generated by artificial intell
 doc.save("generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx")
 ```
 
-Et voila! When reading the two reports, we can see significant differences... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let's **evaluate** the quality of the summarization to objectively find out about this!
+Et voila! 
+Though When reading the two briefs, [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), we can see significant differences... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let's **evaluate** the quality of the summarization to objectively find out about this!
 
 ### Building the evaluation dataset
 
-To do the evaluation, first we need to build an large-enough evaluation dataset so that the evaluation is based on multiple output. One approach is to extract from the report both:
+To do the evaluation, first we need to build an large-enough evaluation dataset so that the evaluation is based on multiple output. We need to build the following data
+
+ -  **question**: list[str] - These are the questions the RAG pipeline will be evaluated on.
+
+ -  **contexts**: list[list[str]] - The contexts which were retrieved and passed into the LLM corresponding to each question. This is a list[list] since each question can retrieve multiple text chunks.
+
+ -  **answer**: list[str] - The answer that got generated from the RAG pipeline.
+
+
+One approach is to extract from the report both:
 
 -   all **findings and evidence**, i.e. what can be learnt from the specific context of this evaluation study, what are the root causes for the finding in this context and what are the main risks and difficulties in this context.
 
--   all **recommendations**, flagging clearly if the recommendations relate to practices that should be either discontinued on one side or on the other side to practices that should be scaled up.
+-   all **recommendations**, flagging clearly if the recommendations relate to practices that should be either discontinued on one side or on the other side to practices that should be scaled up and of if they comes with resource allocation requirement.
 
 To provide more perspectives for the extraction, the report can be reviewed from the angle of each of the potential 26 different type of experts that may look at UNHCR programme:
 
@@ -558,95 +654,405 @@ To provide more perspectives for the extraction, the report can be reviewed from
     4.  External engagement and resource mobilization
     5.  Leadership and governance
 
-```{python}
-# create the QA chain
-from langchain.chains import RetrievalQA
-qa_chain = RetrievalQA.from_chain_type(
-        llm=llm_ollama,
-        retriever=ragRetriever_mmr_recursivecharactertext_bge, 
-        return_source_documents=True)
+First let's set up the prompt questions 
 
-# testing it out
-question = "Provide a list of all organisational recommendations within the report"
-#result = qa_chain({"query": question})
-#result["result"]
+```{python}
+# Define the list of experts on impact - outcome - organisation
+q_experts = [
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Attaining favorable protection environments---: i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Realizing rights in safe environments---: i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Empowering communities and achieving gender equality--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
+    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Securing durable solutions--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
+
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: ---Access to territory registration and documentation ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Status determination ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Protection policy and law---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Gender-based violence ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Child protection ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Safety and access to justice ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Community engagement and women's empowerment ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Well-being and basic needs ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Sustainable housing and settlements ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Healthy lives---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Education ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Clean water sanitation and hygiene ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Self-reliance, Economic inclusion, and livelihoods ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Voluntary repatriation and sustainable reintegration ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Resettlement and complementary pathways---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Local integration and other local solutions ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]", 
+
+
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Systems and processes Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" #,
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Operational support and supply chain Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on People and culture Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on External engagement and resource mobilization Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Leadership and governance Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" 
+
+    # ...
+]
+
+# Predefined knowledge extraction questions
+q_questions = [
+    "List, as bullet points, all findings in relation to your specific area of expertise and focus. ",
+    # "List, as bullet points, all evidences in relation to your specific area of expertise and focus. ",
+    " Explain, in relation to your specific area of expertise and focus, what are the root causes for the situation. " ,
+    # " Explain, in relation to your specific area of expertise and focus, what are the main risks here described. ",
+    # " Explain, in relation to your specific area of expertise and focus, what are the main difficulties here described. ",
+     " Explain, in relation to your specific area of expertise and focus, what what can be learnt. ",
+     "List, as bullet points, all recommendations made in relation to your specific area of expertise and focus. "#,
+    # "Indicate if mentionnend what resource will be required to implement the recommendations made in relation to your specific area of expertise and focus. ",
+    # "List, as bullet points, all recommendations made in relation to your specific area of expertise and focus that relates to topics  or activities recommended to be discontinued. ",
+    # "List, as bullet points, all recommendations made in relation to your specific area of expertise and focus that relates to topics or activities recommended to be scaled up. " 
+    # Add more questions here...
+]
+
+## Additional instructions!
+q_instr = """
+</s>
+[INST]  
+Keep your answer grounded in the facts of the contexts. 
+If the contexts do not contain the facts to answer the QUESTION, return {NONE} 
+Be concise in the response and  when relevant include precise citations from the contexts. 
+[/INST] 
+"""
+```
+
+then reset the 2 RAG pipleline
+we have 2 llm
+
+```{python}
+from langchain_community.chat_models import ChatOllama
+ollama_mixtral = ChatOllama(
+    model="mixtral:8x7b-instruct-v0.1-q4_K_M",  
+    temperature=0.2, 
+    request_timeout=500
+)
+ollama_commandR = ChatOllama(
+    model="command-r:35b-v0.1-q4_K_M",  
+    temperature=0.2, 
+    request_timeout=500
+)
+```
+
+Then the 2 embeding models
+
+```{python}
+from langchain_community.embeddings import GPT4AllEmbeddings 
+embeddings_bert = GPT4AllEmbeddings()
+
+from langchain_community.embeddings import HuggingFaceBgeEmbeddings
+embeddings_bge= HuggingFaceBgeEmbeddings(
+    model_name="BAAI/bge-small-en",
+    model_kwargs={"device": "cpu"}, 
+    encode_kwargs={"normalize_embeddings": True}
+)
+```
+
+Now we reload the 2 previous vector store
+
+```{python}
+from langchain_community.vectorstores import Chroma
+import chromadb
+client = chromadb.PersistentClient(path="persist/")
+
+vectorstore_recursivecharactertext_bert = Chroma(
+    collection_name="recursivecharactertext_bert",
+    persist_directory="persist/", 
+    embedding_function=embeddings_bert
+)
+
+vectorstore_recursivecharactertext_bge = Chroma(
+    collection_name="recursivecharactertext_bge",
+    persist_directory="persist/", 
+    embedding_function=embeddings_bge
+)    
+```
+
+and related retrievers
+
+```{python}
+ragRetriever_recursivecharactertext_bert = vectorstore_recursivecharactertext_bert.as_retriever()
+
+ragRetriever_mmr_recursivecharactertext_bge = vectorstore_recursivecharactertext_bge.as_retriever(
+            search_type="mmr"
+) 
+```
+
+The main prompt template
+
+```{python}
+from langchain_core.prompts import ChatPromptTemplate
+prompt_retrieval = ChatPromptTemplate.from_template(
+"""Answer the following question based only on the provided context:
+<context>
+{context}
+</context>
+Question: {input}"""
+)
+
+```
+
+and last the retrieval chain!
+
+```{python}
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
+
+combine_docs_chain_mixtral = create_stuff_documents_chain(
+    ollama_mixtral ,
+    prompt_retrieval
+)
+qa_chain_mixtral_recursivecharactertext_bert = create_retrieval_chain(
+    ragRetriever_recursivecharactertext_bert, 
+    combine_docs_chain_mixtral
+)
+
+
+combine_docs_chain_command = create_stuff_documents_chain(
+    ollama_commandR,
+    prompt_retrieval
+)
+qa_chain_command_mmr_recursivecharactertext_bge = create_retrieval_chain(
+    ragRetriever_mmr_recursivecharactertext_bge, 
+    combine_docs_chain_mixtral
+)
+```
+
+and now build the two evaluation dataset by iterating over expert profiles and questions!
+```{python}
+# Create dataset (empty list for now)
+dataset_mixtral_recursivecharactertext_bert = []
+
+# Iterate through each expert question and its corresponding context list
+for expert  in  q_experts:
+    for question in q_questions:
+        # Generate response 
+        response = qa_chain_mixtral_recursivecharactertext_bert.invoke({"input":  expert + question +  q_instr})
+        # Add context-question-response to dataset
+        dataset_mixtral_recursivecharactertext_bert.append({
+           "question": expert + question +  q_instr,
+            "contexts": [context.page_content for context in response["context"]],
+            "answer":  response["answer"]
+        })
+
+#Save this to the disk! 
+import pandas as pd
+dataset_mixtral_recursivecharactertext_bert_d = pd.DataFrame(dataset_mixtral_recursivecharactertext_bert)
+dataset_mixtral_recursivecharactertext_bert_d.to_excel("dataset_mixtral_recursivecharactertext_bert.xlsx") 
+
+```
+
+```{python}
+# Create dataset (empty list for now)
+dataset_command_mmr_recursivecharactertext_bge = []
+
+# Iterate through each expert question and its corresponding context list
+for expert  in  q_experts:
+    for question in q_questions:
+        # Generate response with Ollama
+        response = qa_chain_command_mmr_recursivecharactertext_bge.invoke({"input":  expert + question +  q_instr})
+        # Add context-question-response to dataset
+        dataset_command_mmr_recursivecharactertext_bge.append({
+            "question": expert + question +  q_instr, 
+            "contexts": [context.page_content for context in response["context"]],
+            "answer":  response["answer"]
+        })
+#Save this to the disk! 
+import pandas as pd
+dataset_command_mmr_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_mmr_recursivecharactertext_bge)
+dataset_command_mmr_recursivecharactertext_bge_d.to_excel("dataset_command_mmr_recursivecharactertext_bge.xlsx") 
 ```
 
 ### Metrics Measurement
-
-Getting the RAG pipeline's performance to a satisfying state is not straightforward. [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/) is a framework for reference-free evaluation of RAG pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html).
+ 
 
 ::: callout-note
-There are several criteria used to **evaluate RAG applications**:
+Developing a proof-of-concept RAG application might seem straightforward, but ensuring its performance meets production standards is a challenging task. Similar to machine learning projects, it's essential to assess the RAG pipeline's performance using a validation dataset and appropriate evaluation metrics.
 
-1.  Context-based for the **Retriever**: :
+Several criteria can be used to **evaluate RAG pipeline**. Among them, the diagramm below provides a simple perspective:
 
--   [**Context recall**](https://docs.ragas.io/en/stable/concepts/metrics/context_recall.html): Measures whether the context contains the correct information, compared to a provided ground truth, in order to produce an answer.
+![Reference: https://www.trulens.org/trulens_eval/getting_started/core_concepts/rag_triad/](img/ragas_question.jpeg){fig-align="center"} 
 
--   [**Context Precision**](https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html) (also called Grounding): Measures whether items present in the contexts are ranked higher or not.
-
-2.  Output-based for the **Generator** (LLM):
-
--   [**Faithfulness**](https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html) (also called Correctness or Factuality): Measures whether the LLM outputs are based on the provided ground truth.
-
--   [**Answer relevancy**](https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html): Measures how directly the answer addresses the question.
+Satisfactory evaluations on context relevance (good chunking and embedding), groundedness (good retriever) and answer relevance (good prompt and LLM) will provide confidence that **hallucination risks** are minimized.
 :::
 
-We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#) as a critic of the first one
+There are different [framework available for RAG Evaluation](https://community.sap.com/t5/technology-blogs-by-members/generative-ai-with-sap-rag-evaluations/ba-p/13572136). Here we test [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/), a framework for reference-free evaluation of RAG pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html). It includes the metrics below:
+
+-  [**Context Precision**](https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html) (also called Grounding): Measures whether items present in the contexts are ranked higher or not.
+
+-   [**Faithfulness**](https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html) (also called Cgroundedness): Measures whether the LLM outputs are based on the provided ground truth.
+
+-   [**Answer relevancy**](https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html): Measures how directly the answer addresses the question.
+
+
+RAGAS is expecting data to be provided in the [datasets format](https://pypi.org/project/datasets/), a format  designed to let the community easily add and share new datasets.
+We need to convert our currentl list into a dictionnary and then export it to the correct format.
+
 
 ```{python}
-# from langchain_community.llms import VLLM
+from datasets import Dataset 
+response_evaluation_dataset_mixtral_recursivecharactertext_bert = Dataset.from_dict({
+    "question" : dataset_mixtral_recursivecharactertext_bert_d["question"].values.tolist(),
+    "answer" : dataset_mixtral_recursivecharactertext_bert_d["answer"].values.tolist() ,
+    "contexts" : dataset_mixtral_recursivecharactertext_bert_d["contexts"].values.tolist()
+})
 
-# critic_llm = VLLM(
-#     model="explodinggradients/Ragas-critic-llm-Qwen1.5-GPTQ",
-#     trust_remote_code=True,  # mandatory for hf models
-#     max_new_tokens=512,
-#     top_k=10,
-#     top_p=0.95,
-#     temperature=0.0,)
-
+response_evaluation_dataset_command_mmr_recursivecharactertext_bge = Dataset.from_dict({
+    "question" : dataset_command_mmr_recursivecharactertext_bge_d["question"].values.tolist(),
+    "answer" : dataset_command_mmr_recursivecharactertext_bge_d["answer"].values.tolist() ,
+    "contexts" : dataset_command_mmr_recursivecharactertext_bge_d["contexts"].values.tolist()
+})
 
 ```
 
-```{python}
-# from ragas import evaluate
-  
-```
+
+
+
+RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#) as a critic of the first one.
+
+Let's use [Huggingface Endpoints](https://python.langchain.com/v0.1/docs/integrations/llms/huggingface_endpoint/) for that! The Hugging Face Hub is a platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
 
 ```{python}
-# from ragas.metrics import context_precision, answer_relevancy, faithfulness
-# from ragas import evaluate
- 
-# raga_result = evaluate(
-#     dataset=result,
-#     llm=critic_llm,
-#     metrics=[context_precision, faithfulness, answer_relevancy],
-# )
+import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+## Personal token stored in .env file
+HFtoken = os.environ.get("HUGGINGFACEHUB_API_TOKEN")
+
+from langchain_community.llms import HuggingFaceEndpoint
+critic_llm = HuggingFaceEndpoint(
+    repo_id="mistralai/Mistral-7B-Instruct-v0.2", 
+    max_length=128, 
+    temperature=0.2, 
+    token=HFtoken
+)
+
 ```
 
-## AI Deployment
+
+Now we can compile the different metrics!
+
+```{python}
+#from ragas.metrics.critique import harmfulness
+from ragas import evaluate
+from ragas.metrics import (
+    answer_relevancy,
+    answer_similarity,
+    faithfulness,
+    answer_correctness,
+    context_recall,
+    context_precision,
+    context_relevancy
+)
+
+## The following ragas metrics requires 'ground_truth' information
+       # answer_similarity,
+       # answer_correctness,
+       # context_precision,
+       # context_precision,
+
+raga_result_mixtral_recursivecharactertext_bert = evaluate(
+    dataset=response_evaluation_dataset_mixtral_recursivecharactertext_bert,
+    llm=critic_llm, 
+    embeddings=embeddings_bert,
+    metrics=[
+        answer_relevancy,
+        faithfulness,
+        answer_relevancy],
+ raise_exceptions=False
+)
+data_mixtral_recursivecharactertext_bert = {
+   # 'context_precision': raga_result_mixtral_recursivecharactertext_bert['context_precision'],
+   # 'context_recall': raga_result_mixtral_recursivecharactertext_bert['context_recall'],
+    #'answer_correctness': raga_result_mixtral_recursivecharactertext_bert['answer_correctness'],
+   # 'answer_similarity': raga_result_mixtral_recursivecharactertext_bert['answer_similarity'],
+   # 'context_relevancy': raga_result_mixtral_recursivecharactertext_bert['context_relevancy'],
+    'faithfulness': raga_result_mixtral_recursivecharactertext_bert['faithfulness'],
+    'answer_relevancy': raga_result_mixtral_recursivecharactertext_bert['answer_relevancy']
+}
+
+raga_result_command_mmr_recursivecharactertext_bge = evaluate(
+    dataset=response_evaluation_dataset_command_mmr_recursivecharactertext_bge,
+    llm=critic_llm, 
+    embeddings=embeddings_bert,
+    metrics=[
+        answer_relevancy,
+        faithfulness,
+        answer_relevancy],
+ raise_exceptions=False
+)
+data_command_mmr_recursivecharactertext_bge = {
+   # 'context_precision': raga_result_command_mmr_recursivecharactertext_bge['context_precision'],
+   # 'context_recall': raga_result_command_mmr_recursivecharactertext_bge['context_recall'],
+    #'answer_correctness': raga_result_command_mmr_recursivecharactertext_bge['answer_correctness'],
+   # 'answer_similarity': raga_result_command_mmr_recursivecharactertext_bge['answer_similarity'],
+   # 'context_relevancy': raga_result['context_relevancy'],
+    'faithfulness': raga_result_command_mmr_recursivecharactertext_bge['faithfulness'],
+    'answer_relevancy': raga_result_command_mmr_recursivecharactertext_bge['answer_relevancy']
+}
+
+```
+
+We can summarise the results with a radar chart:
+
+```{python}
+import plotly.graph_objects as go
+fig = go.Figure()
+
+fig.add_trace(go.Scatterpolar(
+    r=list(data_mixtral_recursivecharactertext_bert.values()),
+    theta=list(data_mixtral_recursivecharactertext_bert.keys()),
+    fill='toself',
+    name='RAG_mixtral_recursivecharactertext_bert'
+))
+
+fig.add_trace(go.Scatterpolar(
+    r=list(data_command_mmr_recursivecharactertext_bge.values()),
+    theta=list(data_command_mmr_recursivecharactertext_bge.keys()),
+    fill='toself',
+    name='RAG_command_mmr_recursivecharactertext_bge'
+))
+
+
+fig.update_layout(
+    polar=dict(
+        radialaxis=dict(
+            visible=True,
+            range=[0, 1]
+        )),
+    showlegend=True,
+    title='Retrieval Augmented Generation - Evaluation',
+    width=800,
+)
+
+fig.show()
+```
+
+## Production Deployment Strategy
 
 ### Buy or Build?
 
-As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness), there are potential graduated steps in terms of deployment: consume, embed, extend and build, and for each strategic decisions between outsourced/internalized are required.
+As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness), there are potential graduated stage to consider in terms of deployment: consume, embed, extend and build, and for each of them, strategic decisions between outsourced/internalized are required.
 
-[![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
+[![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
 
 Using off-the-shelves solutions, such as Commercial Copilot, in a "consume or embed" mode comes with inherent limitations:
 
--   to incorporate organization specific Knowledge in a systematic way;
+-   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with tested and assessd RAG pipeline!);
 -   to continuously update the knowledge base with any latest content;
 -   to prevent what is called "Hallucinations", in other words the risk of generating incorrect or misleading information, that would not be context-aware.
 
 This paper actually presented a recipe to extend existing foundation model, using the first step: Data Retrival and Prompt engineering. We highlighted the importance of the configuration to ensure the **reliability of the system** and therefore the relevance of managing directly such process.
 
-The next step, Fine Tuning comes first with the additional requirement to build AI ready and validated data.
+The next step, Fine Tuning comes first with the additional requirement to build AI ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automating stuff in private clouds.
 
-### AI ready data & Human Review
+### AI ready data: Human Review for 'ground_truth'
 
 Building common knowledge on "data retrieval scripts" could be the first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
 
-Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudioo](https://labelstud.io/) can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope".
+Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such  **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
+
+It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudioo](https://labelstud.io/) can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope".
 
 After the peer review is sent to observation, operation feedback on the review can also be collected and use at a later stage to further fine tune the model
 

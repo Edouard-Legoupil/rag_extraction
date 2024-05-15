@@ -1059,7 +1059,7 @@ Above, we presented a recipe to extend existing foundation model, using the firs
 
 Building common knowledge on "data retrieval scripts" could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
 
-The next step, Fine Tuning comes first with the additional requirement to build AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automation in private clouds.
+The next step, Task-Specific & Alignment Fine Tuning comes first with the additional requirement to build AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automation in private clouds.
 
 ### AI ready data: Human Review for 'ground_truth'
 
@@ -1071,7 +1071,7 @@ After the peer review is sent to observation, operation feedback on the review c
 
 ### A Fine-Tuned "expert" Model!
 
-Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open "foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and ["open artificial intelligence models"](https://www.un.org/techenvoy/content/digital-public-goods), the resulting fine-tuned model could also be published on [huggingface](https://huggingface.co/).
+Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open "foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and ["open artificial intelligence models"](https://www.un.org/techenvoy/content/digital-public-goods), the resulting fine-tuned model could also be published on [UNHCR Hugging Face Organisation Account](https://huggingface.co/unhcr) or an intergancy one to be created...
 
 A fine tune model could help front-loading many more contexts that a simple foundation model:
 
@@ -1092,11 +1092,12 @@ Given the size of linked investment, pooling expertise (sharing scripts) and acc
 
 ## Acknowledgement
 
-Expressing thanks for all AI expert that are taking time to build open source tools for this new technology and create tutorials. There are many of them but to recommend a few:
+Expressing thanks for all AI experts that are taking time to build open source tools for this new technology and create tutorials. There are many of them and the list below is far from exhaustive:
 
  - [https://huggingface.co/learn/cookbook/en/advanced_rag](https://huggingface.co/learn/cookbook/en/advanced_rag)
  - [https://huggingface.co/learn/cookbook/en/rag_evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation)
  - [https://huggingface.co/learn/cookbook/en/llm_judge](https://huggingface.co/learn/cookbook/en/llm_judge)
  - [https://github.com/langchain-ai/rag-from-scratch](https://github.com/langchain-ai/rag-from-scratch)
+ - [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf)
 
 Thanks also all UNHCR colleagues who took the time to review and proof read this document.

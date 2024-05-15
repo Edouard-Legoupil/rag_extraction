@@ -17,14 +17,35 @@ Speaker notes go here.
 ## Current Challenge
 
 
-Considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen:
+:::: columns
+::: {.column width="60%"}
+ 
+Considering the [number of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen.
+
+
+:::
+
+::: {.column width="40%"}
+![](img/book-address-book-learning-education-baef58-1024.jpg){fit-align="center"}
+
+:::
+::::
 
  How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
 
-## The [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** is triggered by AI
 
-![The twenty-first century experimenting society: the four waves of the evidence revolution, published in Nature, Howard White, 2019](img/GIZQ0_MWYAAZiUJ.png){fit-align="center"}
+
+
+## The fifth wave of the **evidence revolution** will be triggered by AI
+
+![](img/GIZQ0_MWYAAZiUJ.png){fit-align="center"}
+
+
+::: {style="font-size: 50%;"}
+[The four waves of the evidence revolution, published in Nature, Howard White, 2019](https://www.nature.com/articles/s41599-019-0253-6)
+:::
+ 
 
 
 
@@ -52,16 +73,52 @@ Considering the [numbers of published evaluation reports](https://www.uneval.org
 The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in
 
  The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden.
-
-
 :::
 
 
-## Retrieval-augmented generation (RAG) at rescue
+## Retrieval Augmented Generation (RAG) at Rescue
 
 ![](img/RAG_workflow.png){fit-align="center"}
 
+::: {.notes}
+ note....
+:::
 
+## Builing a RAG Pipeline requires test & evaluation
+
+ 
+::: {.notes}
+ note....
+:::
+
+## A RAG Evaluation Framework
+
+![](img/ragas_question.jpeg){fit-align="center"}
+
+::: {.notes}
+ note....
+:::
+
+## Applying Data Science Approach - documentation & reproducibility
+
+::: {.notes}
+ note....
+:::
+
+
+## The next stage: Human-in-the-loop for Task-Specific & Alignment  Fine tuning
+
+::: {.notes}
+ note....
+:::
+
+## AI Deployment: Buy or Build?
+
+![](img/GL0vYd_WcAAqUDZ.png){fit-align="center"}
+
+::: {.notes}
+ note....
+:::
 
 ## Presentation title
 

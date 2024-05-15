@@ -6,6 +6,8 @@ author: Edouard Legoupil, UNHCR Evaluation Office
 format: unhcr-html
 jupyter: python3
 toc: true
+execute:
+  eval: false
 ---
 
 ::: {.bg-primary .text-white .p-3 .column-page}
@@ -902,23 +904,23 @@ response_evaluation_dataset_command_mmr_recursivecharactertext_bge = Dataset.fro
 
 RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#) as a critic of the first one.
 
-Let's use [Huggingface Endpoints](https://python.langchain.com/v0.1/docs/integrations/llms/huggingface_endpoint/) for that! The Hugging Face Hub is a platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
+Let's 
 
 ```{python}
-import os
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
-## Personal token stored in .env file
-HFtoken = os.environ.get("HUGGINGFACEHUB_API_TOKEN")
+ # use [Huggingface Endpoints](https://python.langchain.com/v0.1/docs/integrations/llms/huggingface_endpoint/) for that! The Hugging Face Hub is a platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
+# import os
+# from dotenv import load_dotenv, find_dotenv
+# load_dotenv(find_dotenv())
+# ## Personal token stored in .env file
+# HFtoken = os.environ.get("HUGGINGFACEHUB_API_TOKEN")
 
-from langchain_community.llms import HuggingFaceEndpoint
-critic_llm = HuggingFaceEndpoint(
-    repo_id="mistralai/Mistral-7B-Instruct-v0.2", 
-    max_length=128, 
-    temperature=0.2, 
-    token=HFtoken
-)
-
+# from langchain_community.llms import HuggingFaceEndpoint
+# critic_llm = HuggingFaceEndpoint(
+#     repo_id="mistralai/Mistral-7B-Instruct-v0.2", 
+#     max_length=128, 
+#     temperature=0.2, 
+#     token=HFtoken
+# )
 ```
 
 Now we can compile the different metrics!

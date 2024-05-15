@@ -657,46 +657,44 @@ First let's set up the prompt questions
 # Define the list of experts on impact - outcome - organisation
 q_experts = [
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Attaining favorable protection environments---: i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Realizing rights in safe environments---: i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Empowering communities and achieving gender equality--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Realizing rights in safe environments---: i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Empowering communities and achieving gender equality--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
     "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Securing durable solutions--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
 
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: ---Access to territory registration and documentation ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: ---Access to territory registration and documentation ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
     "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Status determination ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Protection policy and law---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Gender-based violence ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Child protection ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Safety and access to justice ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Community engagement and women's empowerment ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Well-being and basic needs ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Sustainable housing and settlements ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Healthy lives---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Education ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Clean water sanitation and hygiene ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Self-reliance, Economic inclusion, and livelihoods ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Voluntary repatriation and sustainable reintegration ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Resettlement and complementary pathways---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Local integration and other local solutions ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]", 
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Protection policy and law---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Gender-based violence ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Child protection ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Safety and access to justice ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Community engagement and women's empowerment ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Well-being and basic needs ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Sustainable housing and settlements ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Healthy lives---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Education ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Clean water sanitation and hygiene ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Self-reliance, Economic inclusion, and livelihoods ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Voluntary repatriation and sustainable reintegration ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Resettlement and complementary pathways---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Local integration and other local solutions ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]", 
 
 
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Systems and processes Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" #,
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Operational support and supply chain Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on People and culture Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on External engagement and resource mobilization Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
-#    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Leadership and governance Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" 
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Operational support and supply chain Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on People and culture Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on External engagement and resource mobilization Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Leadership and governance Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" 
 
     # ...
 ]
 
 # Predefined knowledge extraction questions
 q_questions = [
-    "List, as bullet points, all findings in relation to your specific area of expertise and focus. ",
-    # "List, as bullet points, all evidences in relation to your specific area of expertise and focus. ",
+    " List, as bullet points, all findings and evidences in relation to your specific area of expertise and focus. ",
     " Explain, in relation to your specific area of expertise and focus, what are the root causes for the situation. " ,
-    # " Explain, in relation to your specific area of expertise and focus, what are the main risks here described. ",
-    # " Explain, in relation to your specific area of expertise and focus, what are the main difficulties here described. ",
-     " Explain, in relation to your specific area of expertise and focus, what what can be learnt. ",
-     "List, as bullet points, all recommendations made in relation to your specific area of expertise and focus. "#,
+    " Explain, in relation to your specific area of expertise and focus, what are the main risks and difficulties here described. ",
+    " Explain, in relation to your specific area of expertise and focus, what what can be learnt. ",
+    " List, as bullet points, all recommendations made in relation to your specific area of expertise and focus. "#,
     # "Indicate if mentionnend what resource will be required to implement the recommendations made in relation to your specific area of expertise and focus. ",
     # "List, as bullet points, all recommendations made in relation to your specific area of expertise and focus that relates to topics  or activities recommended to be discontinued. ",
     # "List, as bullet points, all recommendations made in relation to your specific area of expertise and focus that relates to topics or activities recommended to be scaled up. " 
@@ -816,6 +814,8 @@ qa_chain_command_mmr_recursivecharactertext_bge = create_retrieval_chain(
 
 and now build the two evaluation dataset by iterating over expert profiles and questions!
 
+The [first dataset](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/dataset_mixtral_recursivecharactertext_bert.xlsx)
+
 ```{python}
 # Create dataset (empty list for now)
 dataset_mixtral_recursivecharactertext_bert = []
@@ -835,9 +835,11 @@ for expert  in  q_experts:
 #Save this to the disk! 
 import pandas as pd
 dataset_mixtral_recursivecharactertext_bert_d = pd.DataFrame(dataset_mixtral_recursivecharactertext_bert)
-dataset_mixtral_recursivecharactertext_bert_d.to_excel("dataset_mixtral_recursivecharactertext_bert.xlsx") 
+dataset_mixtral_recursivecharactertext_bert_d.to_excel("generated/dataset_mixtral_recursivecharactertext_bert.xlsx") 
 
 ```
+
+Then producing the [second dataset](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/dataset_command_mmr_recursivecharactertext_bge.xlsx)
 
 ```{python}
 # Create dataset (empty list for now)
@@ -857,13 +859,13 @@ for expert  in  q_experts:
 #Save this to the disk! 
 import pandas as pd
 dataset_command_mmr_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_mmr_recursivecharactertext_bge)
-dataset_command_mmr_recursivecharactertext_bge_d.to_excel("dataset_command_mmr_recursivecharactertext_bge.xlsx") 
+dataset_command_mmr_recursivecharactertext_bge_d.to_excel("generated/dataset_command_mmr_recursivecharactertext_bge.xlsx") 
 ```
 
 ### Metrics Measurement
 
 ::: callout-note
-Developing a proof-of-concept RAG application might seem straightforward, but ensuring its performance meets production standards is a challenging task. Similar to machine learning projects, it's essential to assess the RAG pipeline's performance using a validation dataset and appropriate evaluation metrics.
+Developing a proof-of-concept RAG application might seem straightforward, but ensuring its performance meets production standards is a challenging task. Similar to data science projects, it's essential to assess the RAG pipeline's performance using a validation dataset and appropriate evaluation metrics.
 
 Several criteria can be used to **evaluate RAG pipeline**. Among them, the diagramm below provides a simple perspective:
 

@@ -1,0 +1,18 @@
+platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
+
+```{python}
+import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+## Personal token stored in .env file
+HFtoken = os.environ.get("HUGGINGFACEHUB_API_TOKEN")
+
+from langchain_community.llms import HuggingFaceEndpoint
+critic_llm = HuggingFaceEndpoint(
+    repo_id="mistralai/Mistral-7B-Instruct-v0.2", 
+    max_length=128, 
+    temperature=0.2, 
+    token=HFtoken
+)
+
+```

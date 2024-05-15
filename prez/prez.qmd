@@ -7,7 +7,7 @@ embed-resources: true
  
 > "We are **drowning in information, while starving for wisdom**. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely." 
 
-E. O. Wilson
+Edward Osborne Wilson
 
 ::: {.notes}
 Speaker notes go here.
@@ -24,7 +24,7 @@ Considering the [numbers of published evaluation reports](https://www.uneval.org
 
 ## The [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** is triggered by AI
 
-![](img/GIZQ0_MWYAAZiUJ.png){fit-align="center"}
+![The twenty-first century experimenting society: the four waves of the evidence revolution, published in Nature, Howard White, 2019](img/GIZQ0_MWYAAZiUJ.png){fit-align="center"}
 
 
 
@@ -42,7 +42,7 @@ Considering the [numbers of published evaluation reports](https://www.uneval.org
 :::
 
 ::: {.column width="40%"}
-![](img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg){fit-align="center"}
+![*Cassandra*, bearer of bad news](img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg){fit-align="center"}
 
 :::
 ::::

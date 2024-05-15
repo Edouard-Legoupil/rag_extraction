@@ -3,21 +3,65 @@ title: Evaluating AI Usage for Evaluation Purpose
 subtitle: Improving Report Summarization
 format: unhcr-revealjs
 embed-resources: true
-date: last-modified
 ---
+ 
+> "We are **drowning in information, while starving for wisdom**. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely." 
 
-## Presentation with Quarto
-
-- Quarto integrates with Reveal.js to create stunning slideshows.
-- Markdown syntax is used to structure and format content.
-- Craft a finished **UNHCR branded** presentation with this template.
-- Seamlessly weave together content and executable code.
-
-To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+E. O. Wilson
 
 ::: {.notes}
 Speaker notes go here.
 :::
+
+
+## Current Challenge
+
+
+Considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen:
+
+ How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
+
+
+## The [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** is triggered by AI
+
+![](img/GIZQ0_MWYAAZiUJ.png){fit-align="center"}
+
+
+
+
+## Results Cherry Picking: how to build effective "Evaluation Brief"? 
+
+
+:::: columns
+::: {.column width="60%"}
+ 
+  **Choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... 
+ 
+
+ Relying on automated retrieval can help improving the objectivity and independence of the evaluation report summarization.
+:::
+
+::: {.column width="40%"}
+![](img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg){fit-align="center"}
+
+:::
+::::
+
+
+::: {.notes}
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in
+
+ The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden.
+
+
+:::
+
+
+## Retrieval-augmented generation (RAG) at rescue
+
+![](img/RAG_workflow.png){fit-align="center"}
+
+
 
 ## Presentation title
 

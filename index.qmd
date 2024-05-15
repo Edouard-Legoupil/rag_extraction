@@ -41,6 +41,10 @@ Second, we review the techniques that can be used to **evaluate the performance*
 
 Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tuned models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.
 
+A short presentation is also [available here](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html)
+
+------
+
 ## Introduction
 
 Building a robust information retrieval system requires to configure different components:
@@ -178,7 +182,7 @@ splitter_nltktext = NLTKTextSplitter(chunk_size=1000)
 chunks_nltktext = splitter_nltktext.split_documents(docs)
 ```
 
-#### Instantiate a Vector Database
+#### Instantiate a Vector Database and Generate Embedding
 
 A [vector database](https://python.langchain.com/docs/modules/data_connection/vectorstores/) is a database that allows to efficiently store and query embeddings. Embedding are actually a **numeric representation of text data**. This conversion from text to numeric is used to represent words, sentences, or even entire documents in a compact and meaningful way. It captures the essence of a word’s meaning, context, and relationships with other words.
 
@@ -194,9 +198,7 @@ chroma_client = chromadb.PersistentClient(path="persist/")
 #chroma_collection = chroma_client.create_collection('collection')
 ```
 
-#### Generate Embedding
-
-To generate embedding, we need a dedicated model and there's no single "best" option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.
+To generate embedding, we need a dedicated model and there's no single "best" option to select it. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.
 
 Here we start with testing with [GPT4ALL](https://python.langchain.com/v0.1/docs/integrations/text_embedding/gpt4all/)
 
@@ -239,9 +241,9 @@ vectorstore_nltktext_bert = Chroma.from_documents(
     persist_directory = "persist")
 ```
 
-#### Get from persistent storage
+#### Retrieve embeddings from persistent storage
 
-Chroma can run in various modes. Here we used the `persist` mode that allows to save to disk and load later. We can then re-open a previous database using its folder path:
+We can re-open a previous database using its folder path:
 
 ```{python}
 import chromadb
@@ -615,7 +617,7 @@ doc.save("generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.doc
 
 Et voila! Though When reading the two briefs, [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), we can see significant differences... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let's **evaluate** the quality of the summarization to objectively find out about this!
 
-### Building the evaluation dataset
+### Generating an evaluation dataset
 
 To do the evaluation, first we need to build an large-enough evaluation dataset so that the evaluation is based on multiple output. We need to build the following data
 
@@ -878,7 +880,7 @@ dataset_command_mmr_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_
 dataset_command_mmr_recursivecharactertext_bge_d.to_excel("generated/dataset_command_mmr_recursivecharactertext_bge.xlsx") 
 ```
 
-### Metrics Measurement
+### Computing Assessment Metrics 
 
 ::: callout-note
 Developing a proof-of-concept RAG application might seem straightforward, but ensuring its performance meets production standards is a challenging task. Similar to data science projects, it's essential to assess the RAG pipeline's performance using a validation dataset and appropriate evaluation metrics.
@@ -1047,7 +1049,7 @@ For instance, providing [organisation-wide access to copilot](https://intranet.u
 
 Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
 
--   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with tested and assessd RAG pipeline!);
+-   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with an *evaluated* RAG pipeline!);
 -   to set up processes for continuous update of the knowledge base used by the model;
 -   to prevent what is called "Hallucinations", in other words the risk of generating incorrect or misleading information, that would not be context-aware;
 -   to develop internal technical capacity building on the new way of working that AI is offering.
@@ -1066,7 +1068,7 @@ It can be performed both before and after fine-tuning. Human labelling is perfor
 
 After the peer review is sent to observation, operation feedback on the review can also be collected and use at a later stage to further fine tune the model
 
-### Fine-Tuning
+### A Fine-Tuned "expert" Model!
 
 Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open "foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and ["open artificial intelligence models"](https://www.un.org/techenvoy/content/digital-public-goods), the resulting fine-tuned model could also be published on [huggingface](https://huggingface.co/).
 
@@ -1074,7 +1076,7 @@ A fine tune model could help front-loading many more contexts that a simple foun
 
 -   **Situation** – The fine-tuned model would be relevant and specific in relation with Operation profile, Area of focus between one of the strategic impact, operational outcome, or organizational topics
 
--   **Task** - The fine-tuned model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the Plan/Get/Show.
+-   **Task** - The fine-tuned model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the [Plan/Get/Show](https://www.unhcr.org/us/compass).
 
 -   **Activity** – Based on the combination of situation and task, the fine-tuned model would help re-injecting previously found evidence and/or recalling recommendations
 
@@ -1085,3 +1087,15 @@ A fine tune model could help front-loading many more contexts that a simple foun
 Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure.
 
 Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.
+
+
+## Acknowledgement
+
+Expressing thanks for all AI expert that are taking time to build open source tools for this new technology and create tutorials. There are many of them but to recommend a few:
+
+ - [https://huggingface.co/learn/cookbook/en/advanced_rag](https://huggingface.co/learn/cookbook/en/advanced_rag)
+ - [https://huggingface.co/learn/cookbook/en/rag_evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation)
+ - [https://huggingface.co/learn/cookbook/en/llm_judge](https://huggingface.co/learn/cookbook/en/llm_judge)
+ - [https://github.com/langchain-ai/rag-from-scratch](https://github.com/langchain-ai/rag-from-scratch)
+
+Thanks also all UNHCR colleagues who took the time to review and proof read this document.

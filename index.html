@@ -96,16 +96,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#continuous-evaluation-process" id="toc-continuous-evaluation-process" class="nav-link" data-scroll-target="#continuous-evaluation-process">Continuous Evaluation Process</a>
   <ul class="collapse">
   <li><a href="#build-an-alternate-brief" id="toc-build-an-alternate-brief" class="nav-link" data-scroll-target="#build-an-alternate-brief">Build an alternate “Brief”</a></li>
-  <li><a href="#building-the-evaluation-dataset" id="toc-building-the-evaluation-dataset" class="nav-link" data-scroll-target="#building-the-evaluation-dataset">Building the evaluation dataset</a></li>
-  <li><a href="#metrics-measurement" id="toc-metrics-measurement" class="nav-link" data-scroll-target="#metrics-measurement">Metrics Measurement</a></li>
+  <li><a href="#generating-an-evaluation-dataset" id="toc-generating-an-evaluation-dataset" class="nav-link" data-scroll-target="#generating-an-evaluation-dataset">Generating an evaluation dataset</a></li>
+  <li><a href="#computing-assessment-metrics" id="toc-computing-assessment-metrics" class="nav-link" data-scroll-target="#computing-assessment-metrics">Computing Assessment Metrics</a></li>
   </ul></li>
   <li><a href="#production-deployment-strategy" id="toc-production-deployment-strategy" class="nav-link" data-scroll-target="#production-deployment-strategy">Production Deployment Strategy</a>
   <ul class="collapse">
   <li><a href="#buy-or-build" id="toc-buy-or-build" class="nav-link" data-scroll-target="#buy-or-build">Buy or Build?</a></li>
   <li><a href="#ai-ready-data-human-review-for-ground_truth" id="toc-ai-ready-data-human-review-for-ground_truth" class="nav-link" data-scroll-target="#ai-ready-data-human-review-for-ground_truth">AI ready data: Human Review for ‘ground_truth’</a></li>
-  <li><a href="#fine-tuning" id="toc-fine-tuning" class="nav-link" data-scroll-target="#fine-tuning">Fine-Tuning</a></li>
+  <li><a href="#a-fine-tuned-expert-model" id="toc-a-fine-tuned-expert-model" class="nav-link" data-scroll-target="#a-fine-tuned-expert-model">A Fine-Tuned “expert” Model!</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#acknowledgement" id="toc-acknowledgement" class="nav-link" data-scroll-target="#acknowledgement">Acknowledgement</a></li>
   </ul>
 </nav>
 </div>
@@ -158,6 +159,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of functions and models from <a href="https://huggingface.co/docs/hub/index">Hugging Face Hub</a>. Rather than relying on ad-hoc user interactions through a <em>black-box point &amp; click</em> chat interface, a relevant alternative is to use a data science approach with documented and <strong>reproducible scripts</strong> that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.</p>
 <p>Second, we review the techniques that can be used to <strong>evaluate the performance</strong> of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx">second alternative brief</a>, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.</p>
 <p>Last we discuss how such approach can actually inform decisions and strategies for an <strong>efficient AI deployment</strong>: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tuned models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.</p>
+<p>A short presentation is also <a href="https://edouard-legoupil.github.io/rag_extraction/prez/prez.html">available here</a></p>
+<hr>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
@@ -282,8 +285,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>chunks_nltktext <span class="op">=</span> splitter_nltktext.split_documents(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="instantiate-a-vector-database" class="level4">
-<h4 class="anchored" data-anchor-id="instantiate-a-vector-database">Instantiate a Vector Database</h4>
+<section id="instantiate-a-vector-database-and-generate-embedding" class="level4">
+<h4 class="anchored" data-anchor-id="instantiate-a-vector-database-and-generate-embedding">Instantiate a Vector Database and Generate Embedding</h4>
 <p>A <a href="https://python.langchain.com/docs/modules/data_connection/vectorstores/">vector database</a> is a database that allows to efficiently store and query embeddings. Embedding are actually a <strong>numeric representation of text data</strong>. This conversion from text to numeric is used to represent words, sentences, or even entire documents in a compact and meaningful way. It captures the essence of a word’s meaning, context, and relationships with other words.</p>
 <p>Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified <strong>similarity metric</strong>, the vector database returns data that are similar to a query.</p>
 <p>There are here again numerous options in terms of Open Source vector DB that can be used - for instance: <a href="https://www.trychroma.com/">ChromaDB</a>, <a href="https://qdrant.tech/">Qdrant</a>, <a href="https://milvus.io/">Milvus</a> or <a href="https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/">FAISS</a>. Here we will just use Chroma.</p>
@@ -294,10 +297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">## A collection is created with the following</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#chroma_collection = chroma_client.create_collection('collection')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="generate-embedding" class="level4">
-<h4 class="anchored" data-anchor-id="generate-embedding">Generate Embedding</h4>
-<p>To generate embedding, we need a dedicated model and there’s no single “best” option. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.</p>
+<p>To generate embedding, we need a dedicated model and there’s no single “best” option to select it. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.</p>
 <p>Here we start with testing with <a href="https://python.langchain.com/v0.1/docs/integrations/text_embedding/gpt4all/">GPT4ALL</a></p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.embeddings <span class="im">import</span> GPT4AllEmbeddings </span>
@@ -333,9 +333,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    persist_directory <span class="op">=</span> <span class="st">"persist"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="get-from-persistent-storage" class="level4">
-<h4 class="anchored" data-anchor-id="get-from-persistent-storage">Get from persistent storage</h4>
-<p>Chroma can run in various modes. Here we used the <code>persist</code> mode that allows to save to disk and load later. We can then re-open a previous database using its folder path:</p>
+<section id="retrieve-embeddings-from-persistent-storage" class="level4">
+<h4 class="anchored" data-anchor-id="retrieve-embeddings-from-persistent-storage">Retrieve embeddings from persistent storage</h4>
+<p>We can re-open a previous database using its folder path:</p>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromadb</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> chromadb.PersistentClient(path<span class="op">=</span><span class="st">"persist/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -665,8 +665,8 @@ Note
 </div>
 <p>Et voila! Though When reading the two briefs, <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">#1</a> &amp; <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx">#2</a>, we can see significant differences… which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let’s <strong>evaluate</strong> the quality of the summarization to objectively find out about this!</p>
 </section>
-<section id="building-the-evaluation-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="building-the-evaluation-dataset">Building the evaluation dataset</h3>
+<section id="generating-an-evaluation-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="generating-an-evaluation-dataset">Generating an evaluation dataset</h3>
 <p>To do the evaluation, first we need to build an large-enough evaluation dataset so that the evaluation is based on multiple output. We need to build the following data</p>
 <ul>
 <li><p><strong>question</strong>: list[str] - These are the questions the RAG pipeline will be evaluated on.</p></li>
@@ -906,8 +906,8 @@ Note
 <span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>dataset_command_mmr_recursivecharactertext_bge_d.to_excel(<span class="st">"generated/dataset_command_mmr_recursivecharactertext_bge.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="metrics-measurement" class="level3">
-<h3 class="anchored" data-anchor-id="metrics-measurement">Metrics Measurement</h3>
+<section id="computing-assessment-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="computing-assessment-metrics">Computing Assessment Metrics</h3>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1077,7 +1077,7 @@ Note
 <p>For instance, providing <a href="https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html">organisation-wide access to copilot</a> represents the <strong>consume</strong> stage, while creating a dedicated app like <a href="https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/">“Chat with your Evaluation Reports”</a> is the <strong>embed</strong> stage.</p>
 <p>Though using off-the-shelves solutions in a “consume or embed” mode comes with inherent limitations:</p>
 <ul>
-<li>to incorporate organization specific Knowledge in a systematic and reliable way (i.e.&nbsp;with tested and assessd RAG pipeline!);</li>
+<li>to incorporate organization specific Knowledge in a systematic and reliable way (i.e.&nbsp;with an <em>evaluated</em> RAG pipeline!);</li>
 <li>to set up processes for continuous update of the knowledge base used by the model;</li>
 <li>to prevent what is called “Hallucinations”, in other words the risk of generating incorrect or misleading information, that would not be context-aware;</li>
 <li>to develop internal technical capacity building on the new way of working that AI is offering.</li>
@@ -1092,13 +1092,13 @@ Note
 <p>It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like <a href="https://labelstud.io/">labelStudioo</a> can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope”.</p>
 <p>After the peer review is sent to observation, operation feedback on the review can also be collected and use at a later stage to further fine tune the model</p>
 </section>
-<section id="fine-tuning" class="level3">
-<h3 class="anchored" data-anchor-id="fine-tuning">Fine-Tuning</h3>
+<section id="a-fine-tuned-expert-model" class="level3">
+<h3 class="anchored" data-anchor-id="a-fine-tuned-expert-model">A Fine-Tuned “expert” Model!</h3>
 <p>Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open “foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and <a href="https://www.un.org/techenvoy/content/digital-public-goods">“open artificial intelligence models”</a>, the resulting fine-tuned model could also be published on <a href="https://huggingface.co/">huggingface</a>.</p>
 <p>A fine tune model could help front-loading many more contexts that a simple foundation model:</p>
 <ul>
 <li><p><strong>Situation</strong> – The fine-tuned model would be relevant and specific in relation with Operation profile, Area of focus between one of the strategic impact, operational outcome, or organizational topics</p></li>
-<li><p><strong>Task</strong> - The fine-tuned model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the Plan/Get/Show.</p></li>
+<li><p><strong>Task</strong> - The fine-tuned model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the <a href="https://www.unhcr.org/us/compass">Plan/Get/Show</a>.</p></li>
 <li><p><strong>Activity</strong> – Based on the combination of situation and task, the fine-tuned model would help re-injecting previously found evidence and/or recalling recommendations</p></li>
 <li><p><strong>Results</strong> – The fine-tuned model output would be systematically saved in order to be re-assessed by humans to fine-tune it further from this feedback and improve over time (also called reinforcement learning.)</p></li>
 </ul>
@@ -1108,6 +1108,17 @@ Note
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure.</p>
 <p>Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.</p>
+</section>
+<section id="acknowledgement" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgement">Acknowledgement</h2>
+<p>Expressing thanks for all AI expert that are taking time to build open source tools for this new technology and create tutorials. There are many of them but to recommend a few:</p>
+<ul>
+<li><a href="https://huggingface.co/learn/cookbook/en/advanced_rag">https://huggingface.co/learn/cookbook/en/advanced_rag</a></li>
+<li><a href="https://huggingface.co/learn/cookbook/en/rag_evaluation">https://huggingface.co/learn/cookbook/en/rag_evaluation</a></li>
+<li><a href="https://huggingface.co/learn/cookbook/en/llm_judge">https://huggingface.co/learn/cookbook/en/llm_judge</a></li>
+<li><a href="https://github.com/langchain-ai/rag-from-scratch">https://github.com/langchain-ai/rag-from-scratch</a></li>
+</ul>
+<p>Thanks also all UNHCR colleagues who took the time to review and proof read this document.</p>
 </section>
 
 </main>

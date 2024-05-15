@@ -1029,15 +1029,17 @@ As presented in [Gartner AI readiness framework](https://www.gartner.com/en/info
 
 [![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
 
-Using off-the-shelves solutions, such as Commercial Copilot, in a "consume or embed" mode comes with inherent limitations:
+For instance, providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represent the **consume** stage, while creating dedicated app like [Chat with your EVALUATION REPORTS](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the **embed** stage.
+
+Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
 
 -   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with tested and assessd RAG pipeline!);
--   to continuously update the knowledge base with any latest content;
+-   to set up processes for continuous update of the knowledge base used by the model;
 -   to prevent what is called "Hallucinations", in other words the risk of generating incorrect or misleading information, that would not be context-aware.
 
 This paper actually presented a recipe to extend existing foundation model, using the first step: Data Retrival and Prompt engineering. We highlighted the importance of the configuration to ensure the **reliability of the system** and therefore the relevance of managing directly such process.
 
-The next step, Fine Tuning comes first with the additional requirement to build AI ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automating stuff in private clouds.
+The next step, Fine Tuning comes first with the additional requirement to build AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automating stuff in private clouds.
 
 ### AI ready data: Human Review for 'ground_truth'
 

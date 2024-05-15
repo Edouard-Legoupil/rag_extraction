@@ -1,0 +1,34 @@
+---
+title: Evaluating AI usage for Evaluation purpose
+subtitle: Improving Report Summarization
+format: unhcr-revealjs
+embed-resources: true
+date: last-modified
+---
+
+## Presentation with Quarto
+
+- Quarto integrates with Reveal.js to create stunning slideshows.
+- Markdown syntax is used to structure and format content.
+- Craft a finished **UNHCR branded** presentation with this template.
+- Seamlessly weave together content and executable code.
+
+To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+::: {.notes}
+Speaker notes go here.
+:::
+
+## Presentation title
+
+:::: {.columns}
+::: {.column width="40%"}
+Left column
+:::
+
+::: {.column width="60%"}
+Right column
+:::
+
+::::
+

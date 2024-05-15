@@ -1,6 +1,6 @@
 ---
 title: Generating and Improving Evaluation Report "**Brief**"
-subtitle: Evaluating Retrieval-Augmented Generation with Large Language Model
+subtitle: Evaluating AI usage for Evaluation purpose
 date: today
 author: Edouard Legoupil, UNHCR Evaluation Office
 format: unhcr-html
@@ -16,17 +16,30 @@ execute:
 
 ## Abstract
 
-Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports across the UN system](https://www.uneval.org/evaluation/reports), **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
+Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
-The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independance of the evaluation report summarization.
 
-Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from domain specific internal data (like an evaluation report). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
+
+::: columns
+::: {.column width="50%"}
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... 
+The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
+:::
+
+::: {.column width="50%"}
+![](img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg){fit-align="center"}
+
+
+:::
+:::
+
+Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from "evaluation reports"). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
 
 First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of unctions and models from the [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a black box chat interface, it is more relevant to set up documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.
 
-Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimise them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
+Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
 
-Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tune models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.
+Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tuned models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.
 
 ## Introduction
 
@@ -38,7 +51,7 @@ Building a robust information retrieval system requires to configure different c
 
 3)  **A Production Deployment Strategy**: Organise AI-ready feedback and prepare data for fine-tuning.
 
-This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can rerun and learn from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
+This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can [rerun and learn](https://github.com/Edouard-Legoupil/rag_extraction/) from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
 
 Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new)!
 
@@ -259,15 +272,16 @@ If do not have access to a LLM API, an alternative is to install a local one and
 ::: callout-note
 Open-source Large Language Models (LLM) have multiple advantages:
 
--   **Transparency and Flexibility**: accessible to the public, allowing developers to inspect, modify, and distribute the code. This transparency fosters a community-driven development process, leading to rapid innovation and diverse applications.
+-   **Cost Savings**: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer. More insights on total cost of Owernership can be gained [here](https://huggingface.co/spaces/mithril-security/TCO_calculator).
 
--   **Cost Savings**: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer.
+-   **Data Protection**: allow to use within the data enclave of your own computer without any data being sent to a remote server.
+
+-   **Transparency and Flexibility**: accessible to the public, allowing developers to inspect, modify, and distribute the code. This transparency fosters a community-driven development process, leading to rapid innovation and diverse applications.
 
 -   **Added Features and Community Contributions**: can leverage multiple providers and internal teams for updates and support, which enables to stay at the forefront of technology and exercise greater control over their usage.
 
 -   **Customizability**: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.
 
--   **Data Protection**: allow to use within the data enclave of your own computer without any data being sent to a remote server.
 :::
 
 There are multiple options to do that. An easy one is to install [OLLAMA](https://ollama.com/), which offers a wide [variety of open models](https://ollama.com/library) from the "AI Race" competitors [arena](https://chat.lmsys.org/): [LLama3](https://ollama.com/library/llama3) from Facebook, [gemma](https://ollama.com/library/gemma) from Google, [phi3](https://ollama.com/library/phi3) Microsoft but also [qwen](https://ollama.com/library/qwen) from the Chinese AliBaba, [falcon](https://ollama.com/library/falcon) from the Emirati Technology Innovation Institute, or [Mixtral](https://ollama.com/library/mixtral) from the french startup Mistral_AI. Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama).
@@ -904,7 +918,7 @@ response_evaluation_dataset_command_mmr_recursivecharactertext_bge = Dataset.fro
 
 RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#) as a critic of the first one.
 
-Let's 
+Let's
 
 ```{python}
  # use [Huggingface Endpoints](https://python.langchain.com/v0.1/docs/integrations/llms/huggingface_endpoint/) for that! The Hugging Face Hub is a platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
@@ -1029,21 +1043,22 @@ As presented in [Gartner AI readiness framework](https://www.gartner.com/en/info
 
 [![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
 
-For instance, providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represent the **consume** stage, while creating dedicated app like [Chat with your EVALUATION REPORTS](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the **embed** stage.
+For instance, providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represents the **consume** stage, while creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the **embed** stage.
 
 Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
 
 -   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with tested and assessd RAG pipeline!);
 -   to set up processes for continuous update of the knowledge base used by the model;
--   to prevent what is called "Hallucinations", in other words the risk of generating incorrect or misleading information, that would not be context-aware.
+-   to prevent what is called "Hallucinations", in other words the risk of generating incorrect or misleading information, that would not be context-aware;
+-   to develop internal technical capacity building on the new way of working that AI is offering.
 
-This paper actually presented a recipe to extend existing foundation model, using the first step: Data Retrival and Prompt engineering. We highlighted the importance of the configuration to ensure the **reliability of the system** and therefore the relevance of managing directly such process.
+Above, we presented a recipe to extend existing foundation model, using the first step: Data Retrieval and Prompt engineering. We highlighted the importance of the configuration to ensure the **reliability of the system** and therefore the relevance of managing directly such process.
 
-The next step, Fine Tuning comes first with the additional requirement to build AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automating stuff in private clouds.
+Building common knowledge on "data retrieval scripts" could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
+
+The next step, Fine Tuning comes first with the additional requirement to build AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automation in private clouds.
 
 ### AI ready data: Human Review for 'ground_truth'
-
-Building common knowledge on "data retrieval scripts" could be the first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
 
 Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
 
@@ -1057,13 +1072,13 @@ Using the labeled dataset, generated from the prompt, and then labeled, the next
 
 A fine tune model could help front-loading many more contexts that a simple foundation model:
 
--   **Situation** – The fine-tune model would be relevant and specific in relation with Operation profile, Area of focus between one of the strategic impact, operational outcome, or organizational topics
+-   **Situation** – The fine-tuned model would be relevant and specific in relation with Operation profile, Area of focus between one of the strategic impact, operational outcome, or organizational topics
 
--   **Task** - The fine-tune model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the Plan/Get/Show.
+-   **Task** - The fine-tuned model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the Plan/Get/Show.
 
--   **Activity** – Based on the combination of situation and task, the fine-tune model would help re-injecting previously found evidence and/or recalling recommendations
+-   **Activity** – Based on the combination of situation and task, the fine-tuned model would help re-injecting previously found evidence and/or recalling recommendations
 
--   **Results** – The fine-tune model output would be systematically saved in order to be re-assessed by humans to fine-tune it further from this feedback and improve over time (also called reinforcement learning.)
+-   **Results** – The fine-tuned model output would be systematically saved in order to be re-assessed by humans to fine-tune it further from this feedback and improve over time (also called reinforcement learning.)
 
 ## Conclusion
 

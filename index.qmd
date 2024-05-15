@@ -1,6 +1,6 @@
 ---
 title: Generating and Improving Evaluation Report "**Brief**"
-subtitle: Evaluating AI usage for Evaluation purpose
+subtitle: Evaluating AI Usage for Evaluation Purpose
 date: today
 author: Edouard Legoupil, UNHCR Evaluation Office
 format: unhcr-html
@@ -14,28 +14,28 @@ execute:
 *"We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely."* - E. O. Wilson
 :::
 
-## Abstract
+## Executive Summary
 
 Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
 
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="60%"}
 The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... 
 The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
 :::
 
-::: {.column width="50%"}
+::: {.column width="40%"}
 ![](img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg){fit-align="center"}
 
 
 :::
 :::
 
-Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from "evaluation reports"). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
+Retrieval-augmented generation (RAG) is an AI Question-Answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from "evaluation reports"). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
 
-First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of unctions and models from the [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a black box chat interface, it is more relevant to set up documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.
+First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.
 
 Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
 
@@ -57,7 +57,7 @@ Most of the content in this document targets a technical audience that may consi
 
 ### Environment Set up
 
-The world of LLMs is a python one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
+The world of LLMs is a [Python](https://www.python.org/downloads/) one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
 
 Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with [conda](https://docs.conda.io/en/latest/) python modules management utility.
 

@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
   <li><a href="#environment-set-up" id="toc-environment-set-up" class="nav-link" data-scroll-target="#environment-set-up">Environment Set up</a></li>
@@ -114,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Generating and Improving Evaluation Report “<strong>Brief</strong>”</h1>
-<p class="subtitle lead">Evaluating AI usage for Evaluation purpose</p>
+<p class="subtitle lead">Evaluating AI Usage for Evaluation Purpose</p>
 </div>
 
 
@@ -144,18 +144,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="bg-primary text-white p-3 column-page">
 <p><em>“We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely.”</em> - E. O. Wilson</p>
 </div>
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<section id="executive-summary" class="level2">
+<h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
 <p>Artificial Inteligence (AI) is presented as the potential trigger for the <a href="https://www.nature.com/articles/s41599-019-0253-6">fifth wave</a> of the <strong>evidence revolution</strong> (<em>following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering</em>). This actually reflects a situation where considering the <a href="https://www.uneval.org/evaluation/reports">numbers of published evaluation reports</a> across the UN system, <strong>information retrieval and evidence generalization challenges</strong> have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?</p>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:60%;">
 <p>The key deliverable from an evaluation process is usually a long report (<em>often over 60 pages PDF file</em>). From this report, two-pagers executive “briefs” are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in <strong>choosing what to include and what to exclude</strong>, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit… The potential fear of being, like <em>Cassandra</em> in the greek mythology, the bearer of bad news comes with the structural risk of “cushioning” the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.</p>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:40%;">
 <p><img src="img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg" class="img-fluid" data-fit-align="center"></p>
 </div>
 </div>
-<p>Retrieval-augmented generation (RAG) is a type of Artificial Inteligence (AI) question-answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from “evaluation reports”). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.</p>
-<p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of unctions and models from the <a href="https://huggingface.co/docs/hub/index">Hugging Face Hub</a>. Rather than relying on ad-hoc user interactions through a black box chat interface, it is more relevant to set up documented and <strong>reproducible scripts</strong> that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.</p>
+<p>Retrieval-augmented generation (RAG) is an AI Question-Answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from “evaluation reports”). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.</p>
+<p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of functions and models from <a href="https://huggingface.co/docs/hub/index">Hugging Face Hub</a>. Rather than relying on ad-hoc user interactions through a <em>black-box point &amp; click</em> chat interface, a relevant alternative is to use a data science approach with documented and <strong>reproducible scripts</strong> that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.</p>
 <p>Second, we review the techniques that can be used to <strong>evaluate the performance</strong> of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx">second alternative brief</a>, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.</p>
 <p>Last we discuss how such approach can actually inform decisions and strategies for an <strong>efficient AI deployment</strong>: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tuned models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.</p>
 </section>
@@ -171,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the <a href="https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf">2019 Evaluation of UNHCR’s data use and information management approaches</a> to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a <a href="https://github.com/Edouard-Legoupil/rag_extraction/issues/new">ticket in this repository</a>!</p>
 <section id="environment-set-up" class="level3">
 <h3 class="anchored" data-anchor-id="environment-set-up">Environment Set up</h3>
-<p>The world of LLMs is a python one. The scripts below are based on <a href="https://python.langchain.com/v0.1/docs/use_cases/question_answering/">langChain python module</a> but the same pipeline could also be built with another LLM orchestration module like <a href="https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/">LlamaIndex</a></p>
+<p>The world of LLMs is a <a href="https://www.python.org/downloads/">Python</a> one. The scripts below are based on <a href="https://python.langchain.com/v0.1/docs/use_cases/question_answering/">langChain python module</a> but the same pipeline could also be built with another LLM orchestration module like <a href="https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/">LlamaIndex</a></p>
 <p>Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with <a href="https://docs.conda.io/en/latest/">conda</a> python modules management utility.</p>
 <p>First directly in your OS Shell, create a new environment - here called <strong><code>evalenv</code></strong></p>
 <blockquote class="blockquote">

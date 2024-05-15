@@ -1,5 +1,5 @@
 ---
-title: Evaluating AI usage for Evaluation purpose
+title: Evaluating AI Usage for Evaluation Purpose
 subtitle: Improving Report Summarization
 format: unhcr-revealjs
 embed-resources: true

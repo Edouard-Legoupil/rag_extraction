@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Edouard Legoupil, UNHCR Evaluation Office">
-<meta name="dcterms.date" content="2024-05-15">
+<meta name="dcterms.date" content="2024-05-17">
 
 <title>Generating and Improving Evaluation Report “Brief”</title>
 <style>
@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">15 May 2024</p>
+      <p class="date">17 May 2024</p>
     </div>
   </div>
   
@@ -150,13 +150,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Artificial Inteligence (AI) is presented as the potential trigger for the <a href="https://www.nature.com/articles/s41599-019-0253-6">fifth wave</a> of the <strong>evidence revolution</strong> (<em>following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering</em>). This actually reflects a situation where considering the <a href="https://www.uneval.org/evaluation/reports">numbers of published evaluation reports</a> across the UN system, <strong>information retrieval and evidence generalization challenges</strong> have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<p>The key deliverable from an evaluation process is usually a long report (<em>often over 60 pages PDF file</em>). From this report, two-pagers executive “briefs” are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in <strong>choosing what to include and what to exclude</strong>, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit… The potential fear of being, like <em>Cassandra</em> in the greek mythology, the bearer of bad news comes with the structural risk of “cushioning” the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.</p>
+<p>The key deliverable from an evaluation process is usually a long report (<em>often over 60 pages PDF file</em>). From this report, two-pagers executive “briefs” are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth is a common challenge for evaluations but what remains even more challenging is the subjective dimension involved in <strong>choosing what to include and what to exclude</strong>.Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias… The potential fear of being, like <em>Cassandra</em> in the greek mythology, the bearer of bad news comes with the structural risk of “cushioning” the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.</p>
 </div><div class="column" style="width:40%;">
 <p><img src="img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg" class="img-fluid" data-fit-align="center"></p>
 </div>
 </div>
 <p>Retrieval-augmented generation (RAG) is an AI Question-Answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from “evaluation reports”). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.</p>
-<p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of functions and models from <a href="https://huggingface.co/docs/hub/index">Hugging Face Hub</a>. Rather than relying on ad-hoc user interactions through a <em>black-box point &amp; click</em> chat interface, a relevant alternative is to use a data science approach with documented and <strong>reproducible scripts</strong> that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.</p>
+<p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of functions and models from <a href="https://huggingface.co/docs/hub/index">Hugging Face Hub</a>. Rather than relying on ad-hoc user interactions through a <em>black-box point &amp; click</em> chat interface, a relevant alternative is to use a data science approach with documented and <strong>reproducible scripts</strong> that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.</p>
 <p>Second, we review the techniques that can be used to <strong>evaluate the performance</strong> of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx">second alternative brief</a>, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.</p>
 <p>Last we discuss how such approach can actually inform decisions and strategies for an <strong>efficient AI deployment</strong>: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tuned models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.</p>
 <p>A short presentation is also <a href="https://edouard-legoupil.github.io/rag_extraction/prez/prez.html">available here</a></p>
@@ -370,7 +370,7 @@ Note
 <div class="callout-body-container callout-body">
 <p>Open-source Large Language Models (LLM) have multiple advantages:</p>
 <ul>
-<li><p><strong>Cost Savings</strong>: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer. More insights on total cost of Owernership can be gained <a href="https://huggingface.co/spaces/mithril-security/TCO_calculator">here</a>.</p></li>
+<li><p><strong>Cost Savings</strong>: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer. More insights on total cost of Owernership can be gained <a href="https://huggingface.co/spaces/mithril-security/TCO_calculator">here</a>. One element is also that most of the open source model have comparatively a lot less parameters (3b to 70b) than the large GPT ones (over 150b) which directly impact on infererence costs, i.e.&nbsp;computing cost to generate an answer.</p></li>
 <li><p><strong>Data Protection</strong>: allow to use within the data enclave of your own computer without any data being sent to a remote server.</p></li>
 <li><p><strong>Transparency and Flexibility</strong>: accessible to the public, allowing developers to inspect, modify, and distribute the code. This transparency fosters a community-driven development process, leading to rapid innovation and diverse applications.</p></li>
 <li><p><strong>Added Features and Community Contributions</strong>: can leverage multiple providers and internal teams for updates and support, which enables to stay at the forefront of technology and exercise greater control over their usage.</p></li>
@@ -475,104 +475,69 @@ Note
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>            },</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Advance retrieving strategies can also be used. For instance, using <strong>ParentDocumentRetriever</strong> a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get ued to augment generation.</p>
-<div class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.retrievers <span class="im">import</span> ParentDocumentRetriever</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.storage <span class="im">import</span> InMemoryStore</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># store = InMemoryStore()</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># parent_document_retriever = ParentDocumentRetriever(</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     vectorstore= vectorstore_nltktext_bert,</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     docstore=store,</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     child_splitter=child_splitter,</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     parent_splitter=parent_splitter,</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co"># parent_document_retriever.add_documents(docs)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Ensemble retrieval</strong> is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs are “fused” based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.</p>
-<div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.retrievers <span class="im">import</span> BM25Retriever, EnsembleRetriever</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=16)</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># docs = text_splitter.split_documents(all_docs)</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bm25_retriever = BM25Retriever.from_documents(docs)</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bm25_retriever.k = 3</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># vectorstore = Chroma.from_documents(docs, hf_bge_embeddings)</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># chroma_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ensemble_retriever = EnsembleRetriever(</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     retrievers=[bm25_retriever, chroma_retriever], </span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    # Relative weighting of each retriever needs to sums to 1!</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     weights=[0.42, 0.58])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="build-the-chain" class="level4">
 <h4 class="anchored" data-anchor-id="build-the-chain">Build the Chain</h4>
 <p>A retrieval question-answer chain act as a pipe: it takes an incoming question, look up relevant documents using a retriever, then pass those documents along with the original question into an LLM and return the answer the original question.</p>
-<div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>prompt_retrieval <span class="op">=</span> ChatPromptTemplate.from_template(</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="st">"""Answer the following question based only on the provided context:</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;context&gt;</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="sc">{context}</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/context&gt;</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="st">Question: </span><span class="sc">{input}</span><span class="st">"""</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>prompt_retrieval <span class="op">=</span> ChatPromptTemplate.from_template(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="st">"""Answer the following question based only on the provided context:</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;context&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="sc">{context}</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/context&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="st">Question: </span><span class="sc">{input}</span><span class="st">"""</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and last the retrieval chain!</p>
-<div class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains.combine_documents <span class="im">import</span> create_stuff_documents_chain</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains <span class="im">import</span> create_retrieval_chain</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>combine_docs_chain_mixtral <span class="op">=</span> create_stuff_documents_chain(</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    ollama_mixtral ,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    prompt_retrieval</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>qa_chain <span class="op">=</span> create_retrieval_chain(</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    ragRetriever_recursivecharactertext_bert, </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    combine_docs_chain_mixtral</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains.combine_documents <span class="im">import</span> create_stuff_documents_chain</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chains <span class="im">import</span> create_retrieval_chain</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>combine_docs_chain_mixtral <span class="op">=</span> create_stuff_documents_chain(</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    ollama_mixtral ,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    prompt_retrieval</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>qa_chain <span class="op">=</span> create_retrieval_chain(</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    ragRetriever_recursivecharactertext_bert, </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    combine_docs_chain_mixtral</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that from this stage, the following steps may take time to run - this will be highly dependent on the power of your computer - obviously the availability of GPUs - Graphical Processing Unit - will significantly increase the speed! FYI, this notebook was built on a Thinkpad P53 with a Quadro T1000 GPU.</p>
-<div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>response_text_bert <span class="op">=</span> qa_chain.invoke({<span class="st">"input"</span>: RAG_prompt}) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>response_text_bert <span class="op">=</span> qa_chain.invoke({<span class="st">"input"</span>: RAG_prompt}) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="save-in-a-word-document" class="level4">
 <h4 class="anchored" data-anchor-id="save-in-a-word-document">Save in a word document</h4>
 <p>To complete the process, let’s save the result directly within a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">word document</a>! This again can be automated as below:</p>
-<div class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> docx</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a document</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>doc <span class="op">=</span> docx.Document()</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># add a heading of level 0 (largest heading)</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>doc.add_heading(<span class="st">'Evaluation Brief'</span>, <span class="dv">0</span>) </span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add another paragraph</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> doc.add_paragraph()</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a run with the summary and format it</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> p.add_run(response_text_bert[<span class="st">"answer"</span>])</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>run.font.name <span class="op">=</span> <span class="st">'Arial'</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>run.font.size <span class="op">=</span> docx.shared.Pt(<span class="dv">12</span>)</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co">## Add  a disclaimer... ----------------</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co"># add a page break to start a new page</span></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>doc.add_page_break()</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co"># add a heading of level 2</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>doc.add_heading(<span class="st">'DISCLAIMER:'</span>, <span class="dv">2</span>)</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>doc_para <span class="op">=</span> doc.add_paragraph() </span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>doc_para.add_run(<span class="st">'This document contains material generated by artificial intelligence technology. While efforts have been made to ensure accuracy, please be aware that AI-generated content may not always fully represent the intent or expertise of human-authored material and may contain errors or inaccuracies. An AI model might generate content that sounds plausible but that is either factually incorrect or unrelated to the given context. These unexpected outcomes, also called AI hallucinations, can stem from biases, lack of real-world understanding, or limitations in training data.'</span>).italic <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the document ---------------</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>doc.save(<span class="st">"generated/Evaluation_Brief_response_text_bert.docx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> docx</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a document</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>doc <span class="op">=</span> docx.Document()</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># add a heading of level 0 (largest heading)</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>doc.add_heading(<span class="st">'Evaluation Brief'</span>, <span class="dv">0</span>) </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add another paragraph</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> doc.add_paragraph()</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a run with the summary and format it</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> p.add_run(response_text_bert[<span class="st">"answer"</span>])</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>run.font.name <span class="op">=</span> <span class="st">'Arial'</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>run.font.size <span class="op">=</span> docx.shared.Pt(<span class="dv">12</span>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co">## Add  a disclaimer... ----------------</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co"># add a page break to start a new page</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>doc.add_page_break()</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co"># add a heading of level 2</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>doc.add_heading(<span class="st">'DISCLAIMER:'</span>, <span class="dv">2</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>doc_para <span class="op">=</span> doc.add_paragraph() </span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>doc_para.add_run(<span class="st">'This document contains material generated by artificial intelligence technology. While efforts have been made to ensure accuracy, please be aware that AI-generated content may not always fully represent the intent or expertise of human-authored material and may contain errors or inaccuracies. An AI model might generate content that sounds plausible but that is either factually incorrect or unrelated to the given context. These unexpected outcomes, also called AI hallucinations, can stem from biases, lack of real-world understanding, or limitations in training data.'</span>).italic <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the document ---------------</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>doc.save(<span class="st">"generated/Evaluation_Brief_response_text_bert.docx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -585,31 +550,66 @@ Note
 <p>Let’s try to generate a second report with different settings.</p>
 <p>LangChain often integrates with libraries like <a href="https://huggingface.co/sentence-transformers">Hugging Face Transformers</a> for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.</p>
 <p>Let’s try first with a second embedding model… <a href="https://huggingface.co/models?pipeline_tag=feature-extraction&amp;sort=trending">Hugging face</a> has many options… and there is even a <a href="https://huggingface.co/spaces/mteb/leaderboard">leaderboard</a> to see how they compete… We will select here the embedding model <a href="https://huggingface.co/BAAI/bge-large-en-v1.5">bge-large-en-v1.5</a> from the Beijing Academy of Artificial Intelligence. It is small in size but efficient and it does not consume too much memory.</p>
-<div class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.embeddings <span class="im">import</span> HuggingFaceBgeEmbeddings</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>embeddings_bge<span class="op">=</span> HuggingFaceBgeEmbeddings(</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    model_name<span class="op">=</span><span class="st">"BAAI/bge-small-en"</span>,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    model_kwargs<span class="op">=</span>{<span class="st">"device"</span>: <span class="st">"cpu"</span>}, </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    encode_kwargs<span class="op">=</span>{<span class="st">"normalize_embeddings"</span>: <span class="va">True</span>}</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.embeddings <span class="im">import</span> HuggingFaceBgeEmbeddings</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>embeddings_bge<span class="op">=</span> HuggingFaceBgeEmbeddings(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    model_name<span class="op">=</span><span class="st">"BAAI/bge-small-en"</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    model_kwargs<span class="op">=</span>{<span class="st">"device"</span>: <span class="st">"cpu"</span>}, </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    encode_kwargs<span class="op">=</span>{<span class="st">"normalize_embeddings"</span>: <span class="va">True</span>}</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We build the vector store using the new embedding…</p>
-<div class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Disable TOKENIZERS warning</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"TOKENIZERS_PARALLELISM"</span>] <span class="op">=</span> <span class="st">"false"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Disable TOKENIZERS warning</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"TOKENIZERS_PARALLELISM"</span>] <span class="op">=</span> <span class="st">"false"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>vectorstore_recursivecharactertext_bge <span class="op">=</span> Chroma.from_documents(chunks_recursivecharactertext,</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                                                   embeddings_bge,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                               collection_name<span class="op">=</span> <span class="st">"recursivecharactertext_bge"</span>,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                               persist_directory <span class="op">=</span> <span class="st">"persist"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>vectorstore_recursivecharactertext_bge <span class="op">=</span> Chroma.from_documents(chunks_recursivecharactertext,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                                                   embeddings_bge,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                                               collection_name<span class="op">=</span> <span class="st">"recursivecharactertext_bge"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                                               persist_directory <span class="op">=</span> <span class="st">"persist"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>…create a different retriever now using Maximum Marginal Relevance…</p>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ragRetriever_mmr_recursivecharactertext_bge <span class="op">=</span> vectorstore_recursivecharactertext_bge.as_retriever(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>            search_type<span class="op">=</span><span class="st">"mmr"</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Advance retrieving strategies can also be used. For instance, using <strong>ParentDocumentRetriever</strong> a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get used to augment generation.</p>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.retrievers <span class="im">import</span> ParentDocumentRetriever</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.storage <span class="im">import</span> InMemoryStore</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># store = InMemoryStore()</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co"># parent_document_retriever = ParentDocumentRetriever(</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     vectorstore= vectorstore_nltktext_bert,</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     docstore=store,</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     child_splitter=child_splitter,</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     parent_splitter=parent_splitter,</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co"># parent_document_retriever.add_documents(docs)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Ensemble retrieval</strong> is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs are “fused” based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.</p>
 <div class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>ragRetriever_mmr_recursivecharactertext_bge <span class="op">=</span> vectorstore_recursivecharactertext_bge.as_retriever(</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>            search_type<span class="op">=</span><span class="st">"mmr"</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.retrievers <span class="im">import</span> BM25Retriever, EnsembleRetriever</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=16)</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># docs = text_splitter.split_documents(all_docs)</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bm25_retriever = BM25Retriever.from_documents(docs)</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bm25_retriever.k = 3</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># vectorstore = Chroma.from_documents(docs, hf_bge_embeddings)</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># chroma_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ensemble_retriever = EnsembleRetriever(</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     retrievers=[bm25_retriever, chroma_retriever], </span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    # Relative weighting of each retriever needs to sums to 1!</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     weights=[0.42, 0.58])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and let’s use a different model for the LLM: <a href="https://cohere.com/blog/command-r">command-r)</a>, and specifically the quantized version: <a href="https://ollama.com/library/command-r:35b-v0.1-q4_K_M">command-r:35b-v0.1-q4_K_M</a>, an open-weight model designed to optimize RAG.</p>
 <div class="cell" data-execution_count="33">
@@ -1119,6 +1119,11 @@ Note
 <li><a href="https://github.com/langchain-ai/rag-from-scratch">https://github.com/langchain-ai/rag-from-scratch</a></li>
 <li><a href="https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf">AI Infrastructure Report</a></li>
 </ul>
+<p>The World bank IAEG has also released a few blogs: - <a href="https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex">Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?</a> - <a href="https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation">Setting up Experiments to Test GPT for Evaluation</a> - <a href="https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks">Unfulfilled Promises: Using GPT for Synthetic Tasks</a></p>
+<ul>
+<li><a href="https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation">What are the benefits and challenges of using AI in evaluation?</a></li>
+</ul>
+<p>An interesting blog related to <a href="https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/">AI costing</a></p>
 <p>Thanks also all UNHCR colleagues who took the time to review and proof read this document.</p>
 </section>
 

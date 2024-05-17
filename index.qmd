@@ -23,7 +23,7 @@ Artificial Inteligence (AI) is presented as the potential trigger for the [fifth
 
 ::: columns
 ::: {.column width="60%"}
-The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit... 
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth  is a common challenge for evaluations but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**.Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias... 
 The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
 :::
 
@@ -36,7 +36,7 @@ The potential fear of being, like *Cassandra* in the greek mythology, the bearer
 
 Retrieval-augmented generation (RAG) is an AI Question-Answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from "evaluation reports"). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
 
-First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidences when developing Operation Strategic Plan.
+First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.
 
 Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
 
@@ -275,7 +275,7 @@ If do not have access to a LLM API, an alternative is to install a local one and
 ::: callout-note
 Open-source Large Language Models (LLM) have multiple advantages:
 
--   **Cost Savings**: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer. More insights on total cost of Owernership can be gained [here](https://huggingface.co/spaces/mithril-security/TCO_calculator).
+-   **Cost Savings**: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer. More insights on total cost of Owernership can be gained [here](https://huggingface.co/spaces/mithril-security/TCO_calculator). One element is also that most of the open source model have comparatively a lot less parameters (3b to 70b) than the large GPT ones (over 150b) which directly impact on infererence costs, i.e. computing cost to generate an answer.
 
 -   **Data Protection**: allow to use within the data enclave of your own computer without any data being sent to a remote server.
 
@@ -404,45 +404,7 @@ ragRetriever_similarity_nltktext_bert = vectorstore_nltktext_bert.as_retriever(
 )
 ```
 
-Advance retrieving strategies can also be used. For instance, using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get ued to augment generation.
 
-```{python}
-from langchain.retrievers import ParentDocumentRetriever
-from langchain.storage import InMemoryStore
-
-# parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)
-# child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)
-
-# store = InMemoryStore()
-
-# parent_document_retriever = ParentDocumentRetriever(
-#     vectorstore= vectorstore_nltktext_bert,
-#     docstore=store,
-#     child_splitter=child_splitter,
-#     parent_splitter=parent_splitter,
-# )
-# parent_document_retriever.add_documents(docs)
-```
-
-**Ensemble retrieval** is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs are "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
-
-```{python}
-from langchain.retrievers import BM25Retriever, EnsembleRetriever
-
-# text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=16)
-# docs = text_splitter.split_documents(all_docs)
-# bm25_retriever = BM25Retriever.from_documents(docs)
-# bm25_retriever.k = 3
-
-# vectorstore = Chroma.from_documents(docs, hf_bge_embeddings)
-# chroma_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-
-# ensemble_retriever = EnsembleRetriever(
-#     retrievers=[bm25_retriever, chroma_retriever], 
-#    # Relative weighting of each retriever needs to sums to 1!
-#     weights=[0.42, 0.58])
-
-```
 
 #### Build the Chain
 
@@ -557,6 +519,48 @@ ragRetriever_mmr_recursivecharactertext_bge = vectorstore_recursivecharactertext
             search_type="mmr"
 )
 ```
+
+Advance retrieving strategies can also be used. For instance, using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get used to augment generation.
+
+```{python}
+from langchain.retrievers import ParentDocumentRetriever
+from langchain.storage import InMemoryStore
+
+# parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)
+# child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)
+
+# store = InMemoryStore()
+
+# parent_document_retriever = ParentDocumentRetriever(
+#     vectorstore= vectorstore_nltktext_bert,
+#     docstore=store,
+#     child_splitter=child_splitter,
+#     parent_splitter=parent_splitter,
+# )
+# parent_document_retriever.add_documents(docs)
+```
+
+**Ensemble retrieval** is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs are "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
+
+```{python}
+from langchain.retrievers import BM25Retriever, EnsembleRetriever
+
+# text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=16)
+# docs = text_splitter.split_documents(all_docs)
+# bm25_retriever = BM25Retriever.from_documents(docs)
+# bm25_retriever.k = 3
+
+# vectorstore = Chroma.from_documents(docs, hf_bge_embeddings)
+# chroma_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+
+# ensemble_retriever = EnsembleRetriever(
+#     retrievers=[bm25_retriever, chroma_retriever], 
+#    # Relative weighting of each retriever needs to sums to 1!
+#     weights=[0.42, 0.58])
+
+```
+
+
 
 and let's use a different model for the LLM: [command-r)](https://cohere.com/blog/command-r), and specifically the quantized version: [command-r:35b-v0.1-q4_K_M](https://ollama.com/library/command-r:35b-v0.1-q4_K_M), an open-weight model designed to optimize RAG.
 
@@ -1099,5 +1103,14 @@ Expressing thanks for all AI experts that are taking time to build open source t
  - [https://huggingface.co/learn/cookbook/en/llm_judge](https://huggingface.co/learn/cookbook/en/llm_judge)
  - [https://github.com/langchain-ai/rag-from-scratch](https://github.com/langchain-ai/rag-from-scratch)
  - [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf)
+
+The World bank IAEG has also released a few blogs: 
+ - [Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?](https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex)
+ - [Setting up Experiments to Test GPT for Evaluation](https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation)
+ - [Unfulfilled Promises: Using GPT for Synthetic Tasks](https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks)
+
+  - [What are the benefits and challenges of using AI in evaluation?](https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation)
+
+An interesting blog related to [AI costing](https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/)  
 
 Thanks also all UNHCR colleagues who took the time to review and proof read this document.

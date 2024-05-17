@@ -102,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#production-deployment-strategy" id="toc-production-deployment-strategy" class="nav-link" data-scroll-target="#production-deployment-strategy">Production Deployment Strategy</a>
   <ul class="collapse">
   <li><a href="#buy-or-build" id="toc-buy-or-build" class="nav-link" data-scroll-target="#buy-or-build">Buy or Build?</a></li>
-  <li><a href="#ai-ready-data-human-review-for-ground_truth" id="toc-ai-ready-data-human-review-for-ground_truth" class="nav-link" data-scroll-target="#ai-ready-data-human-review-for-ground_truth">AI ready data: Human Review for ‘ground_truth’</a></li>
+  <li><a href="#ai-ready-data-human-review-for-ground_truth" id="toc-ai-ready-data-human-review-for-ground_truth" class="nav-link" data-scroll-target="#ai-ready-data-human-review-for-ground_truth">“AI-Ready” data: Human Review for <code>ground_truth</code></a></li>
   <li><a href="#a-fine-tuned-expert-model" id="toc-a-fine-tuned-expert-model" class="nav-link" data-scroll-target="#a-fine-tuned-expert-model">A Fine-Tuned “expert” Model!</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
@@ -1067,27 +1067,38 @@ Note
 <h2 class="anchored" data-anchor-id="production-deployment-strategy">Production Deployment Strategy</h2>
 <section id="buy-or-build" class="level3">
 <h3 class="anchored" data-anchor-id="buy-or-build">Buy or Build?</h3>
-<p>As presented in <a href="https://www.gartner.com/en/information-technology/topics/ai-readiness">Gartner AI readiness framework</a>, there are potential graduated stage to consider in terms of deployment: consume, embed, extend and build, and for each of them, strategic decisions between outsourced/internalized are required.</p>
+<p>As presented in <a href="https://www.gartner.com/en/information-technology/topics/ai-readiness">Gartner AI readiness framework</a>, there are potential graduated deployment stages to consider: consume, embed, extend and build. For each of them, the strategic decision is to defined the share of investement between outsourced and internalized capacity.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://www.gartner.com/en/information-technology/topics/ai-readiness"><img src="img/GL0vYd_WcAAqUDZ.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness</figcaption>
 </figure>
 </div>
-<p>For instance, providing <a href="https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html">organisation-wide access to copilot</a> represents the <strong>consume</strong> stage, while creating a dedicated app like <a href="https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/">“Chat with your Evaluation Reports”</a> is the <strong>embed</strong> stage.</p>
-<p>Though using off-the-shelves solutions in a “consume or embed” mode comes with inherent limitations:</p>
+<p>For instance, providing <a href="https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html">organisation-wide access to copilot</a> represents the <strong>consume</strong> stage, while creating a dedicated app like <a href="https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/">“Chat with your Evaluation Reports”</a> is the <strong>embed</strong> stage. Though using off-the-shelves solutions in a “consume or embed” mode comes with inherent limitations:</p>
 <ul>
 <li>to incorporate organization specific Knowledge in a systematic and reliable way (i.e.&nbsp;with an <em>evaluated</em> RAG pipeline!);</li>
 <li>to set up processes for continuous update of the knowledge base used by the model;</li>
 <li>to prevent what is called “Hallucinations”, in other words the risk of generating incorrect or misleading information, that would not be context-aware;</li>
 <li>to develop internal technical capacity building on the new way of working that AI is offering.</li>
 </ul>
-<p>Above, we presented a recipe to extend existing foundation model, using the first step: Data Retrieval and Prompt engineering. We highlighted the importance of the configuration to ensure the <strong>reliability of the system</strong> and therefore the relevance of managing directly such process.</p>
-<p>Building common knowledge on “data retrieval scripts” could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.</p>
-<p>The next step, Task-Specific &amp; Alignment Fine Tuning comes first with the additional requirement to build AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you’d expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automation in private clouds.</p>
+<p>Above, we presented a recipe to extend existing foundation model, using the first step: Data Retrieval and Prompt engineering. We highlighted the importance of the configuration to ensure the <strong>reliability of the system</strong> and therefore the relevance of managing directly such process. Building common knowledge on “data retrieval scripts” could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.</p>
+<p>The next stage is to enable Task-Specific &amp; Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it will do a lot more. Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The future of Language Model development within organisations is likely to revolve around the creation of “specialized” fine-tuned smaller models. And at first comes the training cost componnent… To have some cost estimation in mind, training a custom large model can require easily 2 months on a big pool of specific hardware, the <a href="https://www.nvidia.com/en-us/data-center/a100/">A100 GPU</a>. With an estimated cost of 3$ per hour, the total training can go above 3M$. By comparison, fine-tuning an existing medium size foundation model can be done for instance with 16 GPUs × $3.00 /hour × 24 hours = $1,152…</p>
+</div>
+</div>
 </section>
 <section id="ai-ready-data-human-review-for-ground_truth" class="level3">
-<h3 class="anchored" data-anchor-id="ai-ready-data-human-review-for-ground_truth">AI ready data: Human Review for ‘ground_truth’</h3>
+<h3 class="anchored" data-anchor-id="ai-ready-data-human-review-for-ground_truth">“AI-Ready” data: Human Review for <code>ground_truth</code></h3>
 <p>Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such <strong>ground_truths</strong> attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.</p>
 <p>It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like <a href="https://labelstud.io/">labelStudioo</a> can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope”.</p>
 <p>After the peer review is sent to observation, operation feedback on the review can also be collected and use at a later stage to further fine tune the model</p>
@@ -1106,17 +1117,23 @@ Note
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure.</p>
-<p>Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.</p>
+<p>Some key considerations when looking at exp</p>
+<ul>
+<li><strong>Total Cost of Ownership</strong>: Off-the-shelves “production-level” solutions do not exist. The real challenge is to correctly balance outsourcing/insourcing.</li>
+<li><strong>Modular Customization</strong>: The “<em>orchestration</em>” solutions should be flexible to adapt itself to incoming new development, without changing everything.</li>
+<li><strong>Agility - Iterate &amp; Deliver</strong>: Adopt short development round to test with users.</li>
+<li><strong>Expertise &amp; Training</strong>: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.</li>
+</ul>
+<p>Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure. Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.</p>
 </section>
 <section id="acknowledgement" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgement">Acknowledgement</h2>
 <p>Expressing thanks for all AI experts that are taking time to build open source tools for this new technology and create tutorials. There are many of them and the list below is far from exhaustive:</p>
 <ul>
-<li><a href="https://huggingface.co/learn/cookbook/en/advanced_rag">https://huggingface.co/learn/cookbook/en/advanced_rag</a></li>
-<li><a href="https://huggingface.co/learn/cookbook/en/rag_evaluation">https://huggingface.co/learn/cookbook/en/rag_evaluation</a></li>
-<li><a href="https://huggingface.co/learn/cookbook/en/llm_judge">https://huggingface.co/learn/cookbook/en/llm_judge</a></li>
-<li><a href="https://github.com/langchain-ai/rag-from-scratch">https://github.com/langchain-ai/rag-from-scratch</a></li>
+<li><a href="https://huggingface.co/learn/cookbook/en/advanced_rag" class="uri">https://huggingface.co/learn/cookbook/en/advanced_rag</a></li>
+<li><a href="https://huggingface.co/learn/cookbook/en/rag_evaluation" class="uri">https://huggingface.co/learn/cookbook/en/rag_evaluation</a></li>
+<li><a href="https://huggingface.co/learn/cookbook/en/llm_judge" class="uri">https://huggingface.co/learn/cookbook/en/llm_judge</a></li>
+<li><a href="https://github.com/langchain-ai/rag-from-scratch" class="uri">https://github.com/langchain-ai/rag-from-scratch</a></li>
 <li><a href="https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf">AI Infrastructure Report</a></li>
 </ul>
 <p>The World bank IAEG has also released a few blogs: - <a href="https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex">Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?</a> - <a href="https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation">Setting up Experiments to Test GPT for Evaluation</a> - <a href="https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks">Unfulfilled Promises: Using GPT for Synthetic Tasks</a></p>

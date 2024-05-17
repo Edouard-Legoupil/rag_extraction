@@ -12,25 +12,19 @@ execute:
 
 ::: {.bg-primary .text-white .p-3 .column-page}
 *"We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely."* - Edward Osborne Wilson
-
 :::
 
 ## Executive Summary
 
 Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
-
-
 ::: columns
 ::: {.column width="60%"}
-The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth  is a common challenge for evaluations but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**.Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias... 
-The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth is a common challenge for evaluations but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**.Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
 :::
 
 ::: {.column width="40%"}
 ![](img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg){fit-align="center"}
-
-
 :::
 :::
 
@@ -44,7 +38,7 @@ Last we discuss how such approach can actually inform decisions and strategies f
 
 A short presentation is also [available here](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html)
 
-------
+------------------------------------------------------------------------
 
 ## Introduction
 
@@ -284,7 +278,6 @@ Open-source Large Language Models (LLM) have multiple advantages:
 -   **Added Features and Community Contributions**: can leverage multiple providers and internal teams for updates and support, which enables to stay at the forefront of technology and exercise greater control over their usage.
 
 -   **Customizability**: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.
-
 :::
 
 There are multiple options to do that. An easy one is to install [OLLAMA](https://ollama.com/), which offers a wide [variety of open models](https://ollama.com/library) from the "AI Race" competitors [arena](https://chat.lmsys.org/): [LLama3](https://ollama.com/library/llama3) from Facebook, [gemma](https://ollama.com/library/gemma) from Google, [phi3](https://ollama.com/library/phi3) Microsoft but also [qwen](https://ollama.com/library/qwen) from the Chinese AliBaba, [falcon](https://ollama.com/library/falcon) from the Emirati Technology Innovation Institute, or [Mixtral](https://ollama.com/library/mixtral) from the french startup Mistral_AI. Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama).
@@ -403,8 +396,6 @@ ragRetriever_similarity_nltktext_bert = vectorstore_nltktext_bert.as_retriever(
             },
 )
 ```
-
-
 
 #### Build the Chain
 
@@ -559,8 +550,6 @@ from langchain.retrievers import BM25Retriever, EnsembleRetriever
 #     weights=[0.42, 0.58])
 
 ```
-
-
 
 and let's use a different model for the LLM: [command-r)](https://cohere.com/blog/command-r), and specifically the quantized version: [command-r:35b-v0.1-q4_K_M](https://ollama.com/library/command-r:35b-v0.1-q4_K_M), an open-weight model designed to optimize RAG.
 
@@ -885,7 +874,7 @@ dataset_command_mmr_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_
 dataset_command_mmr_recursivecharactertext_bge_d.to_excel("generated/dataset_command_mmr_recursivecharactertext_bge.xlsx") 
 ```
 
-### Computing Assessment Metrics 
+### Computing Assessment Metrics
 
 ::: callout-note
 Developing a proof-of-concept RAG application might seem straightforward, but ensuring its performance meets production standards is a challenging task. Similar to data science projects, it's essential to assess the RAG pipeline's performance using a validation dataset and appropriate evaluation metrics.
@@ -1046,26 +1035,27 @@ fig.show()
 
 ### Buy or Build?
 
-As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness), there are potential graduated stage to consider in terms of deployment: consume, embed, extend and build, and for each of them, strategic decisions between outsourced/internalized are required.
+As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness), there are potential graduated deployment stages to consider: consume, embed, extend and build. For each of them, the strategic decision is to defined the share of investement between outsourced and internalized capacity.
 
 [![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
 
-For instance, providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represents the **consume** stage, while creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the **embed** stage.
-
-Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
+For instance, providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represents the **consume** stage, while creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the **embed** stage. Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
 
 -   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with an *evaluated* RAG pipeline!);
 -   to set up processes for continuous update of the knowledge base used by the model;
 -   to prevent what is called "Hallucinations", in other words the risk of generating incorrect or misleading information, that would not be context-aware;
 -   to develop internal technical capacity building on the new way of working that AI is offering.
 
-Above, we presented a recipe to extend existing foundation model, using the first step: Data Retrieval and Prompt engineering. We highlighted the importance of the configuration to ensure the **reliability of the system** and therefore the relevance of managing directly such process.
+Above, we presented a recipe to extend existing foundation model, using the first step: Data Retrieval and Prompt engineering. We highlighted the importance of the configuration to ensure the **reliability of the system** and therefore the relevance of managing directly such process. Building common knowledge on "data retrieval scripts" could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
 
-Building common knowledge on "data retrieval scripts" could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
+The next stage is to enable Task-Specific & Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it will do a lot more. Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.
 
-The next step, Task-Specific & Alignment Fine Tuning comes first with the additional requirement to build AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, they can do a lot more than you'd expect. Such tine-tuned model will be more efficient and can saves money, especially for tasks like RAG workflows and automation in private clouds.
+::: callout-note
+The future of Language Model development within organisations is likely to revolve around the creation of “specialized” fine-tuned smaller models. And at first comes the training cost componnent...
+To have some cost estimation in mind, training a custom large model can require easily 2 months on a big pool of specific hardware, the [A100 GPU](https://www.nvidia.com/en-us/data-center/a100/). With an estimated cost of 3\$ per hour, the total training can go above 3M\$. By comparison, fine-tuning an existing medium size foundation model can be done for instance with 16 GPUs × \$3.00 /hour × 24 hours = \$1,152...
+:::
 
-### AI ready data: Human Review for 'ground_truth'
+### "AI-Ready" data: Human Review for `ground_truth`
 
 Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
 
@@ -1089,28 +1079,29 @@ A fine tune model could help front-loading many more contexts that a simple foun
 
 ## Conclusion
 
-Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure.
+Some key considerations when looking at exp
 
-Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.
+-   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing/insourcing.
+-   **Modular Customization**: The "*orchestration*" solutions should be flexible to adapt itself to incoming new development, without changing everything.
+-   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
+-   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
 
+Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure. Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.
 
 ## Acknowledgement
 
 Expressing thanks for all AI experts that are taking time to build open source tools for this new technology and create tutorials. There are many of them and the list below is far from exhaustive:
 
- - [https://huggingface.co/learn/cookbook/en/advanced_rag](https://huggingface.co/learn/cookbook/en/advanced_rag)
- - [https://huggingface.co/learn/cookbook/en/rag_evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation)
- - [https://huggingface.co/learn/cookbook/en/llm_judge](https://huggingface.co/learn/cookbook/en/llm_judge)
- - [https://github.com/langchain-ai/rag-from-scratch](https://github.com/langchain-ai/rag-from-scratch)
- - [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf)
+-   <https://huggingface.co/learn/cookbook/en/advanced_rag>
+-   <https://huggingface.co/learn/cookbook/en/rag_evaluation>
+-   <https://huggingface.co/learn/cookbook/en/llm_judge>
+-   <https://github.com/langchain-ai/rag-from-scratch>
+-   [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf)
 
-The World bank IAEG has also released a few blogs: 
- - [Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?](https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex)
- - [Setting up Experiments to Test GPT for Evaluation](https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation)
- - [Unfulfilled Promises: Using GPT for Synthetic Tasks](https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks)
+The World bank IAEG has also released a few blogs: - [Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?](https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex) - [Setting up Experiments to Test GPT for Evaluation](https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation) - [Unfulfilled Promises: Using GPT for Synthetic Tasks](https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks)
 
-  - [What are the benefits and challenges of using AI in evaluation?](https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation)
+-   [What are the benefits and challenges of using AI in evaluation?](https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation)
 
-An interesting blog related to [AI costing](https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/)  
+An interesting blog related to [AI costing](https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/)
 
 Thanks also all UNHCR colleagues who took the time to review and proof read this document.

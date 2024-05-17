@@ -9,7 +9,7 @@
 <meta name="author" content="Edouard Legoupil, UNHCR Evaluation Office">
 <meta name="dcterms.date" content="2024-05-17">
 
-<title>Generating and Improving Evaluation Report “Brief”</title>
+<title>Generating Evaluation Report “Brief”</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -114,8 +114,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Generating and Improving Evaluation Report “<strong>Brief</strong>”</h1>
-<p class="subtitle lead">Evaluating AI Usage for Evaluation Purpose</p>
+<h1 class="title">Generating Evaluation Report “<strong>Brief</strong>”</h1>
+<p class="subtitle lead">Evaluating <code>AI</code> Usage for Evaluation Purpose</p>
 </div>
 
 
@@ -147,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="executive-summary" class="level2">
 <h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
-<p>Artificial Inteligence (AI) is presented as the potential trigger for the <a href="https://www.nature.com/articles/s41599-019-0253-6">fifth wave</a> of the <strong>evidence revolution</strong> (<em>following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering</em>). This actually reflects a situation where considering the <a href="https://www.uneval.org/evaluation/reports">numbers of published evaluation reports</a> across the UN system, <strong>information retrieval and evidence generalization challenges</strong> have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?</p>
+<p>Artificial Inteligence (AI) is presented as the potential trigger for the <a href="https://www.nature.com/articles/s41599-019-0253-6">fifth wave</a> of the <strong>evidence revolution</strong> (following the 4 previous ones: <em>1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering</em>). This actually reflects a situation where considering the <a href="https://www.uneval.org/evaluation/reports">numbers of published evaluation reports</a> across the UN system, <strong>information retrieval and evidence generalization challenges</strong> have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?</p>
 <div class="columns">
 <div class="column" style="width:60%;">
 <p>The key deliverable from an evaluation process is usually a long report (<em>often over 60 pages PDF file</em>). From this report, two-pagers executive “briefs” are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth is a common challenge for evaluations but what remains even more challenging is the subjective dimension involved in <strong>choosing what to include and what to exclude</strong>.Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias… The potential fear of being, like <em>Cassandra</em> in the greek mythology, the bearer of bad news comes with the structural risk of “cushioning” the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.</p>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Retrieval-augmented generation (RAG) is an AI Question-Answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from “evaluation reports”). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.</p>
 <p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of functions and models from <a href="https://huggingface.co/docs/hub/index">Hugging Face Hub</a>. Rather than relying on ad-hoc user interactions through a <em>black-box point &amp; click</em> chat interface, a relevant alternative is to use a data science approach with documented and <strong>reproducible scripts</strong> that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.</p>
 <p>Second, we review the techniques that can be used to <strong>evaluate the performance</strong> of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx">second alternative brief</a>, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.</p>
-<p>Last we discuss how such approach can actually inform decisions and strategies for an <strong>efficient AI deployment</strong>: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tuned models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.</p>
+<p>Last we discuss how such approach can actually inform decisions and strategies for an <strong>efficient AI deployment</strong>: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to “fine-tune” an existing model and further increase its performance and reliability both for evidence retrieval and at latter stage for evidence re-injection.</p>
 <p>A short presentation is also <a href="https://edouard-legoupil.github.io/rag_extraction/prez/prez.html">available here</a></p>
 <hr>
 </section>
@@ -1074,7 +1074,7 @@ Note
 <figcaption class="figure-caption">From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness</figcaption>
 </figure>
 </div>
-<p>For instance, providing <a href="https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html">organisation-wide access to copilot</a> represents the <strong>consume</strong> stage, while creating a dedicated app like <a href="https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/">“Chat with your Evaluation Reports”</a> is the <strong>embed</strong> stage. Though using off-the-shelves solutions in a “consume or embed” mode comes with inherent limitations:</p>
+<p>Providing <a href="https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html">organisation-wide access to copilot</a> represents only the very initial <strong>consume</strong> stage. Creating a dedicated app like <a href="https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/">“Chat with your Evaluation Reports”</a> is the second one: <strong>embed</strong> stage. Though using off-the-shelves solutions in a “consume or embed” mode comes with inherent limitations:</p>
 <ul>
 <li>to incorporate organization specific Knowledge in a systematic and reliable way (i.e.&nbsp;with an <em>evaluated</em> RAG pipeline!);</li>
 <li>to set up processes for continuous update of the knowledge base used by the model;</li>
@@ -1119,8 +1119,8 @@ Note
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>Some key considerations when looking at exp</p>
 <ul>
-<li><strong>Total Cost of Ownership</strong>: Off-the-shelves “production-level” solutions do not exist. The real challenge is to correctly balance outsourcing/insourcing.</li>
-<li><strong>Modular Customization</strong>: The “<em>orchestration</em>” solutions should be flexible to adapt itself to incoming new development, without changing everything.</li>
+<li><strong>Total Cost of Ownership</strong>: Off-the-shelves “production-level” solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.</li>
+<li><strong>Modular Customization</strong>: The “<em>orchestration</em>” solution should be flexible to adapt itself to incoming new development, without changing everything.</li>
 <li><strong>Agility - Iterate &amp; Deliver</strong>: Adopt short development round to test with users.</li>
 <li><strong>Expertise &amp; Training</strong>: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.</li>
 </ul>

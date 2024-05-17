@@ -1,5 +1,5 @@
 ---
-title: Evaluating AI Usage for Evaluation Purpose
+title: Evaluating `AI` Usage for Evaluation Purpose
 subtitle: Improving Report Summarization
 format: unhcr-revealjs
 embed-resources: true
@@ -232,7 +232,7 @@ Quick implementation with vendor support. Cost-effective for standard applicatio
 
 ::: {style="font-size: 90%;"}
 -   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing/insourcing.
--   **Modular Customization**: The "*orchestration*" solutions should be flexible to adapt itself to incoming new development, without changing everything.
+-   **Modular Customization**: The "*orchestration*" solution should be flexible to adapt itself to incoming new development, without changing everything.
 -   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
 -   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
 :::

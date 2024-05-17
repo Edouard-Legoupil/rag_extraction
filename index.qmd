@@ -1,6 +1,6 @@
 ---
-title: Generating and Improving Evaluation Report "**Brief**"
-subtitle: Evaluating AI Usage for Evaluation Purpose
+title: Generating Evaluation Report "**Brief**"
+subtitle: Evaluating `AI` Usage for Evaluation Purpose
 date: today
 author: Edouard Legoupil, UNHCR Evaluation Office
 format: unhcr-html
@@ -16,7 +16,7 @@ execute:
 
 ## Executive Summary
 
-Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (*following the 4 previous ones: 1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
+Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (following the 4 previous ones: *1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
 ::: columns
 ::: {.column width="60%"}
@@ -34,7 +34,7 @@ First, we explain how to create an initial [two-pagers evaluation brief](https:/
 
 Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
 
-Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop would allow to fine-tuned models and further increase the whole performance and reliability of evidence retrieval and re-injection processes.
+Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to "fine-tune" an existing model and further increase its performance and reliability both for evidence retrieval and at latter stage for evidence re-injection.
 
 A short presentation is also [available here](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html)
 
@@ -1039,7 +1039,7 @@ As presented in [Gartner AI readiness framework](https://www.gartner.com/en/info
 
 [![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
 
-For instance, providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represents the **consume** stage, while creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the **embed** stage. Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
+Providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represents only the very initial **consume** stage. Creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the second one: **embed** stage. Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
 
 -   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with an *evaluated* RAG pipeline!);
 -   to set up processes for continuous update of the knowledge base used by the model;
@@ -1081,8 +1081,8 @@ A fine tune model could help front-loading many more contexts that a simple foun
 
 Some key considerations when looking at exp
 
--   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing/insourcing.
--   **Modular Customization**: The "*orchestration*" solutions should be flexible to adapt itself to incoming new development, without changing everything.
+-   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.
+-   **Modular Customization**: The "*orchestration*" solution should be flexible to adapt itself to incoming new development, without changing everything.
 -   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
 -   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
 

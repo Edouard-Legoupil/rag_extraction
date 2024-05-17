@@ -27,7 +27,7 @@ Considering the [number of published evaluation reports](https://www.uneval.org/
 
 How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
-## The fifth wave of the **evidence revolution** will be triggered by AI
+## The 5th wave of the **evidence revolution** is triggered by AI
 
 ::: columns
 ::: {.column width="70%"}
@@ -149,8 +149,9 @@ Define and apply relevant **metrics** for both retrieval and generation to syste
 **Thorough Documentation**
 
 ::: {style="font-size: 70%"}
-Keep detailed records of data sources, preprocessing steps, model configurations, and evaluation results\
-Clear guidelines on usage and troubleshooting.
+Keep detailed records of data sources, processing steps, model configurations, and evaluation results.
+
+Clear guidelines on usage and troubleshooting written for a lay audience.
 :::
 :::
 
@@ -158,7 +159,11 @@ Clear guidelines on usage and troubleshooting.
 **Reproducible Workflows**
 
 ::: {style="font-size: 60%;"}
-Ensure that experiments can be replicated by others: - Code under Version control. - pipelines and scripts for data processing, model training, and evaluation automated. - Public repositories for collaborative work are shared.
+Ensure that experiments can be replicated by others:
+
+-   Put Code under Version control
+-   Set up Pipelines and scripts for data processing, model training, and evaluation automated
+-   Share Public repositories for collaborative work.
 :::
 :::
 
@@ -197,16 +202,16 @@ Alignment Fine-Tuning: Ensure model outputs align with user expectations and eth
 
 ## Experimentation Results
 
-::: {style="font-size: 90%;"}
+::: {style="font-size: 80%;"}
 See [full article here](https://edouard-legoupil.github.io/rag_extraction/)
 
-1.  **Report used**: the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf).
+1.  **Report used**: the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) with two test summary [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx).
 
 2.  **Models Tested**: Small large language model that can run out of a strong laptop: [Command-r](https://cohere.com/blog/command-r) & [Mixtral](https://mistral.ai/news/mixtral-of-experts/) for the generation, [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) for the embeddings
 
-3.  **Integration**: Use of [LangChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) for the orchestration
+3.  **Integration & Documentation**: Use of [LangChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) for the orchestration. Code shared and documented in [Github](https://github.com/Edouard-Legoupil/rag_extraction/)
 
-4.  **Validation**: Human-baseline generated with [labelStud.io](https://labelstud.io/).
+4.  **Human Validation**: Ground truthing with [labelStud.io](https://labelstud.io/).
 
 5.  **Evaluation**: Assess accuracy, relevance, and efficiency using [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/).
 :::

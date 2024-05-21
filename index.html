@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Edouard Legoupil, UNHCR Evaluation Office">
-<meta name="dcterms.date" content="2024-05-17">
+<meta name="dcterms.date" content="2024-05-21">
 
 <title>Generating Evaluation Report “Brief”</title>
 <style>
@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">17 May 2024</p>
+      <p class="date">21 May 2024</p>
     </div>
   </div>
   
@@ -155,7 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg" class="img-fluid" data-fit-align="center"></p>
 </div>
 </div>
-<p>Retrieval-augmented generation (RAG) is an AI Question-Answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Model (LLMs) and information retrieval systems from specific domain of expertise (here from “evaluation reports”). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.</p>
+<p>Retrieval-augmented generation (RAG) is an AI Question-Answering framework that <a href="https://arxiv.org/pdf/2005.11401">surfaced in 2020</a> and that synergizes the capabilities of Large Language Models (LLMs) and information retrieval systems from specific domain of expertise (here from “evaluation reports”). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.</p>
 <p>First, we explain how to create an initial <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx">two-pagers evaluation brief</a> using an orchestration of functions and models from <a href="https://huggingface.co/docs/hub/index">Hugging Face Hub</a>. Rather than relying on ad-hoc user interactions through a <em>black-box point &amp; click</em> chat interface, a relevant alternative is to use a data science approach with documented and <strong>reproducible scripts</strong> that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.</p>
 <p>Second, we review the techniques that can be used to <strong>evaluate the performance</strong> of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx">second alternative brief</a>, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.</p>
 <p>Last we discuss how such approach can actually inform decisions and strategies for an <strong>efficient AI deployment</strong>: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to “fine-tune” an existing model and further increase its performance and reliability both for evidence retrieval and at latter stage for evidence re-injection.</p>

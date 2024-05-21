@@ -18,7 +18,6 @@ execute:
 
 Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (following the 4 previous ones: *1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
-
 ::: columns
 ::: {.column width="60%"}
 The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth is a common challenge for evaluations but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**.Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
@@ -76,7 +75,7 @@ Once this environment selected as a kernel to run the notebook, we can install t
 %pip install --upgrade --quiet install pypdf
 
 ## Library for chunking
-%pip install --upgrade --quiet  tiktoken
+%pip install --upgrade --quiet tiktoken
 %pip install --upgrade --quiet nltk
 
 ## Library for the embedding
@@ -1052,8 +1051,7 @@ Above, we presented a recipe to extend existing foundation model, using the firs
 The next stage is to enable Task-Specific & Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it will do a lot more. Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.
 
 ::: callout-note
-The future of Language Model development within organisations is likely to revolve around the creation of “specialized” fine-tuned smaller models. And at first comes the training cost componnent...
-To have some cost estimation in mind, training a custom large model can require easily 2 months on a big pool of specific hardware, the [A100 GPU](https://www.nvidia.com/en-us/data-center/a100/). With an estimated cost of 3\$ per hour, the total training can go above 3M\$. By comparison, fine-tuning an existing medium size foundation model can be done for instance with 16 GPUs × \$3.00 /hour × 24 hours = \$1,152...
+The future of Language Model development within organisations is likely to revolve around the creation of “specialized” fine-tuned smaller models. And at first comes the training cost componnent... To have some cost estimation in mind, training a custom large model can require easily 2 months on a big pool of specific hardware, the [A100 GPU](https://www.nvidia.com/en-us/data-center/a100/). With an estimated cost of 3\$ per hour, the total training can go above 3M\$. By comparison, fine-tuning an existing medium size foundation model can be done for instance with 16 GPUs × \$3.00 /hour × 24 hours = \$1,152...
 :::
 
 ### "AI-Ready" data: Human Review for `ground_truth`

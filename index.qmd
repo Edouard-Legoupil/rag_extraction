@@ -52,9 +52,11 @@ Building a robust information retrieval system requires to configure different c
 
 This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can [rerun and learn](https://github.com/Edouard-Legoupil/rag_extraction/){target="_blank"} from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
 
-Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf){target="_blank"} to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new){target="_blank"}!
+Non-technical audience can consume the executive summary above, the conclusions and the [linked presentation](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html){target="_blank"}.
 
 ### Environment Set up
+
+The body of this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. To get this audience interest, we used the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf){target="_blank"} for the demo. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions and share comments through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new){target="_blank"}!
 
 The world of LLMs is a [Python](https://www.python.org/downloads/){target="_blank"} one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/){target="_blank"} but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/){target="_blank"}
 

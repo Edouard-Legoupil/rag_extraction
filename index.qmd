@@ -20,7 +20,7 @@ Artificial Inteligence (AI) is presented as the potential trigger for the [fifth
 
 ::: columns
 ::: {.column width="60%"}
-The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth is a common challenge for evaluations but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**.Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth is a common challenge but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**. Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
 :::
 
 ::: {.column width="40%"}
@@ -443,7 +443,7 @@ response_recursivecharactertext_bert = qa_chain_recursivecharactertext_bert.invo
 
 #### Save in a word document
 
-To complete the process, let's save the result directly within a [word document](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"}! 
+To complete the process, let's save the result directly within a [word document](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"}!
 
 This can be automated with a created function `create_word_doc` that will reformat the text output from the LLM that uses the [standard Markdown format](https://www.markdownguide.org/getting-started/){target="_blank"} to the equivalent in Word:
 
@@ -511,7 +511,7 @@ def create_word_doc(text, file_name):
     doc.save(file_name)
 ```
 
- Now we can simply use this function to get a word output from the LLM answer!
+Now we can simply use this function to get a word output from the LLM answer!
 
 ```{python}
 create_word_doc(
@@ -520,7 +520,6 @@ create_word_doc(
 )
 ```
 
- 
 ## Continuous Evaluation Process
 
 We were able to get a first brief... still how can we assess how good is this report? We will first test different settings to create the brief. Then we create a dataset reflecting those settings and evaluate it!
@@ -565,9 +564,9 @@ ragRetriever_mmr_recursivecharactertext_bge = vectorstore_recursivecharactertext
 )
 ```
 
-[Advance retrieving strategies](https://js.langchain.com/v0.1/docs/modules/data_connection/retrievers/#advanced-retrieval-types){target="_blank"} can also be used to improve the process. For instance, we can test: 
+[Advance retrieving strategies](https://js.langchain.com/v0.1/docs/modules/data_connection/retrievers/#advanced-retrieval-types){target="_blank"} can also be used to improve the process. For instance, we can test:
 
- -  using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get used to augment generation.
+-   using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get used to augment generation.
 
 ```{python}
 from langchain.retrievers import ParentDocumentRetriever
@@ -587,7 +586,7 @@ ragRetriever_parent_recursivecharactertext_bge = ParentDocumentRetriever(
 ragRetriever_parent_recursivecharactertext_bge.add_documents(docs)
 ```
 
- -  **Ensemble retrieval** is another technique where a Retriever Pair is created with  on one side a sparse retriever (like [Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25){target="_blank"}) and a dense retriever (like the embedding similarity we saw before) on the other side. Then retrieved information is "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
+-   **Ensemble retrieval** is another technique where a Retriever Pair is created with on one side a sparse retriever (like [Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25){target="_blank"}) and a dense retriever (like the embedding similarity we saw before) on the other side. Then retrieved information is "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
 
 ```{python}
 from langchain.retrievers import BM25Retriever
@@ -669,17 +668,17 @@ create_word_doc(
 )
 ```
 
-Et voila! We have now 4 alternative briefs:  
+Et voila! We have now 4 alternative briefs:
 
-  -  [#1 - Similarity retrieval with Bert embedding using Mixtral LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"} 
+-   [#1 - Similarity retrieval with Bert embedding using Mixtral LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"}
 
-  -  [#2 - Maximum Marginal Relevance retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"},
+-   [#2 - Maximum Marginal Relevance retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"},
 
-  -  [#3 - Parent document retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_parent_recursivecharactertext_bge.docx){target="_blank"},
+-   [#3 - Parent document retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_parent_recursivecharactertext_bge.docx){target="_blank"},
 
-  -  [#4 - Ensemble document retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_ensemble_recursivecharactertext_bge.docx){target="_blank"},
-  
-Each summary is slightly different... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. 
+-   [#4 - Ensemble document retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_ensemble_recursivecharactertext_bge.docx){target="_blank"},
+
+Each summary is slightly different... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other.
 
 Now let's **evaluate** the quality of those summarization pipeline to objectively find out about this!
 
@@ -699,16 +698,16 @@ One approach is to extract from the report both:
 
 -   all **recommendations**, flagging clearly if the recommendations relate to practices that should be either discontinued on one side or on the other side to practices that should be scaled up and of if they comes with resource allocation requirement.
 
-To provide more perspectives for the extraction, the report can be reviewed from the angle of each of the potential 26 different type of experts that may look at UNHCR programme:
+To provide more perspectives for the extraction, the report can be reviewed by 26 different type of experts that may look at UNHCR programme with different angles:
 
--   **4 experts for Strategic Impact** Peer Review: i.e., finding or recommendations that require a change in existing policy and regulations in relation within the specific impact area:
+-   4 experts for **Strategic Impact**: i.e., findings or recommendations that require a change in existing policies and regulations in relation within the specific impact area:
 
     1.  Attaining favorable protection environments
     2.  Realizing rights in safe environments
     3.  Empowering communities and achieving gender equality
     4.  Securing durable solutions
 
--   **17 experts for Operational Outcome** Peer Review: i.e., finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities in relation within the specific outcome area:
+-   17 experts for **Operational Outcome**: i.e., findings or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities in relation within the specific outcome area:
 
     1.  Access to territory registration and documentation
     2.  Status determination
@@ -727,7 +726,7 @@ To provide more perspectives for the extraction, the report can be reviewed from
     15. Resettlement and complementary pathways
     16. Local integration and other local solutions
 
--   **5 experts on Organizational Enabler** Peer Review: i.e., finding or recommendations that require changes in management practices, technical approach, business processes, staffing allocation or capacity building in relation with:
+-   5 experts on **Organizational Enabler**: i.e., findings or recommendations that require changes in management practices, technical approach, business processes, staffing allocation or capacity building in relation with:
 
     1.  Systems and processes
     2.  Operational support and supply chain
@@ -743,10 +742,10 @@ q_experts = [
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Attaining favorable protection environments---: i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Realizing rights in safe environments---: i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Empowering communities and achieving gender equality--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
-    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Securing durable solutions--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the Strategic Impact: ---Securing durable solutions--- : i.e., finding or recommendations that require a change in existing policy and regulations. [/INST]",
 
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: ---Access to territory registration and documentation ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
-    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Status determination ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Status determination ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Protection policy and law---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Gender-based violence ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Child protection ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]",
@@ -768,8 +767,6 @@ q_experts = [
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on People and culture Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on External engagement and resource mobilization Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Leadership and governance Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" 
-
-    # ...
 ]
 
 # Predefined knowledge extraction questions
@@ -796,7 +793,7 @@ Be concise in the response and  when relevant include precise citations from the
 """
 ```
 
-then reset the 2 RAG pipleline we have 2 llm
+Then, we can reset the 2 RAG pipleline with their respective LLMs
 
 ```{python}
 from langchain_community.chat_models import ChatOllama
@@ -1171,7 +1168,7 @@ fig.show()
 
 As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness){target="_blank"}, there are potential graduated deployment stages to consider: consume, embed, extend and build. For each of them, the strategic decision is to defined the share of investement between outsourced and internalized capacity.
 
-[![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness){target="_blank"}
+[![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
 
 Providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html){target="_blank"} represents only the very initial **consume** stage. Creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/){target="_blank"} is the second one: **embed** stage. Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
 
@@ -1210,15 +1207,16 @@ A fine tune model could help front-loading many more contexts that a simple foun
 
 -   **Results** – The fine-tuned model output would be systematically saved in order to be re-assessed by humans to fine-tune it further from this feedback and improve over time (also called reinforcement learning.)
 
-## Conclusion
+## Conclusions
 
-Blind trust in AI definitely comes with serious risks that have been extensively discussed (Bias and Discrimination, Lack of Transparency and Explainability, etc.). Trust building will therefore require organisational investment to continuously assess the results both from an information retrieval side and from a faithfulness side.  
+Blind trust in AI definitely comes with serious risks that have been extensively discussed in the literature (*Bias and Discrimination, Lack of Transparency and Explainability, etc.*). Trust building will therefore require organizational investment to continuously assess the results both from an information retrieval side and from a faithfulness side.
 
 This paper is advocating for an approach grounded in data science but backed with human review. Some key considerations to implement this involve to look at:
 
 -   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.
 -   **Modular Customization**: The "*orchestration*" solution should be flexible to adapt itself to incoming new development, without changing everything.
 -   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
+-   **Information Formatting**: Promote specific format for report publication, specifically Markdown, to ease the ingestion of content by the models.
 -   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
 
 Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up dedicated teams and infrastructure. Pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could be a sustainable way of addressing it.
@@ -1227,21 +1225,19 @@ Leveraging the potential of AI for evaluation implies significant investement. T
 
 Expressing thanks for all AI experts that are taking time to build open source tools for this new technology and create tutorials. There are many of them and the list below is far from exhaustive:
 
- 
--  [advanced_rag](https://huggingface.co/learn/cookbook/en/advanced_rag)
--  [rag_evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation)
--  [llm_judge](https://huggingface.co/learn/cookbook/en/llm_judge)
--  [rag-from-scratch](https://github.com/langchain-ai/rag-from-scratch)
--  [langchain-tutorials](https://github.com/gkamradt/langchain-tutorials)
--  [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf){target="_blank"}
--  [AI costing](https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/){target="_blank"}
+-   [advanced_rag](https://huggingface.co/learn/cookbook/en/advanced_rag)
+-   [rag_evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation)
+-   [llm_judge](https://huggingface.co/learn/cookbook/en/llm_judge)
+-   [rag-from-scratch](https://github.com/langchain-ai/rag-from-scratch)
+-   [langchain-tutorials](https://github.com/gkamradt/langchain-tutorials)
+-   [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf){target="_blank"}
+-   [AI costing](https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/){target="_blank"}
 
-The World Bank [Independent Evaluation Group (IEG)](https://ieg.worldbankgroup.org/) has also released a few blogs that focus on the "*consume*" stage and highlight the inherent limitations that comes a "buy-only" approach: 
+The World Bank [Independent Evaluation Group (IEG)](https://ieg.worldbankgroup.org/) has also released a few blogs that focus on the "*consume*" stage and highlight the inherent limitations that comes a "buy-only" approach:
 
- - [Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?](https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex){target="_blank"}  
- - [Setting up Experiments to Test GPT for Evaluation](https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation){target="_blank"}  
- - [Unfulfilled Promises: Using GPT for Synthetic Tasks](https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks){target="_blank"}
+-   [Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?](https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex){target="_blank"}
+-   [Setting up Experiments to Test GPT for Evaluation](https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation){target="_blank"}
+-   [Unfulfilled Promises: Using GPT for Synthetic Tasks](https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks){target="_blank"}
 -   [What are the benefits and challenges of using AI in evaluation?](https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation){target="_blank"}
 
- 
 Thanks also all UNHCR colleagues who took the time to review and proof read this document.

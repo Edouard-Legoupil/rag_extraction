@@ -48,7 +48,7 @@ Building a robust information retrieval system requires to configure different c
 
 2)  **A Continuous Evaluation Process**: Explore and combine various options for both Retrieval and Generation to compare the results.
 
-3)  **A Production Deployment Strategy**: Organise AI-ready feedback and prepare data for fine-tuning.
+3)  **A Production Deployment Strategy**: Organise AI-ready human feedback and prepare data for fine-tuning.
 
 This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can [rerun and learn](https://github.com/Edouard-Legoupil/rag_extraction/){target="_blank"} from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
 
@@ -58,7 +58,7 @@ Most of the content in this document targets a technical audience that may consi
 
 The world of LLMs is a [Python](https://www.python.org/downloads/){target="_blank"} one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/){target="_blank"} but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/){target="_blank"}
 
-Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with [conda](https://docs.conda.io/en/latest/){target="_blank"} python modules management utility.
+Make sure to install the last stable version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with [conda](https://docs.conda.io/en/latest/){target="_blank"} python modules management utility.
 
 First directly in your OS Shell, create a new environment - here called **`evalenv`**
 
@@ -197,9 +197,9 @@ chroma_client = chromadb.PersistentClient(path="persist/")
 #chroma_collection = chroma_client.create_collection('collection')
 ```
 
-To generate embedding, we need a dedicated model and there's no single "best" option to select it. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.
+To generate embedding, we need a dedicated model and there's no single "best" option to select it. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But this can lead to computationally expensive training and usage and resulting embedding model with a large size.
 
-Here we start with testing with [GPT4ALL embedding](https://docs.gpt4all.io/gpt4all_python_embedding.html){target="_blank"}
+Here we start with testing with the small 44MB [MiniLM embedding](https://docs.gpt4all.io/gpt4all_python_embedding.html){target="_blank"}
 
 ```{python}
 from langchain_community.embeddings import GPT4AllEmbeddings 
@@ -287,7 +287,7 @@ Open-source Large Language Models (LLM) have multiple advantages:
 -   **Customizability**: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.
 :::
 
-There are multiple options to do that. An easy one is to install [OLLAMA](https://ollama.com/){target="_blank"}, which offers a wide [variety of open models](https://ollama.com/library){target="_blank"} from the "AI Race" competitors [arena](https://chat.lmsys.org/){target="_blank"}: [LLama3](https://ollama.com/library/llama3){target="_blank"} from Facebook, [gemma](https://ollama.com/library/gemma){target="_blank"} from Google, [phi3](https://ollama.com/library/phi3){target="_blank"} Microsoft but also [qwen](https://ollama.com/library/qwen){target="_blank"} from the Chinese AliBaba, [falcon](https://ollama.com/library/falcon){target="_blank"} from the Emirati Technology Innovation Institute, or [Mixtral](https://ollama.com/library/mixtral){target="_blank"} from the french startup Mistral_AI. Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama){target="_blank"}.
+There are multiple options to do that. An easy one is to install [OLLAMA](https://ollama.com/){target="_blank"}, which offers a wide [variety of open models](https://ollama.com/library){target="_blank"} from the "AI Race" competitors [arena](https://chat.lmsys.org/){target="_blank"}, for instance: [LLama3](https://ollama.com/library/llama3){target="_blank"} from Facebook, [gemma](https://ollama.com/library/gemma){target="_blank"} from Google, [phi3](https://ollama.com/library/phi3){target="_blank"} from Microsoft but also [qwen](https://ollama.com/library/qwen){target="_blank"} from the Chinese AliBaba, [falcon](https://ollama.com/library/falcon){target="_blank"} from the Emirati Technology Innovation Institute, or [Mixtral](https://ollama.com/library/mixtral){target="_blank"} from the french startup Mistral_AI. Langchain has a dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama){target="_blank"}.
 
 Below, we start with [Mixtral Sparse Mixture-of-Expert](https://mistral.ai/news/mixtral-of-experts/){target="_blank"}, and specifically the quantized version: [8x7b-instruct-v0.1-q4_K_M](https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods){target="_blank"}, an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance. This download a file with the model which size around 26Gb.
 
@@ -530,7 +530,7 @@ Let's try to generate more reports using different settings.
 
 LangChain often integrates with libraries like [Hugging Face Transformers](https://huggingface.co/sentence-transformers){target="_blank"} for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.
 
-Let's try first with a second embedding model... [Hugging face](https://huggingface.co/models?pipeline_tag=feature-extraction&sort=trending){target="_blank"} has many options... and there is even a [leaderboard](https://huggingface.co/spaces/mteb/leaderboard){target="_blank"} to see how they compete... We will select here the embedding model [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5){target="_blank"} from the Beijing Academy of Artificial Intelligence. It is small in size but efficient and it does not consume too much memory.
+Let's try first with a second embedding model... [Hugging face](https://huggingface.co/models?pipeline_tag=feature-extraction&sort=trending){target="_blank"} has many options... and there is even a [leaderboard](https://huggingface.co/spaces/mteb/leaderboard){target="_blank"} to see how they compete... We will select here the embedding model [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5){target="_blank"}, an over 200MB model from the Beijing Academy of Artificial Intelligence. It remains relatively small in size but isefficient and does not consume too much memory.
 
 ```{python}
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
@@ -1211,15 +1211,15 @@ A fine tune model could help front-loading many more contexts that a simple foun
 
 Blind trust in AI definitely comes with serious risks that have been extensively discussed in the literature (*Bias and Discrimination, Lack of Transparency and Explainability, etc.*). Trust building will therefore require organizational investment to continuously assess the results both from an information retrieval side and from a faithfulness side.
 
-This paper is advocating for an approach grounded in data science but backed with human review. Some key considerations to implement this involve to look at:
+This paper is advocating for an approach grounded in open data science but backed with human review. Some key considerations to implement this involve to look at:
 
 -   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.
 -   **Modular Customization**: The "*orchestration*" solution should be flexible to adapt itself to incoming new development, without changing everything.
 -   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
--   **Information Formatting**: Promote specific format for report publication, specifically Markdown, to ease the ingestion of content by the models.
+-   **Information Formatting**: Promote specific format for report publication, specifically Markdown rather than PDF, to ease the ingestion of content by the models.
 -   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
 
-Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up dedicated teams and infrastructure. Pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could be a sustainable way of addressing it.
+Leveraging the potential of AI for evaluation implies significant investements. Tuning RAG extraction pipelines and building evaluation dataset for each evaluation report implies to set up dedicated teams and infrastructure. Pooling expertise, sharing scripts/knowledge and accessing capacity (server infrastructure) around this objective and across the UN system would likely be a sustainable way of addressing it.
 
 ## Acknowledgement
 

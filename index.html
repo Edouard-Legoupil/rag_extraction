@@ -1077,8 +1077,8 @@ Note
 <p>There are different <a href="https://community.sap.com/t5/technology-blogs-by-members/generative-ai-with-sap-rag-evaluations/ba-p/13572136" target="_blank">framework available for RAG Evaluation</a>. Here we test <a href="https://docs.ragas.io/en/stable/" target="_blank">RAGAS (Retrieval Augmented Generation Assessment)</a>, a framework for reference-free evaluation of RAG pipelines. <em>“Reference-free”</em> evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the <a href="https://docs.ragas.io/en/stable/howtos/integrations/langchain.html" target="_blank">evaluations</a>. It includes the metrics below:</p>
 <ul>
 <li><p><a href="https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html" target="_blank"><strong>Context Precision</strong></a> (also called Grounding): Measures whether items present in the contexts are ranked higher or not.</p></li>
-<li><p><a href="https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html" target="_blank"><strong>Faithfulness</strong></a> (also called Cgroundedness): Measures whether the LLM outputs are based on the provided ground truth.</p></li>
 <li><p><a href="https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html" target="_blank"><strong>Answer relevancy</strong></a>: Measures how directly the answer addresses the question.</p></li>
+<li><p><a href="https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html" target="_blank"><strong>Faithfulness</strong></a> (also called groundedness): Measures whether the LLM outputs are based on the provided ground truth.</p></li>
 </ul>
 <p>RAGAS is expecting data to be provided in the <a href="https://pypi.org/project/datasets/" target="_blank">datasets format</a>, a format designed to let the community easily add and share new datasets. We need to convert our currentl list into a dictionnary and then export it to the correct format.</p>
 <div class="cell" data-execution_count="48">
@@ -1244,14 +1244,15 @@ Note
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>Some key considerations when looking at exp</p>
+<p>Blind trust in AI definitely comes with serious risks that have been extensively discussed (Bias and Discrimination, Lack of Transparency and Explainability, etc.). Trust building will therefore require organisational investment to continuously assess the results both from an information retrieval side and from a faithfulness side.</p>
+<p>This paper is advocating for an approach grounded in data science but backed with human review. Some key considerations to implement this involve to look at:</p>
 <ul>
 <li><strong>Total Cost of Ownership</strong>: Off-the-shelves “production-level” solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.</li>
 <li><strong>Modular Customization</strong>: The “<em>orchestration</em>” solution should be flexible to adapt itself to incoming new development, without changing everything.</li>
 <li><strong>Agility - Iterate &amp; Deliver</strong>: Adopt short development round to test with users.</li>
 <li><strong>Expertise &amp; Training</strong>: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.</li>
 </ul>
-<p>Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up a dedicated team and infrastructure. Given the size of linked investment, pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could make sense.</p>
+<p>Leveraging the potential of AI for evaluation implies significant investement. Tuning RAG extraction pipeline and building evaluation dataset for each evaluation report implies to set up dedicated teams and infrastructure. Pooling expertise (sharing scripts) and accessing capacity (server infrastructure) around this objective and across the UN system could be a sustainable way of addressing it.</p>
 </section>
 <section id="acknowledgement" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgement">Acknowledgement</h2>
@@ -1263,15 +1264,17 @@ Note
 <li><a href="https://github.com/langchain-ai/rag-from-scratch">rag-from-scratch</a></li>
 <li><a href="https://github.com/gkamradt/langchain-tutorials">langchain-tutorials</a></li>
 <li><a href="https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf" target="_blank">AI Infrastructure Report</a></li>
+<li><a href="https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/" target="_blank">AI costing</a></li>
 </ul>
-<p>The World bank IAEG has also released a few blogs:</p>
+<p>The World Bank <a href="https://ieg.worldbankgroup.org/">Independent Evaluation Group (IEG)</a> has also released a few blogs that focus on the “<em>consume</em>” stage and highlight the inherent limitations that comes a “buy-only” approach:</p>
 <ul>
-<li><p><a href="https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex" target="_blank">Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?</a></p></li>
-<li><p><a href="https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation" target="_blank">Setting up Experiments to Test GPT for Evaluation</a></p></li>
-<li><p><a href="https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks" target="_blank">Unfulfilled Promises: Using GPT for Synthetic Tasks</a></p></li>
-<li><p><a href="https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation" target="_blank">What are the benefits and challenges of using AI in evaluation?</a></p></li>
+<li><a href="https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex" target="_blank">Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?</a><br>
+</li>
+<li><a href="https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation" target="_blank">Setting up Experiments to Test GPT for Evaluation</a><br>
+</li>
+<li><a href="https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks" target="_blank">Unfulfilled Promises: Using GPT for Synthetic Tasks</a></li>
+<li><a href="https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation" target="_blank">What are the benefits and challenges of using AI in evaluation?</a></li>
 </ul>
-<p>An interesting blog related to <a href="https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/" target="_blank">AI costing</a></p>
 <p>Thanks also all UNHCR colleagues who took the time to review and proof read this document.</p>
 </section>
 

@@ -30,11 +30,11 @@ The key deliverable from an evaluation process is usually a long report (*often 
 
 Retrieval-augmented generation (RAG) is an AI Question-Answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Models (LLMs) and information retrieval systems from specific domain of expertise (here from "evaluation reports"). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
 
-First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx){target="_blank"} using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index){target="_blank"}. Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.
+First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"} using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index){target="_blank"}. Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.
 
-Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"}, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
+Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate alternative briefs ([#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"}, [#3](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_parent_recursivecharactertext_bge.docx){target="_blank"}, [#4](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_ensemble_recursivecharactertext_bge.docx){target="_blank"}) and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
 
-Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to "fine-tune" an existing model and further increase its performance and reliability both for evidence retrieval and at latter stage for evidence re-injection.
+Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to "ground truth" and "fine-tune" an existing model. This not only further increase its performance and but also ensure its reliability both for evidence retrieval and at latter stage for evidence re-injection.
 
 A short presentation is also [available here](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html){target="_blank"}
 
@@ -816,7 +816,9 @@ Then the 2 embeding models
 
 ```{python}
 from langchain_community.embeddings import GPT4AllEmbeddings 
-embeddings_bert = GPT4AllEmbeddings()
+embeddings_bert = GPT4AllEmbeddings(
+    model_name = "all-MiniLM-L6-v2.gguf2.f16.gguf"
+)
 
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 embeddings_bge= HuggingFaceBgeEmbeddings(
@@ -1063,25 +1065,15 @@ response_evaluation_dataset_command_mmr_recursivecharactertext_bge = Dataset.fro
 
 ```
 
-RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#){target="_blank"} as a critic of the first one.
-
-Let's
+RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#){target="_blank"} as a critic of the first one. Let us the last LLM from Meta, [lama3](https://ollama.com/library/llama3){target="_blank"}
 
 ```{python}
- # use [Huggingface Endpoints](https://python.langchain.com/v0.1/docs/integrations/llms/huggingface_endpoint/){target="_blank"} for that! The Hugging Face Hub is a platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
-# import os
-# from dotenv import load_dotenv, find_dotenv
-# load_dotenv(find_dotenv())
-# ## Personal token stored in .env file
-# HFtoken = os.environ.get("HUGGINGFACEHUB_API_TOKEN")
-
-# from langchain_community.llms import HuggingFaceEndpoint
-# critic_llm = HuggingFaceEndpoint(
-#     repo_id="mistralai/Mistral-7B-Instruct-v0.2", 
-#     max_length=128, 
-#     temperature=0.2, 
-#     token=HFtoken
-# )
+from langchain_community.chat_models import ChatOllama
+ollama_llama3 = ChatOllama(
+    model="llama3:70b-instruct",  
+    temperature=0.2, 
+    request_timeout=500
+) 
 ```
 
 Now we can compile the different metrics!
@@ -1091,8 +1083,8 @@ Now we can compile the different metrics!
 from ragas import evaluate
 from ragas.metrics import (
     answer_relevancy,
-    answer_similarity,
     faithfulness,
+    answer_similarity,
     answer_correctness,
     context_recall,
     context_precision,
@@ -1100,14 +1092,15 @@ from ragas.metrics import (
 )
 
 ## The following ragas metrics requires 'ground_truth' information
-       # answer_similarity,
-       # answer_correctness,
-       # context_precision,
-       # context_precision,
+    # answer_similarity,
+    # answer_correctness,
+    # context_recall,
+    # context_precision,
+    # context_relevancy
 
 raga_result_mixtral_recursivecharactertext_bert = evaluate(
     dataset=response_evaluation_dataset_mixtral_recursivecharactertext_bert,
-    llm=critic_llm, 
+    llm=ollama_llama3, 
     embeddings=embeddings_bert,
     metrics=[
         answer_relevancy,
@@ -1116,18 +1109,13 @@ raga_result_mixtral_recursivecharactertext_bert = evaluate(
  raise_exceptions=False
 )
 data_mixtral_recursivecharactertext_bert = {
-   # 'context_precision': raga_result_mixtral_recursivecharactertext_bert['context_precision'],
-   # 'context_recall': raga_result_mixtral_recursivecharactertext_bert['context_recall'],
-    #'answer_correctness': raga_result_mixtral_recursivecharactertext_bert['answer_correctness'],
-   # 'answer_similarity': raga_result_mixtral_recursivecharactertext_bert['answer_similarity'],
-   # 'context_relevancy': raga_result_mixtral_recursivecharactertext_bert['context_relevancy'],
     'faithfulness': raga_result_mixtral_recursivecharactertext_bert['faithfulness'],
     'answer_relevancy': raga_result_mixtral_recursivecharactertext_bert['answer_relevancy']
 }
 
 raga_result_command_mmr_recursivecharactertext_bge = evaluate(
     dataset=response_evaluation_dataset_command_mmr_recursivecharactertext_bge,
-    llm=critic_llm, 
+    llm=ollama_llama3, 
     embeddings=embeddings_bert,
     metrics=[
         answer_relevancy,
@@ -1136,11 +1124,6 @@ raga_result_command_mmr_recursivecharactertext_bge = evaluate(
  raise_exceptions=False
 )
 data_command_mmr_recursivecharactertext_bge = {
-   # 'context_precision': raga_result_command_mmr_recursivecharactertext_bge['context_precision'],
-   # 'context_recall': raga_result_command_mmr_recursivecharactertext_bge['context_recall'],
-    #'answer_correctness': raga_result_command_mmr_recursivecharactertext_bge['answer_correctness'],
-   # 'answer_similarity': raga_result_command_mmr_recursivecharactertext_bge['answer_similarity'],
-   # 'context_relevancy': raga_result['context_relevancy'],
     'faithfulness': raga_result_command_mmr_recursivecharactertext_bge['faithfulness'],
     'answer_relevancy': raga_result_command_mmr_recursivecharactertext_bge['answer_relevancy']
 }

@@ -588,7 +588,7 @@ ragRetriever_parent_recursivecharactertext_bge = ParentDocumentRetriever(
 ragRetriever_parent_recursivecharactertext_bge.add_documents(docs)
 ```
 
--   **Ensemble retrieval** is another technique where a Retriever Pair is created with on one side a sparse retriever (like [Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25){target="_blank"}) and a dense retriever (like the embedding similarity we saw before) on the other side. Then retrieved information is "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
+-   **Ensemble retrieval** is another technique where a Retriever Pair is created with on one side a sparse retriever (like [Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25){target="_blank"}) and a dense retriever (like the embedding similarity we saw before) on the other side. Then retrieved information is "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation. This same approach has also been experimented by the [World Bank](https://blogs.worldbank.org/en/opendata/beyond-keywords--ai-driven-approaches-to-improve-data-discoverab0)
 
 ```{python}
 from langchain.retrievers import BM25Retriever
@@ -764,11 +764,11 @@ q_experts = [
    "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Local integration and other local solutions ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]", 
 
 
-   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Systems and processes Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" #,
-   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Operational support and supply chain Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
-   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on People and culture Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
-   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on External engagement and resource mobilization Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
-   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Leadership and governance Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" 
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to Systems and processes, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]",
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to Operational support and supply chain, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to People and culture, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to External engagement and resource mobilization, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" ,
+   "<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to Leadership and governance, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]" 
 ]
 
 # Predefined knowledge extraction questions
@@ -957,7 +957,7 @@ for expert  in  q_experts:
 #Save this to the disk! 
 import pandas as pd
 dataset_mixtral_recursivecharactertext_bert_d = pd.DataFrame(dataset_mixtral_recursivecharactertext_bert)
-dataset_mixtral_recursivecharactertext_bert_d.to_excel("generated/dataset_mixtral_recursivecharactertext_bert.xlsx") 
+dataset_mixtral_recursivecharactertext_bert_d.to_excel("dataset/dataset_mixtral_recursivecharactertext_bert.xlsx") 
 
 ```
 
@@ -981,7 +981,7 @@ for expert  in  q_experts:
 #Save this to the disk! 
 import pandas as pd
 dataset_command_mmr_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_mmr_recursivecharactertext_bge)
-dataset_command_mmr_recursivecharactertext_bge_d.to_excel("generated/dataset_command_mmr_recursivecharactertext_bge.xlsx") 
+dataset_command_mmr_recursivecharactertext_bge_d.to_excel("dataset/dataset_command_mmr_recursivecharactertext_bge.xlsx") 
 ```
 
 ```{python}
@@ -1002,7 +1002,7 @@ for expert  in  q_experts:
 #Save this to the disk! 
 import pandas as pd
 dataset_command_parent_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_parent_recursivecharactertext_bge)
-dataset_command_parent_recursivecharactertext_bge_d.to_excel("generated/dataset_command_parent_recursivecharactertext_bge.xlsx") 
+dataset_command_parent_recursivecharactertext_bge_d.to_excel("dataset/dataset_command_parent_recursivecharactertext_bge.xlsx") 
 ```
 
 ```{python}
@@ -1023,7 +1023,7 @@ for expert  in  q_experts:
 #Save this to the disk! 
 import pandas as pd
 dataset_command_ensemble_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_ensemble_recursivecharactertext_bge)
-dataset_command_ensemble_recursivecharactertext_bge_d.to_excel("generated/dataset_command_ensemble_recursivecharactertext_bge.xlsx") 
+dataset_command_ensemble_recursivecharactertext_bge_d.to_excel("dataset/dataset_command_ensemble_recursivecharactertext_bge.xlsx") 
 ```
 
 ### Computing Assessment Metrics
@@ -1181,7 +1181,7 @@ Providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/su
 
 Above, we presented a recipe to extend existing foundation model, using the first step: Data Retrieval and Prompt engineering. We highlighted the importance of the configuration to ensure the **reliability of the system** and therefore the relevance of managing directly such process. Building common knowledge on "data retrieval scripts" could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.
 
-The next stage is to enable Task-Specific & Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it will do a lot more. Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.
+The next stage is to enable Task-Specific & Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it can perform almost at the level of a [human expert](https://arxiv.org/pdf/2401.16182). Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.
 
 ::: callout-note
 The future of Language Model development within organisations is likely to revolve around the creation of “specialized” fine-tuned smaller models. And at first comes the training cost componnent... To have some cost estimation in mind, training a custom large model can require easily 2 months on a big pool of specific hardware, the [A100 GPU](https://www.nvidia.com/en-us/data-center/a100/){target="_blank"}. With an estimated cost of 3\$ per hour, the total training can go above 3M\$. By comparison, fine-tuning an existing medium size foundation model can be done for instance with 16 GPUs × \$3.00 /hour × 24 hours = \$1,152...
@@ -1191,7 +1191,85 @@ The future of Language Model development within organisations is likely to revol
 
 Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
 
-It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudioo](https://labelstud.io/){target="_blank"} can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope".
+It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudio](https://labelstud.io/templates/generative-llm-ranker){target="_blank"} can be used to implement human review that rank the quality of the knowledge extraction. 
+
+To do so, First let's prepare the data.
+
+```{python}
+import pandas as pd
+import json
+
+ 
+df1 = pd.read_excel("dataset/dataset_mixtral_recursivecharactertext_bert.xlsx")
+df1['id'] = 'mixtral_recursivecharactertext_bert'
+df1['title'] = 'LLM: mixtral / Retriver: similarity / Chunking: recursivecharactertext / Embedding: bert'
+
+df2 = pd.read_excel("dataset/dataset_command_mmr_recursivecharactertext_bge.xlsx")
+df2['id'] = 'command_mmr_recursivecharactertext_bge'
+df2['title'] = 'LLM: commandR / Retriver: mmr / Chunking: recursivecharactertext / Embedding: bge'
+
+#df3 = pd.read_excel("dataset/dataset_command_parent_recursivecharactertext_bge.xlsx")
+#df3['id'] = 'command_parent_recursivecharactertext_bge'
+#df3['title'] = 'LLM: commandR / Retriver: parent / Chunking: recursivecharactertext / Embedding: bge'
+#df4 = pd.read_excel("dataset/dataset_command_ensemble_recursivecharactertext_bge.xlsx")
+#df4['id'] = 'command_ensemble_recursivecharactertext_bge'
+#df4['title'] = 'LLM: commandR / Retriver: ensemble / Chunking: recursivecharactertext / Embedding: bge'
+
+## Concatenate
+df = pd.concat([df1, df2])
+df = df.drop('contexts', axis=1)
+
+## Reformat the question for an easier review!
+df['question'] = df['question'].str.replace('<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on ', 'As an expert on ')
+
+df['question'] = df['question'].str.replace('<s> [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the ', 'As an expert on ')
+
+df['question'] = df['question'].str.replace('specific Operational Outcome', 'Operational Outcome')
+df['question'] = df['question'].str.replace("""
+</s>
+[INST]  
+Keep your answer grounded in the facts of the contexts. 
+If the contexts do not contain the facts to answer the QUESTION, return {NONE} 
+Be concise in the response and  when relevant include precise citations from the contexts. 
+[/INST] 
+""", '')
+df['question'] = df['question'].str.replace(' [/INST] ', ' -- ')
+df['question'] = df['question'].str.replace('i.e., finding or recommendations that require a change in existing policy and regulations. ', ' ')
+df['question'] = df['question'].str.replace(' i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. ', '')
+df['question'] = df['question'].str.replace(' i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. ', '')
+
+# Rename 'question' column to 'prompt'
+df = df.rename(columns={'question': 'prompt'})
+df = df.rename(columns={'answer': 'body'})
+
+# Group DataFrame by 'prompt'
+grouped = df.groupby('prompt')
+
+# List to hold all JSON outputs
+json_outputs = []
+
+for prompt, group in grouped:
+    # Convert group DataFrame to list of dictionaries
+    items = group[['id', 'title', 'body']].to_dict('records')
+
+    # Create final dictionary for this group
+    final_dict = {
+        "prompt": prompt,
+        "items": items
+    }
+
+    # Add final dictionary to list
+    json_outputs.append(final_dict)
+
+# Save JSON outputs to file
+with open('dataset/dataset.json', 'w') as f:
+    json.dump(json_outputs, f, indent=2)
+
+```
+
+We can set up now a specific [label studio project: UNHCR Data use and information management](https://huggingface.co/spaces/edouardlgp/evaluation_report_recommendation_review) to Review knowledge Extraction from the 2019 Evaluation. We can then use the "LLM Ranker" template to review the RAG pipeline output as either: “Relevant”, “Too-Generic” or “Out-of-scope".
+
+![Human Review with Labelstudio](img/labelstudio.png){fig-align="center"} 
 
 Note as well that the [Management Response](https://intranet.unhcr.org/content/dam/unhcr/intranet/organization-leadership/evaluation/document/english/reports/management-response-guidance-note/MR%20Follow-up%20Guidance%20Note.pdf), aka the organisation’s response to evaluation findings, could be another source of ground truthing to leverage to enhance the quality of knowledge extraction.
 
@@ -1199,7 +1277,9 @@ After the peer review is sent to observation, operation feedback on the review c
 
 ### A Fine-Tuned "expert" Model!
 
-Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open "foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and ["open artificial intelligence models"](https://www.un.org/techenvoy/content/digital-public-goods){target="_blank"}, the resulting fine-tuned model could also be published on [UNHCR Hugging Face Organisation Account](https://huggingface.co/unhcr){target="_blank"} or an intergancy one to be created...
+Using the labeled dataset, generated from the prompt, and then labeled, the next step would be to select any Open "foundational” LLM from HuggingFace and fine tune it. This is not covered throug this document but the [recipe](https://zohaib.me/a-beginners-guide-to-fine-tuning-llm-using-lora/) can easily be found.
+
+In line with UN statement to promote open source in general and ["open artificial intelligence models"](https://www.un.org/techenvoy/content/digital-public-goods){target="_blank"}, the resulting fine-tuned model could also be published on [UNHCR Hugging Face Organisation Account](https://huggingface.co/unhcr){target="_blank"} or an intergancy one to be created...
 
 A fine tune model could help front-loading many more contexts that a simple foundation model:
 

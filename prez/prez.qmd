@@ -221,6 +221,11 @@ See [full article here](https://edouard-legoupil.github.io/rag_extraction/){targ
 5.  **Evaluation**: Assess accuracy, relevance, and efficiency using [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/){target="_blank"}.
 :::
 
+
+## An interface for Human Review of LLM outputs
+
+![](img/labelstudio.png){fig-align="center"} 
+
 ## AI Deployment: Buy or Build?
 
 ![](img/GL0vYd_WcAAqUDZ.png){fit-align="center"}

@@ -650,7 +650,7 @@ Note
 <span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>ragRetriever_parent_recursivecharactertext_bge.add_documents(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li><strong>Ensemble retrieval</strong> is another technique where a Retriever Pair is created with on one side a sparse retriever (like <a href="https://en.wikipedia.org/wiki/Okapi_BM25" target="_blank">Okapi BM25</a>) and a dense retriever (like the embedding similarity we saw before) on the other side. Then retrieved information is “fused” based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.</li>
+<li><strong>Ensemble retrieval</strong> is another technique where a Retriever Pair is created with on one side a sparse retriever (like <a href="https://en.wikipedia.org/wiki/Okapi_BM25" target="_blank">Okapi BM25</a>) and a dense retriever (like the embedding similarity we saw before) on the other side. Then retrieved information is “fused” based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation. This same approach has also been experimented by the <a href="https://blogs.worldbank.org/en/opendata/beyond-keywords--ai-driven-approaches-to-improve-data-discoverab0">World Bank</a></li>
 </ul>
 <div class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.retrievers <span class="im">import</span> BM25Retriever</span>
@@ -811,11 +811,11 @@ Note
 <span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the specific Operational Outcome: --- Local integration and other local solutions ---, i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. [/INST]"</span>, </span>
 <span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Systems and processes Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> <span class="co">#,</span></span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Operational support and supply chain Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> ,</span>
-<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on People and culture Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> ,</span>
-<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on External engagement and resource mobilization Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> ,</span>
-<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Leadership and governance Organizational Enabler, i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> </span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to Systems and processes, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span>,</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to Operational support and supply chain, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> ,</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to People and culture, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> ,</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to External engagement and resource mobilization, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> ,</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>   <span class="st">"&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on Organizational Enablers related to Leadership and governance, i.e. elements that require potential changes in either management practices, technical approach, business processes, staffing allocation or capacity building. [/INST]"</span> </span>
 <span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Predefined knowledge extraction questions</span></span>
@@ -986,7 +986,7 @@ Note
 <span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Save this to the disk! </span></span>
 <span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>dataset_mixtral_recursivecharactertext_bert_d <span class="op">=</span> pd.DataFrame(dataset_mixtral_recursivecharactertext_bert)</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>dataset_mixtral_recursivecharactertext_bert_d.to_excel(<span class="st">"generated/dataset_mixtral_recursivecharactertext_bert.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>dataset_mixtral_recursivecharactertext_bert_d.to_excel(<span class="st">"dataset/dataset_mixtral_recursivecharactertext_bert.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then producing the <a href="https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/dataset_command_mmr_recursivecharactertext_bge.xlsx" target="_blank">second dataset</a></p>
 <div class="cell" data-execution_count="45">
@@ -1007,7 +1007,7 @@ Note
 <span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Save this to the disk! </span></span>
 <span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>dataset_command_mmr_recursivecharactertext_bge_d <span class="op">=</span> pd.DataFrame(dataset_command_mmr_recursivecharactertext_bge)</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>dataset_command_mmr_recursivecharactertext_bge_d.to_excel(<span class="st">"generated/dataset_command_mmr_recursivecharactertext_bge.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>dataset_command_mmr_recursivecharactertext_bge_d.to_excel(<span class="st">"dataset/dataset_command_mmr_recursivecharactertext_bge.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataset (empty list for now)</span></span>
@@ -1027,7 +1027,7 @@ Note
 <span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Save this to the disk! </span></span>
 <span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>dataset_command_parent_recursivecharactertext_bge_d <span class="op">=</span> pd.DataFrame(dataset_command_parent_recursivecharactertext_bge)</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>dataset_command_parent_recursivecharactertext_bge_d.to_excel(<span class="st">"generated/dataset_command_parent_recursivecharactertext_bge.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>dataset_command_parent_recursivecharactertext_bge_d.to_excel(<span class="st">"dataset/dataset_command_parent_recursivecharactertext_bge.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataset (empty list for now)</span></span>
@@ -1047,7 +1047,7 @@ Note
 <span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Save this to the disk! </span></span>
 <span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>dataset_command_ensemble_recursivecharactertext_bge_d <span class="op">=</span> pd.DataFrame(dataset_command_ensemble_recursivecharactertext_bge)</span>
-<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>dataset_command_ensemble_recursivecharactertext_bge_d.to_excel(<span class="st">"generated/dataset_command_ensemble_recursivecharactertext_bge.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>dataset_command_ensemble_recursivecharactertext_bge_d.to_excel(<span class="st">"dataset/dataset_command_ensemble_recursivecharactertext_bge.xlsx"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="computing-assessment-metrics" class="level3">
@@ -1208,7 +1208,7 @@ Note
 <li>to develop internal technical capacity building on the new way of working that AI is offering.</li>
 </ul>
 <p>Above, we presented a recipe to extend existing foundation model, using the first step: Data Retrieval and Prompt engineering. We highlighted the importance of the configuration to ensure the <strong>reliability of the system</strong> and therefore the relevance of managing directly such process. Building common knowledge on “data retrieval scripts” could be a first achievable target. This would imply to tune a RAG extraction for each evaluation report and build an evaluation dataset for each of them.</p>
-<p>The next stage is to enable Task-Specific &amp; Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it will do a lot more. Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.</p>
+<p>The next stage is to enable Task-Specific &amp; Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it can perform almost at the level of a <a href="https://arxiv.org/pdf/2401.16182">human expert</a>. Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1226,13 +1226,92 @@ Note
 <section id="ai-ready-data-human-review-for-ground_truth" class="level3">
 <h3 class="anchored" data-anchor-id="ai-ready-data-human-review-for-ground_truth">“AI-Ready” data: Human Review for <code>ground_truth</code></h3>
 <p>Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such <strong>ground_truths</strong> attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.</p>
-<p>It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like <a href="https://labelstud.io/" target="_blank">labelStudioo</a> can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope”.</p>
+<p>It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like <a href="https://labelstud.io/templates/generative-llm-ranker" target="_blank">labelStudio</a> can be used to implement human review that rank the quality of the knowledge extraction.</p>
+<p>To do so, First let’s prepare the data.</p>
+<div class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pd.read_excel(<span class="st">"dataset/dataset_mixtral_recursivecharactertext_bert.xlsx"</span>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">'id'</span>] <span class="op">=</span> <span class="st">'mixtral_recursivecharactertext_bert'</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">'title'</span>] <span class="op">=</span> <span class="st">'LLM: mixtral / Retriver: similarity / Chunking: recursivecharactertext / Embedding: bert'</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.read_excel(<span class="st">"dataset/dataset_command_mmr_recursivecharactertext_bge.xlsx"</span>)</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'id'</span>] <span class="op">=</span> <span class="st">'command_mmr_recursivecharactertext_bge'</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'title'</span>] <span class="op">=</span> <span class="st">'LLM: commandR / Retriver: mmr / Chunking: recursivecharactertext / Embedding: bge'</span></span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co">#df3 = pd.read_excel("dataset/dataset_command_parent_recursivecharactertext_bge.xlsx")</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="co">#df3['id'] = 'command_parent_recursivecharactertext_bge'</span></span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="co">#df3['title'] = 'LLM: commandR / Retriver: parent / Chunking: recursivecharactertext / Embedding: bge'</span></span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a><span class="co">#df4 = pd.read_excel("dataset/dataset_command_ensemble_recursivecharactertext_bge.xlsx")</span></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a><span class="co">#df4['id'] = 'command_ensemble_recursivecharactertext_bge'</span></span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a><span class="co">#df4['title'] = 'LLM: commandR / Retriver: ensemble / Chunking: recursivecharactertext / Embedding: bge'</span></span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a><span class="co">## Concatenate</span></span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df1, df2])</span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(<span class="st">'contexts'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a><span class="co">## Reformat the question for an easier review!</span></span>
+<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">'&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on '</span>, <span class="st">'As an expert on '</span>)</span>
+<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-27"><a href="#cb52-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">'&lt;s&gt; [INST] Instructions: Act as a public program evaluation expert working for UNHCR. Your specific area of expertise and focus is strictly on the '</span>, <span class="st">'As an expert on '</span>)</span>
+<span id="cb52-28"><a href="#cb52-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-29"><a href="#cb52-29" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">'specific Operational Outcome'</span>, <span class="st">'Operational Outcome'</span>)</span>
+<span id="cb52-30"><a href="#cb52-30" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">"""</span></span>
+<span id="cb52-31"><a href="#cb52-31" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/s&gt;</span></span>
+<span id="cb52-32"><a href="#cb52-32" aria-hidden="true" tabindex="-1"></a><span class="st">[INST]  </span></span>
+<span id="cb52-33"><a href="#cb52-33" aria-hidden="true" tabindex="-1"></a><span class="st">Keep your answer grounded in the facts of the contexts. </span></span>
+<span id="cb52-34"><a href="#cb52-34" aria-hidden="true" tabindex="-1"></a><span class="st">If the contexts do not contain the facts to answer the QUESTION, return </span><span class="sc">{NONE}</span><span class="st"> </span></span>
+<span id="cb52-35"><a href="#cb52-35" aria-hidden="true" tabindex="-1"></a><span class="st">Be concise in the response and  when relevant include precise citations from the contexts. </span></span>
+<span id="cb52-36"><a href="#cb52-36" aria-hidden="true" tabindex="-1"></a><span class="st">[/INST] </span></span>
+<span id="cb52-37"><a href="#cb52-37" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>, <span class="st">''</span>)</span>
+<span id="cb52-38"><a href="#cb52-38" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">' [/INST] '</span>, <span class="st">' -- '</span>)</span>
+<span id="cb52-39"><a href="#cb52-39" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">'i.e., finding or recommendations that require a change in existing policy and regulations. '</span>, <span class="st">' '</span>)</span>
+<span id="cb52-40"><a href="#cb52-40" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">' i.e. finding or recommendations that require a change that needs to be implemented in the field as an adaptation or change of current activities. '</span>, <span class="st">''</span>)</span>
+<span id="cb52-41"><a href="#cb52-41" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'question'</span>] <span class="op">=</span> df[<span class="st">'question'</span>].<span class="bu">str</span>.replace(<span class="st">' i.e. elements that require changes in management practices, technical approach, business processes, staffing allocation or capacity building. '</span>, <span class="st">''</span>)</span>
+<span id="cb52-42"><a href="#cb52-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-43"><a href="#cb52-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename 'question' column to 'prompt'</span></span>
+<span id="cb52-44"><a href="#cb52-44" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">'question'</span>: <span class="st">'prompt'</span>})</span>
+<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">'answer'</span>: <span class="st">'body'</span>})</span>
+<span id="cb52-46"><a href="#cb52-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-47"><a href="#cb52-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Group DataFrame by 'prompt'</span></span>
+<span id="cb52-48"><a href="#cb52-48" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> df.groupby(<span class="st">'prompt'</span>)</span>
+<span id="cb52-49"><a href="#cb52-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-50"><a href="#cb52-50" aria-hidden="true" tabindex="-1"></a><span class="co"># List to hold all JSON outputs</span></span>
+<span id="cb52-51"><a href="#cb52-51" aria-hidden="true" tabindex="-1"></a>json_outputs <span class="op">=</span> []</span>
+<span id="cb52-52"><a href="#cb52-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-53"><a href="#cb52-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prompt, group <span class="kw">in</span> grouped:</span>
+<span id="cb52-54"><a href="#cb52-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert group DataFrame to list of dictionaries</span></span>
+<span id="cb52-55"><a href="#cb52-55" aria-hidden="true" tabindex="-1"></a>    items <span class="op">=</span> group[[<span class="st">'id'</span>, <span class="st">'title'</span>, <span class="st">'body'</span>]].to_dict(<span class="st">'records'</span>)</span>
+<span id="cb52-56"><a href="#cb52-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-57"><a href="#cb52-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create final dictionary for this group</span></span>
+<span id="cb52-58"><a href="#cb52-58" aria-hidden="true" tabindex="-1"></a>    final_dict <span class="op">=</span> {</span>
+<span id="cb52-59"><a href="#cb52-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">"prompt"</span>: prompt,</span>
+<span id="cb52-60"><a href="#cb52-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">"items"</span>: items</span>
+<span id="cb52-61"><a href="#cb52-61" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb52-62"><a href="#cb52-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-63"><a href="#cb52-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add final dictionary to list</span></span>
+<span id="cb52-64"><a href="#cb52-64" aria-hidden="true" tabindex="-1"></a>    json_outputs.append(final_dict)</span>
+<span id="cb52-65"><a href="#cb52-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-66"><a href="#cb52-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Save JSON outputs to file</span></span>
+<span id="cb52-67"><a href="#cb52-67" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'dataset/dataset.json'</span>, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb52-68"><a href="#cb52-68" aria-hidden="true" tabindex="-1"></a>    json.dump(json_outputs, f, indent<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can set up now a specific <a href="https://huggingface.co/spaces/edouardlgp/evaluation_report_recommendation_review">label studio project: UNHCR Data use and information management</a> to Review knowledge Extraction from the 2019 Evaluation. We can then use the “LLM Ranker” template to review the RAG pipeline output as either: “Relevant”, “Too-Generic” or “Out-of-scope”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/labelstudio.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Human Review with Labelstudio</figcaption>
+</figure>
+</div>
 <p>Note as well that the <a href="https://intranet.unhcr.org/content/dam/unhcr/intranet/organization-leadership/evaluation/document/english/reports/management-response-guidance-note/MR%20Follow-up%20Guidance%20Note.pdf">Management Response</a>, aka the organisation’s response to evaluation findings, could be another source of ground truthing to leverage to enhance the quality of knowledge extraction.</p>
 <p>After the peer review is sent to observation, operation feedback on the review can also be collected and use at a later stage to further fine tune the model</p>
 </section>
 <section id="a-fine-tuned-expert-model" class="level3">
 <h3 class="anchored" data-anchor-id="a-fine-tuned-expert-model">A Fine-Tuned “expert” Model!</h3>
-<p>Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open “foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and <a href="https://www.un.org/techenvoy/content/digital-public-goods" target="_blank">“open artificial intelligence models”</a>, the resulting fine-tuned model could also be published on <a href="https://huggingface.co/unhcr" target="_blank">UNHCR Hugging Face Organisation Account</a> or an intergancy one to be created…</p>
+<p>Using the labeled dataset, generated from the prompt, and then labeled, the next step would be to select any Open “foundational” LLM from HuggingFace and fine tune it. This is not covered throug this document but the <a href="https://zohaib.me/a-beginners-guide-to-fine-tuning-llm-using-lora/">recipe</a> can easily be found.</p>
+<p>In line with UN statement to promote open source in general and <a href="https://www.un.org/techenvoy/content/digital-public-goods" target="_blank">“open artificial intelligence models”</a>, the resulting fine-tuned model could also be published on <a href="https://huggingface.co/unhcr" target="_blank">UNHCR Hugging Face Organisation Account</a> or an intergancy one to be created…</p>
 <p>A fine tune model could help front-loading many more contexts that a simple foundation model:</p>
 <ul>
 <li><p><strong>Situation</strong> – The fine-tuned model would be relevant and specific in relation with Operation profile, Area of focus between one of the strategic impact, operational outcome, or organizational topics</p></li>

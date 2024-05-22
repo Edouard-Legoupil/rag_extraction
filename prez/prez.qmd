@@ -17,7 +17,7 @@ Speaker notes go here.
 
 ::: columns
 ::: {.column width="60%"}
-Considering the [number of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen.
+Considering the [number of published evaluation reports](https://www.uneval.org/evaluation/reports){target="_blank"} across the UN system, **information retrieval and evidence generalization challenges** have arisen.
 :::
 
 ::: {.column width="40%"}
@@ -42,7 +42,7 @@ How to extract the most relevant findings and recommendations from within a spec
 :::
 
 ::: {style="font-size: 50%;"}
-[The four waves of the evidence revolution, published in Nature, Howard White, 2019](https://www.nature.com/articles/s41599-019-0253-6#Sec7)
+[The four waves of the evidence revolution, published in Nature, Howard White, 2019](https://www.nature.com/articles/s41599-019-0253-6#Sec7){target="_blank"}
 :::
 
 ## Results Cherry Picking: how to build effective "Evaluation Brief"?
@@ -71,6 +71,8 @@ The potential fear of being, like *Cassandra* in the greek mythology, the bearer
 ::: {.column width="20%"}
 ::: {style="font-size: 60%;"}
 **Retrieval Augmented Generation** (RAG) combines the strengths of retrieval-based large language models & generative large language models.
+
+Embeddings are generated **numeric representations of text data**
 :::
 :::
 
@@ -83,6 +85,9 @@ The potential fear of being, like *Cassandra* in the greek mythology, the bearer
 Mechanism: - Retrieval: Fetches relevant documents or information from a knowledge base. - Generation: Generates responses based on retrieved documents and user queries.
 
 Benefits: - Enhanced accuracy and relevance of generated responses. - Effective in scenarios with vast, dynamic information sources.
+
+Text embedding models are statistical methods that represent text as numerical vectors. These embeddings aim to capture the semantic meaning of words and phrases in an efficient and user-friendly manner. They find applications in various natural language processing tasks and are constantly evolving.
+
 :::
 
 ## Leaderboard for Large Language Models
@@ -90,9 +95,9 @@ Benefits: - Enhanced accuracy and relevance of generated responses. - Effective 
 ::: columns
 ::: {.column width="40%"}
 ::: {style="font-size: 70%;"}
-[Hugging Face Model Hub](https://huggingface.co/docs/hub/models) is the main platform that ranks and compares the performance of large language models (LLMs) on various benchmarks and tasks.
+[Hugging Face Model Hub](https://huggingface.co/docs/hub/models){target="_blank"} is the main platform that ranks and compares the performance of large language models (LLMs) on various benchmarks and tasks.
 
-It includes **Leaderboard** for [embedding](https://huggingface.co/spaces/mteb/leaderboard) and [generation](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard) that:
+It includes **Leaderboard** for [embedding](https://huggingface.co/spaces/mteb/leaderboard){target="_blank"} and [generation](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard){target="_blank"} that:
 
 -   Provides a clear and transparent comparison of different LLMs.
 -   Helps identify the best models for specific tasks or domains.
@@ -110,7 +115,7 @@ It includes **Leaderboard** for [embedding](https://huggingface.co/spaces/mteb/l
 
 2.  **Model Testing**: Test different generative and retrieval large language models.
 
-3.  **Integration**: Combine models & funcions into a cohesive pipeline.
+3.  **Integration**: Combine models & functions into a cohesive pipeline.
 
 4.  **Validation**: Build a human-baseline to benchmark the performance of the integrated system.
 
@@ -203,17 +208,17 @@ Alignment Fine-Tuning: Ensure model outputs align with user expectations and eth
 ## Experimentation Results
 
 ::: {style="font-size: 80%;"}
-See [full article here](https://edouard-legoupil.github.io/rag_extraction/)
+See [full article here](https://edouard-legoupil.github.io/rag_extraction/){target="_blank"}
 
-1.  **Report used**: the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) with two test summary [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx).
+1.  **Report used**: the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf){target="_blank"} with two test summary [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx){target="_blank"} & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"}.
 
-2.  **Models Tested**: Small large language model that can run out of a strong laptop: [Command-r](https://cohere.com/blog/command-r) & [Mixtral](https://mistral.ai/news/mixtral-of-experts/) for the generation, [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) for the embeddings
+2.  **Models Tested**: Small large language model that can run out of a strong laptop: [Command-r](https://cohere.com/blog/command-r){target="_blank"} & [Mixtral](https://mistral.ai/news/mixtral-of-experts/){target="_blank"} for the generation, [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5){target="_blank"} for the embeddings
 
-3.  **Integration & Documentation**: Use of [LangChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) for the orchestration. Code shared and documented in [Github](https://github.com/Edouard-Legoupil/rag_extraction/)
+3.  **Integration & Documentation**: Use of [LangChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/){target="_blank"} for the orchestration. Code shared and documented in [Github](https://github.com/Edouard-Legoupil/rag_extraction/){target="_blank"}
 
-4.  **Human Validation**: Ground truthing with [labelStud.io](https://labelstud.io/).
+4.  **Human Validation**: Ground truthing with [labelStud.io](https://labelstud.io/){target="_blank"}.
 
-5.  **Evaluation**: Assess accuracy, relevance, and efficiency using [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/).
+5.  **Evaluation**: Assess accuracy, relevance, and efficiency using [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/){target="_blank"}.
 :::
 
 ## AI Deployment: Buy or Build?

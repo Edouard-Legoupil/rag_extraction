@@ -16,7 +16,7 @@ execute:
 
 ## Executive Summary
 
-Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6) of the **evidence revolution** (following the 4 previous ones: *1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports) across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
+Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6){target="_blank"} of the **evidence revolution** (following the 4 previous ones: *1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports){target="_blank"} across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
 
 ::: columns
 ::: {.column width="60%"}
@@ -30,13 +30,13 @@ The key deliverable from an evaluation process is usually a long report (*often 
 
 Retrieval-augmented generation (RAG) is an AI Question-Answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Models (LLMs) and information retrieval systems from specific domain of expertise (here from "evaluation reports"). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
 
-First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index). Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.
+First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx){target="_blank"} using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index){target="_blank"}. Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.
 
-Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
+Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate a [second alternative brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"}, and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
 
 Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to "fine-tune" an existing model and further increase its performance and reliability both for evidence retrieval and at latter stage for evidence re-injection.
 
-A short presentation is also [available here](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html)
+A short presentation is also [available here](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html){target="_blank"}
 
 ------------------------------------------------------------------------
 
@@ -50,15 +50,15 @@ Building a robust information retrieval system requires to configure different c
 
 3)  **A Production Deployment Strategy**: Organise AI-ready feedback and prepare data for fine-tuning.
 
-This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can [rerun and learn](https://github.com/Edouard-Legoupil/rag_extraction/) from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
+This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can [rerun and learn](https://github.com/Edouard-Legoupil/rag_extraction/){target="_blank"} from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
 
-Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf) to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new)!
+Most of the content in this document targets a technical audience that may consider including such techniques within their personal information management toolkit, and this working safely, fully offline on their own computer. We used here the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf){target="_blank"} to illustrate the process. Readers shall be able adjust this tutorial to their own use cases and are welcome to ask questions through a [ticket in this repository](https://github.com/Edouard-Legoupil/rag_extraction/issues/new){target="_blank"}!
 
 ### Environment Set up
 
-The world of LLMs is a [Python](https://www.python.org/downloads/) one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/) but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/)
+The world of LLMs is a [Python](https://www.python.org/downloads/){target="_blank"} one. The scripts below are based on [langChain python module](https://python.langchain.com/v0.1/docs/use_cases/question_answering/){target="_blank"} but the same pipeline could also be built with another LLM orchestration module like [LlamaIndex](https://docs.llamaindex.ai/en/stable/use_cases/q_and_a/){target="_blank"}
 
-Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with [conda](https://docs.conda.io/en/latest/) python modules management utility.
+Make sure to install the last version of python and create a dedicated python environment to have a fresh install where to manage correctly all the dependencies between packages. This can be done with [conda](https://docs.conda.io/en/latest/){target="_blank"} python modules management utility.
 
 First directly in your OS Shell, create a new environment - here called **`evalenv`**
 
@@ -85,12 +85,16 @@ Once this environment selected as a kernel to run the notebook, we can install t
 ## Library to store the embeddng in a vector DB
 %pip install --upgrade --quiet  chromadb
 
+## Library for information retrieval
+%pip install --upgrade --quiet  rank_bm25
+
 ## Library for the LLM interaction
 %pip install --upgrade --quiet install langchain
 %pip install --upgrade --quiet langchain-community
 
 ## Library to save the results in a word document
 %pip install --upgrade --quiet python-docx 
+%pip install --upgrade --quiet markdown
 
 ## Library to evaluate the RAG process
 %pip install --upgrade --quiet datasets
@@ -110,7 +114,7 @@ Once this environment selected as a kernel to run the notebook, we can install t
 
 ## Retrieval & Generation Pipeline
 
-The illustration from [HuggingFace RAG Evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation) below nicely visualize the first two elements of the system architecture: retrieval (that includes: chunking, embedding, storing and retrieving) and generation (that includes prompting an LLM).
+The illustration from [HuggingFace RAG Evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation){target="_blank"} below nicely visualize the first two elements of the system architecture: retrieval (that includes: chunking, embedding, storing and retrieving) and generation (that includes prompting an LLM).
 
 ![RAG Evaluation, https://huggingface.co/learn/cookbook/en/rag_evaluation](img/RAG_workflow.png){fig-align="center"}
 
@@ -118,7 +122,7 @@ The illustration from [HuggingFace RAG Evaluation](https://huggingface.co/learn/
 
 #### Load the PDF
 
-There plenty of potential python packages to load pdf files... More details [here](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf). Note that more loader also exist for other type of data!!!
+There plenty of potential python packages to load pdf files... More details [here](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf){target="_blank"}. Note that more loader also exist for other type of data!!!
 
 ```{python}
 from langchain_community.document_loaders import PyPDFLoader
@@ -140,7 +144,7 @@ Example of options that can be tested are:
 
 -   Context-aware splitting with `NLTKTextSplitter` .
 
-See example to understand how chunking works, see this online [viz](https://huggingface.co/spaces/m-ric/chunk_visualizer).
+See example to understand how chunking works, see this online [viz](https://huggingface.co/spaces/m-ric/chunk_visualizer){target="_blank"}.
 
 ```{python}
 from langchain.text_splitter import CharacterTextSplitter
@@ -179,11 +183,11 @@ chunks_nltktext = splitter_nltktext.split_documents(docs)
 
 #### Instantiate a Vector Database and Generate Embedding
 
-A [vector database](https://python.langchain.com/docs/modules/data_connection/vectorstores/) is a database that allows to efficiently store and query embeddings. Embedding are actually a **numeric representation of text data**. This conversion from text to numeric is used to represent words, sentences, or even entire documents in a compact and meaningful way. It captures the essence of a word’s meaning, context, and relationships with other words.
+A [vector database](https://python.langchain.com/docs/modules/data_connection/vectorstores/){target="_blank"} is a database that allows to efficiently store and query embeddings. Embeddings are actually **numeric representations of text data**. This conversion from text to numeric is used to represent words, sentences, or even entire documents in a compact and meaningful way. It captures the essence of a word’s meaning, context, and relationships with other words.
 
 Vector databases extend the capabilities of traditional relational databases to embedding. However, the key distinguishing feature of a vector database is that query results aren’t an exact match to the query. Instead, using a specified **similarity metric**, the vector database returns data that are similar to a query.
 
-There are here again numerous options in terms of Open Source vector DB that can be used - for instance: [ChromaDB](https://www.trychroma.com/), [Qdrant](https://qdrant.tech/), [Milvus](https://milvus.io/) or [FAISS](https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/). Here we will just use Chroma.
+There are here again numerous options in terms of Open Source vector DB that can be used - for instance: [ChromaDB](https://www.trychroma.com/){target="_blank"}, [Qdrant](https://qdrant.tech/){target="_blank"}, [Milvus](https://milvus.io/){target="_blank"} or [FAISS](https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/){target="_blank"}. Here we will just use Chroma.
 
 ```{python}
 from langchain_community.vectorstores import Chroma
@@ -195,11 +199,13 @@ chroma_client = chromadb.PersistentClient(path="persist/")
 
 To generate embedding, we need a dedicated model and there's no single "best" option to select it. Words with similar contexts tend to have closer vector representations. Some static word embeddings models are good capturing basic semantic relationships and are computationally efficient and fast but might not capture complex semantics or context-dependent meanings. Contextual Embeddings models have been developped to capture word meaning based on context, considering surrounding words in a sentence and handling ambiguity. But Training and usage can be computationally expensive, model sizes can be large.
 
-Here we start with testing with [GPT4ALL](https://python.langchain.com/v0.1/docs/integrations/text_embedding/gpt4all/)
+Here we start with testing with [GPT4ALL embedding](https://docs.gpt4all.io/gpt4all_python_embedding.html){target="_blank"}
 
 ```{python}
 from langchain_community.embeddings import GPT4AllEmbeddings 
-embeddings_bert = GPT4AllEmbeddings()
+embeddings_bert = GPT4AllEmbeddings(
+    model_name = "all-MiniLM-L6-v2.gguf2.f16.gguf"
+)
 ```
 
 Now we can store the embeddings and associated metadata in the `chroma vector` database using a specific collection name. Below we create distinct stores for each chunking options.
@@ -255,6 +261,7 @@ print(collections)
 and get a previously saved vector collection
 
 ```{python}
+from langchain_community.vectorstores import Chroma
 vectorstore_text_bert = Chroma(collection_name="text_bert",
                                 persist_directory="persist/", 
                                 embedding_function=embeddings_bert) 
@@ -269,7 +276,7 @@ If do not have access to a LLM API, an alternative is to install a local one and
 ::: callout-note
 Open-source Large Language Models (LLM) have multiple advantages:
 
--   **Cost Savings**: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer. More insights on total cost of Owernership can be gained [here](https://huggingface.co/spaces/mithril-security/TCO_calculator). One element is also that most of the open source model have comparatively a lot less parameters (3b to 70b) than the large GPT ones (over 150b) which directly impact on infererence costs, i.e. computing cost to generate an answer.
+-   **Cost & Energy Savings**: generally more affordable in the long run as they don’t involve licensing fees, once infrastructure is setup and/or can be used offline on local computer. More insights on total cost of Owernership can be gained [here](https://huggingface.co/spaces/mithril-security/TCO_calculator){target="_blank"}. One element is also that most of the open source model have comparatively a lot less parameters (3b to 70b) than the large GPT ones (over 150b) which directly impact on infererence costs, i.e. computing cost to generate an answer.
 
 -   **Data Protection**: allow to use within the data enclave of your own computer without any data being sent to a remote server.
 
@@ -280,9 +287,9 @@ Open-source Large Language Models (LLM) have multiple advantages:
 -   **Customizability**: allow for added features and benefit from community contributions. They are ideal for projects that require customization and those where budget constraints are a primary concern.
 :::
 
-There are multiple options to do that. An easy one is to install [OLLAMA](https://ollama.com/), which offers a wide [variety of open models](https://ollama.com/library) from the "AI Race" competitors [arena](https://chat.lmsys.org/): [LLama3](https://ollama.com/library/llama3) from Facebook, [gemma](https://ollama.com/library/gemma) from Google, [phi3](https://ollama.com/library/phi3) Microsoft but also [qwen](https://ollama.com/library/qwen) from the Chinese AliBaba, [falcon](https://ollama.com/library/falcon) from the Emirati Technology Innovation Institute, or [Mixtral](https://ollama.com/library/mixtral) from the french startup Mistral_AI. Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama).
+There are multiple options to do that. An easy one is to install [OLLAMA](https://ollama.com/){target="_blank"}, which offers a wide [variety of open models](https://ollama.com/library){target="_blank"} from the "AI Race" competitors [arena](https://chat.lmsys.org/){target="_blank"}: [LLama3](https://ollama.com/library/llama3){target="_blank"} from Facebook, [gemma](https://ollama.com/library/gemma){target="_blank"} from Google, [phi3](https://ollama.com/library/phi3){target="_blank"} Microsoft but also [qwen](https://ollama.com/library/qwen){target="_blank"} from the Chinese AliBaba, [falcon](https://ollama.com/library/falcon){target="_blank"} from the Emirati Technology Innovation Institute, or [Mixtral](https://ollama.com/library/mixtral){target="_blank"} from the french startup Mistral_AI. Langchain as dedicated [module to work with ollama](https://python.langchain.com/docs/integrations/chat/ollama){target="_blank"}.
 
-Below, we start with [Mixtral Sparse Mixture-of-Expert](https://mistral.ai/news/mixtral-of-experts/), and specifically the quantized version: [8x7b-instruct-v0.1-q4_K_M](https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods), an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance. This download a file with the model which size around 26Gb.
+Below, we start with [Mixtral Sparse Mixture-of-Expert](https://mistral.ai/news/mixtral-of-experts/){target="_blank"}, and specifically the quantized version: [8x7b-instruct-v0.1-q4_K_M](https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF#explanation-of-quantisation-methods){target="_blank"}, an open-weight model designed to optimize performance-to-cost ratio, aka small in size to run on a strong laptop but good in performance. This download a file with the model which size around 26Gb.
 
 ```{python}
 from langchain_community.chat_models import ChatOllama
@@ -347,7 +354,7 @@ The summary should follow the following defined structure:
 
 #### Set up the Retriever
 
-A [retriever](https://python.langchain.com/docs/modules/data_connection/retrievers/) acts as an information gatekeeper in the RAG architecture. Its primary function is to search through a large corpus of data to find relevant pieces of information that can be used for text generation. You can think of it as a specialized librarian who knows exactly which ‘books’ to pull off the ‘shelves’ when you ask a question. In other words, the retriever first fetches relevant parts of the document pertaining to the user query, and then the Large Language Model (LLM) uses this information to generate a response.
+A [retriever](https://python.langchain.com/docs/modules/data_connection/retrievers/){target="_blank"} acts as an information gatekeeper in the RAG architecture. Its primary function is to search through a large corpus of data to find relevant pieces of information that can be used for text generation. You can think of it as a specialized librarian who knows exactly which ‘books’ to pull off the ‘shelves’ when you ask a question. In other words, the retriever first fetches relevant parts of the document pertaining to the user query, and then the Large Language Model (LLM) uses this information to generate a response.
 
 The search_type argument within `vectorstore.as_retriever` for LangChain allows you to specify the retrieval strategy used to find relevant documents in your vector store. Different options are available:
 
@@ -422,7 +429,7 @@ combine_docs_chain_mixtral = create_stuff_documents_chain(
     ollama_mixtral ,
     prompt_retrieval
 )
-qa_chain = create_retrieval_chain(
+qa_chain_recursivecharactertext_bert = create_retrieval_chain(
     ragRetriever_recursivecharactertext_bert, 
     combine_docs_chain_mixtral
 )
@@ -431,53 +438,100 @@ qa_chain = create_retrieval_chain(
 Note that from this stage, the following steps may take time to run - this will be highly dependent on the power of your computer - obviously the availability of GPUs - Graphical Processing Unit - will significantly increase the speed! FYI, this notebook was built on a Thinkpad P53 with a Quadro T1000 GPU.
 
 ```{python}
-response_text_bert = qa_chain.invoke({"input": RAG_prompt}) 
+response_recursivecharactertext_bert = qa_chain_recursivecharactertext_bert.invoke({"input": RAG_prompt}) 
 ```
 
 #### Save in a word document
 
-To complete the process, let's save the result directly within a [word document](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx)! This again can be automated as below:
+To complete the process, let's save the result directly within a [word document](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"}! 
+
+This can be automated with a created function `create_word_doc` that will reformat the text output from the LLM that uses the [standard Markdown format](https://www.markdownguide.org/getting-started/){target="_blank"} to the equivalent in Word:
 
 ```{python}
 import docx
+from markdown import markdown
+import re
 
-# Create a document
-doc = docx.Document()
+def create_word_doc(text, file_name):
+    # Create a document
+    doc = docx.Document()
+    # add a heading of level 0 (largest heading)
+    doc.add_heading('Evaluation Brief', 0) 
 
-# add a heading of level 0 (largest heading)
-doc.add_heading('Evaluation Brief', 0) 
+     # Split the text into lines
+    lines = text.split('\n')
+    # Create a set to store bolded and italic strings
+    bolded_and_italic = set()
+    for line in lines:
+        # Check if the line is a heading
+        if line.startswith('#'):
+            level = line.count('#')
+            doc.add_heading(line[level:].strip(), level)
+        else:
+            # Check if the line contains markdown syntax for bold or italic
+            if '**' in line or '*' in line:
+                # Split the line into parts
+                parts = re.split(r'(\*{1,2}(.*?)\*{1,2})', line)
+                # Add another paragraph
+                p = doc.add_paragraph()
+                for i, part in enumerate(parts):
+                    # Remove the markdown syntax
+                    content = part.strip('*')
+                    # Check if the content has been added before
+                    if content not in bolded_and_italic:
+                        # Add a run with the part and format it
+                        run = p.add_run(content)
+                        run.font.name = 'Arial'
+                        run.font.size = docx.shared.Pt(12)
+                        # If the part was surrounded by **, make it bold
+                        if '**' in part:
+                            run.bold = True
+                        # If the part was surrounded by *, make it italic
+                        elif '*' in part:
+                            run.italic = True
+                        # Add the content to the set
+                        bolded_and_italic.add(content)
+            else:
+                # Add another paragraph
+                p = doc.add_paragraph()
+                # Add a run with the line and format it
+                run = p.add_run(line)
+                run.font.name = 'Arial'
+                run.font.size = docx.shared.Pt(12)
 
-# Add another paragraph
-p = doc.add_paragraph()
+    ## Add  a disclaimer... ----------------
+    # add a page break to start a new page
+    doc.add_page_break()
+    # add a heading of level 2
+    doc.add_heading('DISCLAIMER:', 2)
+    doc_para = doc.add_paragraph() 
+    doc_para.add_run('This document contains material generated by artificial intelligence technology. While efforts have been made to ensure accuracy, please be aware that AI-generated content may not always fully represent the intent or expertise of human-authored material and may contain errors or inaccuracies. An AI model might generate content that sounds plausible but that is either factually incorrect or unrelated to the given context. These unexpected outcomes, also called AI hallucinations, can stem from biases, under-performing information retrieval, lack of real-world understanding, or limitations in training data.').italic = True
 
-# Add a run with the summary and format it
-run = p.add_run(response_text_bert["answer"])
-run.font.name = 'Arial'
-run.font.size = docx.shared.Pt(12)
-
-## Add  a disclaimer... ----------------
-# add a page break to start a new page
-doc.add_page_break()
-# add a heading of level 2
-doc.add_heading('DISCLAIMER:', 2)
-doc_para = doc.add_paragraph() 
-doc_para.add_run('This document contains material generated by artificial intelligence technology. While efforts have been made to ensure accuracy, please be aware that AI-generated content may not always fully represent the intent or expertise of human-authored material and may contain errors or inaccuracies. An AI model might generate content that sounds plausible but that is either factually incorrect or unrelated to the given context. These unexpected outcomes, also called AI hallucinations, can stem from biases, lack of real-world understanding, or limitations in training data.').italic = True
-
-# Save the document ---------------
-doc.save("generated/Evaluation_Brief_response_text_bert.docx")
+    # Save the document ---------------
+    doc.save(file_name)
 ```
 
+ Now we can simply use this function to get a word output from the LLM answer!
+
+```{python}
+create_word_doc(
+    response_recursivecharactertext_bert["answer"], 
+    "generated/Evaluation_Brief_response_recursivecharactertext_bert.docx"
+)
+```
+
+ 
 ## Continuous Evaluation Process
 
-We were able to get a first brief... still how can we assess how good is this report?
+We were able to get a first brief... still how can we assess how good is this report? We will first test different settings to create the brief. Then we create a dataset reflecting those settings and evaluate it!
 
-### Build an alternate "Brief"
+### Building Alternative Briefs
 
-Let's try to generate a second report with different settings.
+Let's try to generate more reports using different settings.
 
-LangChain often integrates with libraries like [Hugging Face Transformers](https://huggingface.co/sentence-transformers) for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.
+LangChain often integrates with libraries like [Hugging Face Transformers](https://huggingface.co/sentence-transformers){target="_blank"} for embedding usage. Best is to experiment with different embeddings to see what works best for a specific use case and dataset. There are plenty of options also depending on the languages.
 
-Let's try first with a second embedding model... [Hugging face](https://huggingface.co/models?pipeline_tag=feature-extraction&sort=trending) has many options... and there is even a [leaderboard](https://huggingface.co/spaces/mteb/leaderboard) to see how they compete... We will select here the embedding model [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) from the Beijing Academy of Artificial Intelligence. It is small in size but efficient and it does not consume too much memory.
+Let's try first with a second embedding model... [Hugging face](https://huggingface.co/models?pipeline_tag=feature-extraction&sort=trending){target="_blank"} has many options... and there is even a [leaderboard](https://huggingface.co/spaces/mteb/leaderboard){target="_blank"} to see how they compete... We will select here the embedding model [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5){target="_blank"} from the Beijing Academy of Artificial Intelligence. It is small in size but efficient and it does not consume too much memory.
 
 ```{python}
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
@@ -494,16 +548,16 @@ We build the vector store using the new embedding...
 # Disable TOKENIZERS warning
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+vectorstore_recursivecharactertext_bge = Chroma.from_documents(
+    chunks_recursivecharactertext,
+    embeddings_bge,
+    collection_name= "recursivecharactertext_bge",
+    persist_directory = "persist" 
+)
 ```
 
-```{python}
-vectorstore_recursivecharactertext_bge = Chroma.from_documents(chunks_recursivecharactertext,
-                                                   embeddings_bge,
-                                               collection_name= "recursivecharactertext_bge",
-                                               persist_directory = "persist" )
-```
-
-...create a different retriever now using Maximum Marginal Relevance...
+We can set a different retriever now using Maximum Marginal Relevance...
 
 ```{python}
 ragRetriever_mmr_recursivecharactertext_bge = vectorstore_recursivecharactertext_bge.as_retriever(
@@ -511,47 +565,47 @@ ragRetriever_mmr_recursivecharactertext_bge = vectorstore_recursivecharactertext
 )
 ```
 
-Advance retrieving strategies can also be used. For instance, using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get used to augment generation.
+[Advance retrieving strategies](https://js.langchain.com/v0.1/docs/modules/data_connection/retrievers/#advanced-retrieval-types){target="_blank"} can also be used to improve the process. For instance, we can test: 
+
+ -  using **ParentDocumentRetriever** a document can be embedded into small chunks, and then the context that “surrounds” the found context -child documents - is retrieved using Dense Vector Retrieval, child documents are merged based on their parents. If they have the same parents – they become merged and the child documents with their respective parent documents are replace from an in-memory-store and the parent documents get used to augment generation.
 
 ```{python}
 from langchain.retrievers import ParentDocumentRetriever
+parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)
+child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)
+
 from langchain.storage import InMemoryStore
+store = InMemoryStore()
 
-# parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)
-# child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)
+ragRetriever_parent_recursivecharactertext_bge = ParentDocumentRetriever(
+    vectorstore= vectorstore_recursivecharactertext_bge,
+    docstore=store,
+    child_splitter=child_splitter,
+    parent_splitter=parent_splitter,
+)
 
-# store = InMemoryStore()
-
-# parent_document_retriever = ParentDocumentRetriever(
-#     vectorstore= vectorstore_nltktext_bert,
-#     docstore=store,
-#     child_splitter=child_splitter,
-#     parent_splitter=parent_splitter,
-# )
-# parent_document_retriever.add_documents(docs)
+ragRetriever_parent_recursivecharactertext_bge.add_documents(docs)
 ```
 
-**Ensemble retrieval** is another technique where a Retriever Pair is created ( with BM25 Sparse Vector Retrieval and with Dense Vector Retrieval Method), then retrieved docs are "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
+ -  **Ensemble retrieval** is another technique where a Retriever Pair is created with  on one side a sparse retriever (like [Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25){target="_blank"}) and a dense retriever (like the embedding similarity we saw before) on the other side. Then retrieved information is "fused" based on their weighting using the Reciprocal Rank Fusion algorithm into a single ranked list and the resulting documents is used to augment the generation.
 
 ```{python}
-from langchain.retrievers import BM25Retriever, EnsembleRetriever
+from langchain.retrievers import BM25Retriever
+retriever_bm25 = BM25Retriever.from_documents(chunks_recursivecharactertext)
+retriever_bm25.k = 3
 
-# text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=16)
-# docs = text_splitter.split_documents(all_docs)
-# bm25_retriever = BM25Retriever.from_documents(docs)
-# bm25_retriever.k = 3
+retriever_similarity = vectorstore_recursivecharactertext_bge.as_retriever(search_kwargs={"k": 3})
 
-# vectorstore = Chroma.from_documents(docs, hf_bge_embeddings)
-# chroma_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-
-# ensemble_retriever = EnsembleRetriever(
-#     retrievers=[bm25_retriever, chroma_retriever], 
-#    # Relative weighting of each retriever needs to sums to 1!
-#     weights=[0.42, 0.58])
+from langchain.retrievers import EnsembleRetriever
+ragRetriever_ensemble_recursivecharactertext_bge = EnsembleRetriever(
+     retrievers=[retriever_bm25, retriever_similarity], 
+    # Relative weighting of each retriever needs to sums to 1!
+    weights=[0.42, 0.58]
+    )
 
 ```
 
-and let's use a different model for the LLM: [command-r)](https://cohere.com/blog/command-r), and specifically the quantized version: [command-r:35b-v0.1-q4_K_M](https://ollama.com/library/command-r:35b-v0.1-q4_K_M), an open-weight model designed to optimize RAG.
+We can also use a different model for the LLM: [command-r](https://cohere.com/blog/command-r){target="_blank"} from the start-up COHERE, and specifically the quantized version: [command-r:35b-v0.1-q4_K_M](https://ollama.com/library/command-r:35b-v0.1-q4_K_M){target="_blank"}, an open-weight model designed to optimize RAG and set up the corresponding chain.
 
 ```{python}
 from langchain_community.chat_models import ChatOllama
@@ -560,58 +614,76 @@ ollama_commandR = ChatOllama(
     temperature=0.2, 
     request_timeout=500
 )
-```
 
-... and then get our summary with the second LLM!
-
-```{python}
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_retrieval_chain
-
 combine_docs_chain_commandR = create_stuff_documents_chain(
     ollama_commandR ,
     prompt_retrieval
 )
-qa_chain = create_retrieval_chain(
-    ragRetriever_mmr_recursivecharactertext_bge, 
+```
+
+Finally we generate our alternative summaries!
+
+```{python}
+from langchain.chains import create_retrieval_chain
+qa_chain_mmr_recursivecharactertext_bge = create_retrieval_chain(
+    ragRetriever_mmr_recursivecharactertext_bge,
     combine_docs_chain_commandR
 )
 
-response_mmr_recursivecharactertext_bge = qa_chain.invoke({"input": RAG_prompt}) 
-```
+response_mmr_recursivecharactertext_bge = qa_chain_mmr_recursivecharactertext_bge.invoke({"input": RAG_prompt}) 
 
-Now saving it in a [word document](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx)!
+create_word_doc(
+    response_mmr_recursivecharactertext_bge["answer"], 
+    "generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx"
+)
+```
 
 ```{python}
-import docx
+from langchain.chains import create_retrieval_chain
+qa_chain_parent_recursivecharactertext_bge = create_retrieval_chain(
+    ragRetriever_parent_recursivecharactertext_bge,
+    combine_docs_chain_commandR
+)
 
-# Create a document
-doc = docx.Document()
-# add a heading of level 0 (largest heading)
-doc.add_heading('Evaluation Brief', 0) 
-# Add another paragraph
-p = doc.add_paragraph()
+response_parent_recursivecharactertext_bge = qa_chain_parent_recursivecharactertext_bge.invoke({"input": RAG_prompt}) 
 
-# Add a run with the summary and format it
-run = p.add_run(response_mmr_recursivecharactertext_bge["answer"])
-run.font.name = 'Arial'
-run.font.size = docx.shared.Pt(12)
-
-## Add  a disclaimer... ----------------
-# add a page break to start a new page
-doc.add_page_break()
-# add a heading of level 2
-doc.add_heading('DISCLAIMER:', 2)
-doc_para = doc.add_paragraph() 
-doc_para.add_run('This document contains material generated by artificial intelligence technology. While efforts have been made to ensure accuracy, please be aware that AI-generated content may not always fully represent the intent or expertise of human-authored material and may contain errors or inaccuracies. An AI model might generate content that sounds plausible but that is either factually incorrect or unrelated to the given context. These unexpected outcomes, also called AI hallucinations, can stem from biases, lack of real-world understanding, or limitations in training data.').italic = True
-
-# Save the document ---------------
-doc.save("generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx")
+create_word_doc(
+    response_parent_recursivecharactertext_bge["answer"], 
+    "generated/Evaluation_Brief_response_parent_recursivecharactertext_bge.docx"
+)
 ```
 
-Et voila! Though When reading the two briefs, [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx) & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx), we can see significant differences... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. Now let's **evaluate** the quality of the summarization to objectively find out about this!
+```{python}
+from langchain.chains import create_retrieval_chain
+qa_chain_ensemble_recursivecharactertext_bge = create_retrieval_chain(
+    ragRetriever_ensemble_recursivecharactertext_bge,
+    combine_docs_chain_commandR
+)
 
-### Generating an evaluation dataset
+response_ensemble_recursivecharactertext_bge = qa_chain_ensemble_recursivecharactertext_bge.invoke({"input": RAG_prompt}) 
+
+create_word_doc(
+    response_ensemble_recursivecharactertext_bge["answer"], 
+    "generated/Evaluation_Brief_response_ensemble_recursivecharactertext_bge.docx"
+)
+```
+
+Et voila! We have now 4 alternative briefs:  
+
+  -  [#1 - Similarity retrieval with Bert embedding using Mixtral LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"} 
+
+  -  [#2 - Maximum Marginal Relevance retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"},
+
+  -  [#3 - Parent document retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_parent_recursivecharactertext_bge.docx){target="_blank"},
+
+  -  [#4 - Ensemble document retrieval with BGE embedding using commandR LLM](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_ensemble_recursivecharactertext_bge.docx){target="_blank"},
+  
+Each summary is slightly different... which is OK as it would be if it was a human doing it.. Though, it is likely that one report is better than the other. 
+
+Now let's **evaluate** the quality of those summarization pipeline to objectively find out about this!
+
+### Generating Evaluation Dataset
 
 To do the evaluation, first we need to build an large-enough evaluation dataset so that the evaluation is based on multiple output. We need to build the following data
 
@@ -782,6 +854,36 @@ ragRetriever_recursivecharactertext_bert = vectorstore_recursivecharactertext_be
 ragRetriever_mmr_recursivecharactertext_bge = vectorstore_recursivecharactertext_bge.as_retriever(
             search_type="mmr"
 ) 
+
+from langchain.retrievers import ParentDocumentRetriever
+parent_splitter = RecursiveCharacterTextSplitter(chunk_size=1536)
+child_splitter = RecursiveCharacterTextSplitter(chunk_size=256)
+
+from langchain.storage import InMemoryStore
+store = InMemoryStore()
+
+ragRetriever_parent_recursivecharactertext_bge = ParentDocumentRetriever(
+    vectorstore= vectorstore_recursivecharactertext_bge,
+    docstore=store,
+    child_splitter=child_splitter,
+    parent_splitter=parent_splitter,
+)
+ragRetriever_parent_recursivecharactertext_bge.add_documents(docs)
+
+from langchain.retrievers import BM25Retriever
+retriever_bm25 = BM25Retriever.from_documents(chunks_recursivecharactertext)
+retriever_bm25.k = 3
+
+retriever_similarity = vectorstore_recursivecharactertext_bge.as_retriever(search_kwargs={"k": 3})
+
+from langchain.retrievers import EnsembleRetriever
+ragRetriever_ensemble_recursivecharactertext_bge = EnsembleRetriever(
+     retrievers=[retriever_bm25, retriever_similarity], 
+    # Relative weighting of each retriever needs to sums to 1!
+    weights=[0.42, 0.58]
+    )
+
+
 ```
 
 The main prompt template
@@ -813,20 +915,27 @@ qa_chain_mixtral_recursivecharactertext_bert = create_retrieval_chain(
     combine_docs_chain_mixtral
 )
 
-
 combine_docs_chain_command = create_stuff_documents_chain(
     ollama_commandR,
     prompt_retrieval
 )
 qa_chain_command_mmr_recursivecharactertext_bge = create_retrieval_chain(
     ragRetriever_mmr_recursivecharactertext_bge, 
-    combine_docs_chain_mixtral
+    combine_docs_chain_command
+)
+qa_chain_command_parent_recursivecharactertext_bge = create_retrieval_chain(
+    ragRetriever_parent_recursivecharactertext_bge, 
+    combine_docs_chain_command
+)
+qa_chain_command_ensemble_recursivecharactertext_bge = create_retrieval_chain(
+    ragRetriever_ensemble_recursivecharactertext_bge, 
+    combine_docs_chain_command
 )
 ```
 
 and now build the two evaluation dataset by iterating over expert profiles and questions!
 
-The [first dataset](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/dataset_mixtral_recursivecharactertext_bert.xlsx)
+The [first dataset](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/dataset_mixtral_recursivecharactertext_bert.xlsx){target="_blank"}
 
 ```{python}
 # Create dataset (empty list for now)
@@ -851,7 +960,7 @@ dataset_mixtral_recursivecharactertext_bert_d.to_excel("generated/dataset_mixtra
 
 ```
 
-Then producing the [second dataset](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/dataset_command_mmr_recursivecharactertext_bge.xlsx)
+Then producing the [second dataset](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/dataset_command_mmr_recursivecharactertext_bge.xlsx){target="_blank"}
 
 ```{python}
 # Create dataset (empty list for now)
@@ -874,6 +983,48 @@ dataset_command_mmr_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_
 dataset_command_mmr_recursivecharactertext_bge_d.to_excel("generated/dataset_command_mmr_recursivecharactertext_bge.xlsx") 
 ```
 
+```{python}
+# Create dataset (empty list for now)
+dataset_command_parent_recursivecharactertext_bge = []
+
+# Iterate through each expert question and its corresponding context list
+for expert  in  q_experts:
+    for question in q_questions:
+        # Generate response with Ollama
+        response = qa_chain_command_parent_recursivecharactertext_bge.invoke({"input":  expert + question +  q_instr})
+        # Add context-question-response to dataset
+        dataset_command_parent_recursivecharactertext_bge.append({
+            "question": expert + question +  q_instr, 
+            "contexts": [context.page_content for context in response["context"]],
+            "answer":  response["answer"]
+        })
+#Save this to the disk! 
+import pandas as pd
+dataset_command_parent_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_parent_recursivecharactertext_bge)
+dataset_command_parent_recursivecharactertext_bge_d.to_excel("generated/dataset_command_parent_recursivecharactertext_bge.xlsx") 
+```
+
+```{python}
+# Create dataset (empty list for now)
+dataset_command_ensemble_recursivecharactertext_bge = []
+
+# Iterate through each expert question and its corresponding context list
+for expert  in  q_experts:
+    for question in q_questions:
+        # Generate response with Ollama
+        response = qa_chain_command_ensemble_recursivecharactertext_bge.invoke({"input":  expert + question +  q_instr})
+        # Add context-question-response to dataset
+        dataset_command_ensemble_recursivecharactertext_bge.append({
+            "question": expert + question +  q_instr, 
+            "contexts": [context.page_content for context in response["context"]],
+            "answer":  response["answer"]
+        })
+#Save this to the disk! 
+import pandas as pd
+dataset_command_ensemble_recursivecharactertext_bge_d = pd.DataFrame(dataset_command_ensemble_recursivecharactertext_bge)
+dataset_command_ensemble_recursivecharactertext_bge_d.to_excel("generated/dataset_command_ensemble_recursivecharactertext_bge.xlsx") 
+```
+
 ### Computing Assessment Metrics
 
 ::: callout-note
@@ -886,15 +1037,15 @@ Several criteria can be used to **evaluate RAG pipeline**. Among them, the diagr
 Satisfactory evaluations on context relevance (good chunking and embedding), groundedness (good retriever) and answer relevance (good prompt and LLM) will provide confidence that **hallucination risks** are minimized.
 :::
 
-There are different [framework available for RAG Evaluation](https://community.sap.com/t5/technology-blogs-by-members/generative-ai-with-sap-rag-evaluations/ba-p/13572136). Here we test [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/), a framework for reference-free evaluation of RAG pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html). It includes the metrics below:
+There are different [framework available for RAG Evaluation](https://community.sap.com/t5/technology-blogs-by-members/generative-ai-with-sap-rag-evaluations/ba-p/13572136){target="_blank"}. Here we test [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/){target="_blank"}, a framework for reference-free evaluation of RAG pipelines. *“Reference-free”* evaluation means that instead of having to rely on human-annotated ground truth labels in the evaluation dataset, RAGAs leverages LLMs under the hood to conduct the [evaluations](https://docs.ragas.io/en/stable/howtos/integrations/langchain.html){target="_blank"}. It includes the metrics below:
 
--   [**Context Precision**](https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html) (also called Grounding): Measures whether items present in the contexts are ranked higher or not.
+-   [**Context Precision**](https://docs.ragas.io/en/stable/concepts/metrics/context_precision.html){target="_blank"} (also called Grounding): Measures whether items present in the contexts are ranked higher or not.
 
--   [**Faithfulness**](https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html) (also called Cgroundedness): Measures whether the LLM outputs are based on the provided ground truth.
+-   [**Faithfulness**](https://docs.ragas.io/en/stable/concepts/metrics/faithfulness.html){target="_blank"} (also called Cgroundedness): Measures whether the LLM outputs are based on the provided ground truth.
 
--   [**Answer relevancy**](https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html): Measures how directly the answer addresses the question.
+-   [**Answer relevancy**](https://docs.ragas.io/en/stable/concepts/metrics/answer_relevance.html){target="_blank"}: Measures how directly the answer addresses the question.
 
-RAGAS is expecting data to be provided in the [datasets format](https://pypi.org/project/datasets/), a format designed to let the community easily add and share new datasets. We need to convert our currentl list into a dictionnary and then export it to the correct format.
+RAGAS is expecting data to be provided in the [datasets format](https://pypi.org/project/datasets/){target="_blank"}, a format designed to let the community easily add and share new datasets. We need to convert our currentl list into a dictionnary and then export it to the correct format.
 
 ```{python}
 from datasets import Dataset 
@@ -912,12 +1063,12 @@ response_evaluation_dataset_command_mmr_recursivecharactertext_bge = Dataset.fro
 
 ```
 
-RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#) as a critic of the first one.
+RAGAS require another LLM to do the assessment. We can use a [dedicated model](https://docs.ragas.io/en/stable/howtos/customisations/ragas_custom_model.html#){target="_blank"} as a critic of the first one.
 
 Let's
 
 ```{python}
- # use [Huggingface Endpoints](https://python.langchain.com/v0.1/docs/integrations/llms/huggingface_endpoint/) for that! The Hugging Face Hub is a platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
+ # use [Huggingface Endpoints](https://python.langchain.com/v0.1/docs/integrations/llms/huggingface_endpoint/){target="_blank"} for that! The Hugging Face Hub is a platform with over 120k models, 20k datasets, and 50k demo apps (Spaces), all open source and publicly available, in an online platform where people can easily collaborate.
 # import os
 # from dotenv import load_dotenv, find_dotenv
 # load_dotenv(find_dotenv())
@@ -1035,11 +1186,11 @@ fig.show()
 
 ### Buy or Build?
 
-As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness), there are potential graduated deployment stages to consider: consume, embed, extend and build. For each of them, the strategic decision is to defined the share of investement between outsourced and internalized capacity.
+As presented in [Gartner AI readiness framework](https://www.gartner.com/en/information-technology/topics/ai-readiness){target="_blank"}, there are potential graduated deployment stages to consider: consume, embed, extend and build. For each of them, the strategic decision is to defined the share of investement between outsourced and internalized capacity.
 
-[![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness)
+[![From Gartner: https://www.gartner.com/en/information-technology/topics/ai-readiness](img/GL0vYd_WcAAqUDZ.png){fig-align="center"}](https://www.gartner.com/en/information-technology/topics/ai-readiness){target="_blank"}
 
-Providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html) represents only the very initial **consume** stage. Creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/) is the second one: **embed** stage. Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
+Providing [organisation-wide access to copilot](https://intranet.unhcr.org/en/support-services/ict-operations/ict-services/generative-ai.html){target="_blank"} represents only the very initial **consume** stage. Creating a dedicated app like ["Chat with your Evaluation Reports"](https://unhcr-app-evoaoai01-d01-us.azurewebsites.net/){target="_blank"} is the second one: **embed** stage. Though using off-the-shelves solutions in a "consume or embed" mode comes with inherent limitations:
 
 -   to incorporate organization specific Knowledge in a systematic and reliable way (i.e. with an *evaluated* RAG pipeline!);
 -   to set up processes for continuous update of the knowledge base used by the model;
@@ -1051,26 +1202,26 @@ Above, we presented a recipe to extend existing foundation model, using the firs
 The next stage is to enable Task-Specific & Alignment Fine Tuning. It comes with the additional requirement of building AI-ready and validated data. The assumption is that, if you train smaller models in certain areas really well, it will do a lot more. Because tine-tuned model are more efficient, they also save money, especially for tasks like RAG workflows and automation in private clouds. Fine-tuning brings the ability to skip providing in-context learning examples, which results in lower token usage on each prompt and lower latency requests.
 
 ::: callout-note
-The future of Language Model development within organisations is likely to revolve around the creation of “specialized” fine-tuned smaller models. And at first comes the training cost componnent... To have some cost estimation in mind, training a custom large model can require easily 2 months on a big pool of specific hardware, the [A100 GPU](https://www.nvidia.com/en-us/data-center/a100/). With an estimated cost of 3\$ per hour, the total training can go above 3M\$. By comparison, fine-tuning an existing medium size foundation model can be done for instance with 16 GPUs × \$3.00 /hour × 24 hours = \$1,152...
+The future of Language Model development within organisations is likely to revolve around the creation of “specialized” fine-tuned smaller models. And at first comes the training cost componnent... To have some cost estimation in mind, training a custom large model can require easily 2 months on a big pool of specific hardware, the [A100 GPU](https://www.nvidia.com/en-us/data-center/a100/){target="_blank"}. With an estimated cost of 3\$ per hour, the total training can go above 3M\$. By comparison, fine-tuning an existing medium size foundation model can be done for instance with 16 GPUs × \$3.00 /hour × 24 hours = \$1,152...
 :::
 
 ### "AI-Ready" data: Human Review for `ground_truth`
 
 Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
 
-It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudioo](https://labelstud.io/) can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope".
+It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudioo](https://labelstud.io/){target="_blank"} can be used to implement such human review. The “Context/Question/Response” shall be reviewed and assessed as “Relevant” / “Generic” / “Out-of-scope".
 
 After the peer review is sent to observation, operation feedback on the review can also be collected and use at a later stage to further fine tune the model
 
 ### A Fine-Tuned "expert" Model!
 
-Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open "foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and ["open artificial intelligence models"](https://www.un.org/techenvoy/content/digital-public-goods), the resulting fine-tuned model could also be published on [UNHCR Hugging Face Organisation Account](https://huggingface.co/unhcr) or an intergancy one to be created...
+Using the labeled dataset, generated from the prompt, and then labeled, the next step will be to select any Open "foundational” LLM from HuggingFace and fine tune it. In line with UN statement to promote open source in general and ["open artificial intelligence models"](https://www.un.org/techenvoy/content/digital-public-goods){target="_blank"}, the resulting fine-tuned model could also be published on [UNHCR Hugging Face Organisation Account](https://huggingface.co/unhcr){target="_blank"} or an intergancy one to be created...
 
 A fine tune model could help front-loading many more contexts that a simple foundation model:
 
 -   **Situation** – The fine-tuned model would be relevant and specific in relation with Operation profile, Area of focus between one of the strategic impact, operational outcome, or organizational topics
 
--   **Task** - The fine-tuned model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the [Plan/Get/Show](https://www.unhcr.org/us/compass).
+-   **Task** - The fine-tuned model could be triggered at a specific stage of the operation management cycle for Peer Review Purpose – at any stage of the [Plan/Get/Show](https://www.unhcr.org/us/compass){target="_blank"}.
 
 -   **Activity** – Based on the combination of situation and task, the fine-tuned model would help re-injecting previously found evidence and/or recalling recommendations
 
@@ -1091,16 +1242,24 @@ Leveraging the potential of AI for evaluation implies significant investement. T
 
 Expressing thanks for all AI experts that are taking time to build open source tools for this new technology and create tutorials. There are many of them and the list below is far from exhaustive:
 
--   <https://huggingface.co/learn/cookbook/en/advanced_rag>
--   <https://huggingface.co/learn/cookbook/en/rag_evaluation>
--   <https://huggingface.co/learn/cookbook/en/llm_judge>
--   <https://github.com/langchain-ai/rag-from-scratch>
--   [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf)
+ 
+-  [advanced_rag](https://huggingface.co/learn/cookbook/en/advanced_rag)
+-  [rag_evaluation](https://huggingface.co/learn/cookbook/en/rag_evaluation)
+-  [llm_judge](https://huggingface.co/learn/cookbook/en/llm_judge)
+-  [rag-from-scratch](https://github.com/langchain-ai/rag-from-scratch)
+-  [langchain-tutorials](https://github.com/gkamradt/langchain-tutorials)
+-  [AI Infrastructure Report](https://ai-infrastructure.org/wp-content/uploads/2023/10/AIIA-AgentsLargeLanguageModelsandSmartApps-Oct3.pdf){target="_blank"}
 
-The World bank IAEG has also released a few blogs: - [Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?](https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex) - [Setting up Experiments to Test GPT for Evaluation](https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation) - [Unfulfilled Promises: Using GPT for Synthetic Tasks](https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks)
+The World bank IAEG has also released a few blogs: 
 
--   [What are the benefits and challenges of using AI in evaluation?](https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation)
+ - [Advanced Content Analysis: Can Artificial Intelligence Accelerate Theory-Driven Complex Program Evaluation?](https://ieg.worldbankgroup.org/methods-resource/advanced-content-analysis-can-artificial-intelligence-accelerate-theory-driven-complex){target="_blank"}  
 
-An interesting blog related to [AI costing](https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/)
+ - [Setting up Experiments to Test GPT for Evaluation](https://ieg.worldbankgroup.org/blog/setting-experiments-test-gpt-evaluation){target="_blank"}
+  
+ - [Unfulfilled Promises: Using GPT for Synthetic Tasks](https://ieg.worldbankgroup.org/blog/unfulfilled-promises-using-gpt-synthetic-tasks){target="_blank"}
+
+-   [What are the benefits and challenges of using AI in evaluation?](https://www.linkedin.com/advice/0/what-benefits-challenges-using-ai-evaluation){target="_blank"}
+
+An interesting blog related to [AI costing](https://www.linkedin.com/pulse/decoding-true-cost-generative-ai-your-enterprise-maryam-ashoori-phd/){target="_blank"}
 
 Thanks also all UNHCR colleagues who took the time to review and proof read this document.

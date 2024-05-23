@@ -10,13 +10,7 @@ embed-resources: true
 Edward Osborne Wilson
 
 ::: notes
-
-simpler procedures, 
-faster turnaround times, 
-more secure responses, 
-and more effective public policies.
-
-
+simpler procedures, faster turnaround times, more secure responses, and more effective public policies.
 :::
 
 ## Current Challenge
@@ -93,7 +87,6 @@ Mechanism: - Retrieval: Fetches relevant documents or information from a knowled
 Benefits: - Enhanced accuracy and relevance of generated responses. - Effective in scenarios with vast, dynamic information sources.
 
 Text embedding models are statistical methods that represent text as numerical vectors. These embeddings aim to capture the semantic meaning of words and phrases in an efficient and user-friendly manner. They find applications in various natural language processing tasks and are constantly evolving.
-
 :::
 
 ## Leaderboard for Large Language Models
@@ -227,10 +220,9 @@ See [full article here](https://edouard-legoupil.github.io/rag_extraction/){targ
 5.  **Evaluation**: Assess accuracy, relevance, and efficiency using [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/){target="_blank"}.
 :::
 
-
 ## An interface for Human Review of LLM outputs
 
-![](img/labelstudio.png){fig-align="center"} 
+![](img/labelstudio.png){fig-align="center"}
 
 ## AI Deployment: Buy or Build?
 
@@ -258,12 +250,11 @@ Quick implementation with vendor support. Cost-effective for standard applicatio
 by refining the AI with ORGANISATION SPECIFIC Operational data, we can enhance its ability to support our teams more accurately and efficiently
 :::
 
-
 ## Conclusions
 
-Blind trust in AI definitely comes with **serious risks to manage**. And at first on one side, the lack of transparency and explainability and on the other side the occurence and reproduction of bias and discrimination. 
+Blind trust in AI definitely comes with **serious risks to manage**. And at first on one side, the lack of transparency and explainability and on the other side the occurrence and reproduction of bias and discrimination.
 
-Trust building will therefore require **organizational commitement to control**:  
+Trust building will therefore require **organizational commitment to control**:
 
- - the performance of information retrieval (*RAG*);  
- - the ground truthing and alignment of model outputs (*Fine-tuning*).
+-   the performance of information retrieval (*RAG*);\
+-   the ground truthing and alignment of model outputs (*Fine-tuning*).

@@ -14,13 +14,13 @@ execute:
 *"We are drowning in information, while starving for wisdom. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely."* - Edward Osborne Wilson
 :::
 
-## Executive Summary
+## Executive Summary {#executive-summary}
 
-Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6){target="_blank"} of the **evidence revolution** (following the 4 previous ones: *1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports){target="_blank"} across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
+Artificial Inteligence (AI) is presented as the potential trigger for the [fifth wave](https://www.nature.com/articles/s41599-019-0253-6){target="_blank"} of the **evidence revolution** (following the 4 previous ones: *1.Outcome Monitoring, 2.Impact Evaluation, 3.Systematic Reviews and 4.Knowledge Brokering*). This actually reflects a situation where considering the [numbers of published evaluation reports](https://www.uneval.org/evaluation/reports){target="_blank"} across the UN system, **information retrieval and evidence generalization challenges** have arisen: How to extract lessons and learning across contexts, institutions, programs, and evaluations in order to inform strategies and decision-making in other similar contexts?  
 
 ::: columns
 ::: {.column width="60%"}
-The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between breadth and depth is a common challenge but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**. Highlighting critical aspects while deciding on what are the less relevant details to omit rely on expert judgement and human bias... The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
+The key deliverable from an evaluation is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of a broader audience including senior executives. Striking the balance between breadth and depth is a common challenge but what remains even more challenging is the subjective dimension involved in **choosing what to include and what to exclude**. Highlighting critical aspects while deciding on what are the less relevant details to omit rely on people's judgment as to what is important for specific audiences… The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden. Relying on automated retrieval can therefore help improving the objectivity and independence of the evaluation report summarization.
 :::
 
 ::: {.column width="40%"}
@@ -28,13 +28,13 @@ The key deliverable from an evaluation process is usually a long report (*often 
 :::
 :::
 
-Retrieval-augmented generation (RAG) is an AI Question-Answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Models (LLMs) and information retrieval systems from specific domain of expertise (here from "evaluation reports"). This paper is presenting the challenges and opportunities associated with those new approaches in the context of public program evaluation.
+Retrieval-augmented generation (RAG) is an AI Question-Answering framework that [surfaced in 2020](https://arxiv.org/pdf/2005.11401) and that synergizes the capabilities of Large Language Models (LLMs) and information retrieval systems from specific domain of expertise (hereafter "evaluation reports"). This paper is presenting the challenges and opportunities associated with this approach in the context of evaluation. It then suggests a potential solution and way forward.
 
-First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"} using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index){target="_blank"}. Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Operation Strategic Plan.
+First, we explain how to create an initial [two-pagers evaluation brief](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_recursivecharactertext_bert.docx){target="_blank"} using an orchestration of functions and models from [Hugging Face Hub](https://huggingface.co/docs/hub/index){target="_blank"}. Rather than relying on ad-hoc user interactions through a *black-box point & click* chat interface, a relevant alternative is to use a data science approach with documented and **reproducible scripts** that can directly output a word document. The same approach could actually be applied to other textual analysis needs, for instance: extracting causal chains from the transcriptions of Focus Group Discussions, performing Quality Assurance review on key document, generating potential theories of change from needs assessment reports or assessing sufficient usage of programmatic evidence when developing Strategic Plan for Operation.
 
-Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate alternative briefs ([#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"}, [#3](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_parent_recursivecharactertext_bge.docx){target="_blank"}, [#4](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_ensemble_recursivecharactertext_bge.docx){target="_blank"}) and then create an evaluation dataset to explore the different metrics that can be used to evaluate information retrieval process.
+Second, we review the techniques that can be used to **evaluate the performance** of summarisation scripts both to optimize them but also to minimize the risk of AI hallucinations. We generate alternative briefs ([#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"}, [#3](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_parent_recursivecharactertext_bge.docx){target="_blank"}, [#4](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_ensemble_recursivecharactertext_bge.docx){target="_blank"}) and then create an specific [test dataset](https://github.com/Edouard-Legoupil/rag_extraction/tree/main/dataset){target="_blank"} to explore the different metrics that can be used to evaluate the information retrieval process.
 
-Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to "ground truth" and "fine-tune" an existing model. This not only further increase its performance and but also ensure its reliability both for evidence retrieval and at latter stage for evidence re-injection.
+Last we discuss how such approach can actually inform decisions and strategies for an **efficient AI deployment**: While improving RAG pipeline is the first important step, creating training dataset with human-in-the-loop allows to "ground truth" and "fine-tune" an existing model. This not only further increase its performance and but also ensure its reliability both for evidence retrieval and at latter stage for learning across systems and contexts.
 
 A short presentation is also [available here](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html){target="_blank"}
 
@@ -42,7 +42,7 @@ A short presentation is also [available here](https://edouard-legoupil.github.io
 
 ## Introduction
 
-Building a robust information retrieval system requires to configure different components:
+Building a robust information retrieval system requires the configuration of different components:
 
 1)  **A Retrieval & Generation Pipeline**: Build a knowledge base and configure how to retrieve the information from it then define efficient prompt to query the system;
 
@@ -50,7 +50,7 @@ Building a robust information retrieval system requires to configure different c
 
 3)  **A Production Deployment Strategy**: Organise AI-ready human feedback and prepare data for fine-tuning.
 
-This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can [rerun and learn](https://github.com/Edouard-Legoupil/rag_extraction/){target="_blank"} from it. It also contains broader suggestions on the usage of AI for public programme evaluations.
+This paper compiles the results of experimentation applied to a practical use case. It includes a *cookbook with reproducible recipes* so that colleagues can [rerun and learn](https://github.com/Edouard-Legoupil/rag_extraction/){target="_blank"} from it. It also contains broader suggestions on the usage of AI for summarizing and synthesizing evaluations products and reports.
 
 Non-technical audience can consume the [executive summary](#executive-summary) above, the [conclusions](#conclusions) and the [linked presentation](https://edouard-legoupil.github.io/rag_extraction/prez/prez.html){target="_blank"}.
 
@@ -1191,7 +1191,7 @@ The future of Language Model development within organisations is likely to revol
 
 Human Review is key to maintaining quality, minimizing the risk of hallucination and enforcing alignment. Such **ground_truths** attribute on the evaluation dataset allows to test if the context is well recalled by the RAG Pipeline.
 
-It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudio](https://labelstud.io/templates/generative-llm-ranker){target="_blank"} can be used to implement human review that rank the quality of the knowledge extraction. 
+It can be performed both before and after fine-tuning. Human labelling is performed to verify that the response is relevant, generic or out-of-context. A platform like [labelStudio](https://labelstud.io/templates/generative-llm-ranker){target="_blank"} can be used to implement human review that rank the quality of the knowledge extraction.
 
 To do so, First let's prepare the data.
 
@@ -1269,7 +1269,7 @@ with open('dataset/dataset.json', 'w') as f:
 
 We can set up now a specific [label studio project: UNHCR Data use and information management](https://huggingface.co/spaces/edouardlgp/evaluation_report_recommendation_review) to Review knowledge Extraction from the 2019 Evaluation. We can then use the "LLM Ranker" template to review the RAG pipeline output as either: “Relevant”, “Too-Generic” or “Out-of-scope".
 
-![Human Review with Labelstudio](img/labelstudio.png){fig-align="center"} 
+![Human Review with Labelstudio](img/labelstudio.png){fig-align="center"}
 
 Note as well that the [Management Response](https://intranet.unhcr.org/content/dam/unhcr/intranet/organization-leadership/evaluation/document/english/reports/management-response-guidance-note/MR%20Follow-up%20Guidance%20Note.pdf), aka the organisation’s response to evaluation findings, could be another source of ground truthing to leverage to enhance the quality of knowledge extraction.
 
@@ -1291,20 +1291,20 @@ A fine tune model could help front-loading many more contexts that a simple foun
 
 -   **Results** – The fine-tuned model output would be systematically saved in order to be re-assessed by humans to fine-tune it further from this feedback and improve over time (also called reinforcement learning.)
 
-## Conclusions
+## Conclusions {#conclusions}
 
-Blind trust in AI definitely comes with **serious risks to manage**. And at first on one side, the lack of transparency and explainability and on the other side the occurence and reproduction of bias and discrimination. 
+Blind trust in AI definitely comes with **serious risks to manage**. And at first on one side, the lack of transparency and explainability and on the other side the occurence and reproduction of bias and discrimination.
 
-Trust building will therefore require **organizational commitement to control**:  
+Trust building will therefore require **organizational commitement to control**:
 
- - the performance of information retrieval (*RAG*);  
- - the ground truthing and alignment of model outputs (*Fine-tuning*).
+-   the performance of information retrieval (*RAG*);\
+-   the ground truthing and alignment of model outputs (*Fine-tuning*).
 
 This paper is advocating for an approach grounded in open data science but backed with human review. Some key considerations to implement this involve to look at:
 
 -   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.
 -   **Modular Customization**: The "*orchestration*" solution should be flexible to adapt itself to incoming new development, without changing everything.
--   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
+-   **Agility - Iterate & Deliver**: Adopt short development rounds to start quickly testing with users.
 -   **Information Formatting**: Promote specific format for report publication, specifically Markdown rather than PDF, to ease the ingestion of content by the models.
 -   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
 

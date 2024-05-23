@@ -10,7 +10,13 @@ embed-resources: true
 Edward Osborne Wilson
 
 ::: notes
-Speaker notes go here.
+
+simpler procedures, 
+faster turnaround times, 
+more secure responses, 
+and more effective public policies.
+
+
 :::
 
 ## Current Challenge

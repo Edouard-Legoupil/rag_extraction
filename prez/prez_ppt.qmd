@@ -1,0 +1,261 @@
+---
+title: Evaluating `AI` Usage for Evaluation Purpose
+subtitle: Improving Report Summarization
+format:
+  pptx:
+    reference-doc: pptx_template.pptx
+---
+
+> "We are **drowning in information, while starving for wisdom**. The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely."
+
+Edward Osborne Wilson
+
+::: notes
+simpler procedures, faster turnaround times, more secure responses, and more effective public policies.
+:::
+
+## Current Challenge
+
+::: columns
+::: {.column width="60%"}
+Considering the [number of published evaluation reports](https://www.uneval.org/evaluation/reports){target="_blank"} across the UN system, **information retrieval and evidence generalization challenges** have arisen.
+:::
+
+::: {.column width="40%"}
+![](img/book-address-book-learning-education-baef58-1024.jpg){fit-align="center"}
+:::
+:::
+
+How to extract the most relevant findings and recommendations from within a specific context and to reuse and re-inject them in a different but appropriate context?
+
+## The 5th wave of the **evidence revolution** is triggered by AI
+
+::: columns
+::: {.column width="70%"}
+![](img/GIZQ0_MWYAAZiUJ.png){fit-align="center"}
+:::
+
+::: {.column width="30%"}
+::: {style="font-size: 60%;"}
+"*Having human beings scan articles for relevant text for inclusion is likely a very inefficient way to produce reviews. Adopting these technologies will improve the speed and accuracy of evidence synthesis.*"
+:::
+:::
+:::
+
+::: {style="font-size: 50%;"}
+[The four waves of the evidence revolution, published in Nature, Howard White, 2019](https://www.nature.com/articles/s41599-019-0253-6#Sec7){target="_blank"}
+:::
+
+## Results Cherry Picking: how to build effective "Evaluation Brief"?
+
+::: columns
+::: {.column width="60%"}
+**Choosing what to include and what to exclude**, especially in terms of highlighting critical aspects while deciding on what are the less relevant details to omit...
+
+Relying on automated retrieval can help improving the objectivity and **independence** of the evaluation report summarization.
+:::
+
+::: {.column width="40%"}
+![*Cassandra*, bearer of bad news](img/de-munt-cassandra-afgebeeld-in-een-script-van-shakespeares-troilus-and-cressida--mzk5njg5mzgzmw.jpg){fit-align="center"}
+:::
+:::
+
+::: notes
+The key deliverable from an evaluation process is usually a long report (*often over 60 pages PDF file*). From this report, two-pagers executive "briefs" are usually designed for the consumption of the senior executive audience. Striking the balance between concise and informative can be tricky but what remains even more challenging is the subjective dimension involved in
+
+The potential fear of being, like *Cassandra* in the greek mythology, the bearer of bad news comes with the structural risk of "cushioning" the real evaluation findings to a point where they get hidden.
+:::
+
+## RAG at Rescue!
+
+::: columns
+::: {.column width="20%"}
+::: {style="font-size: 60%;"}
+**Retrieval Augmented Generation** (RAG) combines the strengths of retrieval-based large language models & generative large language models.
+
+Embeddings are generated **numeric representations of text data**
+:::
+:::
+
+::: {.column width="80%"}
+![](img/RAG_workflow.png){fit-align="center"}
+:::
+:::
+
+::: notes
+Mechanism: - Retrieval: Fetches relevant documents or information from a knowledge base. - Generation: Generates responses based on retrieved documents and user queries.
+
+Benefits: - Enhanced accuracy and relevance of generated responses. - Effective in scenarios with vast, dynamic information sources.
+
+Text embedding models are statistical methods that represent text as numerical vectors. These embeddings aim to capture the semantic meaning of words and phrases in an efficient and user-friendly manner. They find applications in various natural language processing tasks and are constantly evolving.
+:::
+
+## Leaderboard for Large Language Models
+
+::: columns
+::: {.column width="40%"}
+::: {style="font-size: 70%;"}
+[Hugging Face Model Hub](https://huggingface.co/docs/hub/models){target="_blank"} is the main platform that ranks and compares the performance of large language models (LLMs) on various benchmarks and tasks.
+
+It includes **Leaderboard** for [embedding](https://huggingface.co/spaces/mteb/leaderboard){target="_blank"} and [generation](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard){target="_blank"} that:
+
+-   Provides a clear and transparent comparison of different LLMs.
+-   Helps identify the best models for specific tasks or domains.
+:::
+:::
+
+::: {.column width="60%"}
+![](img/Leaderboard.png){fit-align="center"}
+:::
+:::
+
+## Builing a RAG Pipeline requires:
+
+1.  **Data Collection**: Select & Gather relevant reports.
+
+2.  **Model Testing**: Test different generative and retrieval large language models.
+
+3.  **Integration**: Combine models & functions into a cohesive pipeline.
+
+4.  **Validation**: Build a human-baseline to benchmark the performance of the integrated system.
+
+5.  **Evaluation**: Assess accuracy, relevance, and efficiency using predefined metrics.
+
+::: notes
+Pipeline Components: - Retrieval Module: Efficiently searches and retrieves relevant documents. - Generative Module: Generates coherent and contextually appropriate responses.
+
+Testing: - Ensure the retrieval accuracy. - Validate the quality and relevance of generated content.
+
+Evaluation Metrics: - Precision, recall, and F1 score for retrieval accuracy. - BLEU, ROUGE, and human evaluation for generation quality.
+:::
+
+## A RAG Evaluation Framework
+
+::: columns
+::: {.column width="30%"}
+::: {style="font-size: 70%;"}
+Define and apply relevant **metrics** for both retrieval and generation to systematically & Continuosly assess the performance of the pipeline against existing models and baselines.
+:::
+:::
+
+::: {.column width="70%"}
+![](img/ragas_question.jpeg){fit-align="center"}
+:::
+:::
+
+::: notes
+**Components** - **Accuracy Metrics**: Measure how well the model's outputs align with the correct answers. - **Relevance Metrics**: Evaluate the pertinence of the retrieved documents to the query. - **Efficiency Metrics**: Assess the computational resources and time required for the process. - **User Feedback**: Incorporate qualitative feedback from users to refine the model.
+:::
+
+## Applying a "Data Science" Approach!
+
+::: columns
+::: {.column width="33%"}
+**Thorough Documentation**
+
+::: {style="font-size: 70%"}
+Keep detailed records of data sources, processing steps, model configurations, and evaluation results.
+
+Clear guidelines on usage and troubleshooting written for a lay audience.
+:::
+:::
+
+::: {.column width="33%"}
+**Reproducible Workflows**
+
+::: {style="font-size: 60%;"}
+Ensure that experiments can be replicated by others:
+
+-   Put Code under Version control
+-   Set up Pipelines and scripts for data processing, model training, and evaluation automated
+-   Share Public repositories for collaborative work.
+:::
+:::
+
+::: {.column width="33%"}
+**Transparent Reporting**
+
+::: {style="font-size: 60%;"}
+Clearly communicate methodologies and findings in reports and publications:
+
+-   Type of Chunking
+-   Name of Embedding
+-   Retrieval Strategy
+-   Name of Response LLM
+:::
+:::
+:::
+
+::: notes
+note....
+:::
+
+## Organising Validation with Human Feedback Loop
+
+Incorporate ongoing feedback from users to continuously improve model performance.
+
+-   **Task-Specific Fine Tuning**: Adjust models based on specific application requirements and domain knowledge.
+-   **Alignment Fine Tuning**: Ensure that model outputs align with ethical guidelines and user expectations.
+
+::: notes
+Human-in-the-Loop: Integrate human expertise to refine and improve model performance. Focus on aligning AI outputs with specific tasks and user requirements. Continuous feedback loop for model adjustments and enhancements.
+
+Task-Specific Fine-Tuning: Customize models for specific tasks or domains. Improve model accuracy and relevance in specialized applications. Use active learning techniques to optimize the feedback loop.
+
+Alignment Fine-Tuning: Ensure model outputs align with user expectations and ethical standards. Regularly update and validate against evolving guidelines.
+:::
+
+## Experimentation Results
+
+::: {style="font-size: 80%;"}
+See [full article here](https://edouard-legoupil.github.io/rag_extraction/){target="_blank"}
+
+1.  **Report used**: the [2019 Evaluation of UNHCR’s data use and information management approaches](https://www.unhcr.org/sites/default/files/legacy-pdf/5dd4f7d24.pdf){target="_blank"} with two test summary [#1](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_text_bert.docx){target="_blank"} & [#2](https://github.com/Edouard-Legoupil/rag_extraction/raw/main/generated/Evaluation_Brief_response_mmr_recursivecharactertext_bge.docx){target="_blank"}.
+
+2.  **Models Tested**: Small large language model that can run out of a strong laptop: [Command-r](https://cohere.com/blog/command-r){target="_blank"} & [Mixtral](https://mistral.ai/news/mixtral-of-experts/){target="_blank"} for the generation, [bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5){target="_blank"} for the embeddings
+
+3.  **Integration & Documentation**: Use of [LangChain](https://python.langchain.com/v0.1/docs/use_cases/question_answering/){target="_blank"} for the orchestration. Code shared and documented in [Github](https://github.com/Edouard-Legoupil/rag_extraction/){target="_blank"}
+
+4.  **Human Validation**: Ground truthing with [labelStud.io](https://labelstud.io/templates/generative-llm-ranker){target="_blank"}.
+
+5.  **Evaluation**: Assess accuracy, relevance, and efficiency using [RAGAS (Retrieval Augmented Generation Assessment)](https://docs.ragas.io/en/stable/){target="_blank"}.
+:::
+
+## An interface for Human Review of LLM outputs
+
+![](img/labelstudio.png){fig-align="center"}
+
+## AI Deployment: Buy or Build?
+
+![](img/GL0vYd_WcAAqUDZ.png){fit-align="center"}
+
+::: notes
+```         
+Buying:
+```
+
+Quick implementation with vendor support. Cost-effective for standard applications. Limited customization options. Building: Full control over customization and integration. Higher initial investment but tailored to specific needs. Requires in-house expertise and ongoing maintenance.
+:::
+
+## Some Considerations
+
+::: {style="font-size: 80%;"}
+-   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.
+-   **Modular Customization**: The "*orchestration*" solution should be flexible to adapt itself to incoming new development, without changing everything.
+-   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
+-   **Information Formatting**: Promote specific format for report publication, specifically Markdown rather than PDF, to ease the ingestion of content by the models.
+-   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
+:::
+
+::: notes
+by refining the AI with ORGANISATION SPECIFIC Operational data, we can enhance its ability to support our teams more accurately and efficiently
+:::
+
+## Conclusions
+
+Blind trust in AI definitely comes with **serious risks to manage**. And at first on one side, the lack of transparency and explainability and on the other side the occurrence and reproduction of bias and discrimination.
+
+Trust building will therefore require **organizational commitment to control**:
+
+-   the performance of information retrieval (*RAG*);\
+-   the ground truthing and alignment of model outputs (*Fine-tuning*).

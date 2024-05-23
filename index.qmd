@@ -1,5 +1,5 @@
 ---
-title: Generating Evaluation Report "**Brief**"
+title: Retrieval-Augmented Generation (RAG) - Technical approach paper on the systematic application of AI in evaluation synthesis and summarization
 subtitle: Evaluating `AI` Usage for Evaluation Purpose
 date: today
 author: Edouard Legoupil, UNHCR Evaluation Office

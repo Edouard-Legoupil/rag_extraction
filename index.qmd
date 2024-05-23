@@ -1293,7 +1293,12 @@ A fine tune model could help front-loading many more contexts that a simple foun
 
 ## Conclusions
 
-Blind trust in AI definitely comes with serious risks that have been extensively discussed in the literature (*Bias and Discrimination, Lack of Transparency and Explainability, etc.*). Trust building will therefore require organizational investment to continuously assess the results both from an information retrieval side and from a faithfulness side.
+Blind trust in AI definitely comes with **serious risks to manage**. And at first on one side, the lack of transparency and explainability and on the other side the occurence and reproduction of bias and discrimination. 
+
+Trust building will therefore require **organizational commitement to control**:  
+
+ - the performance of information retrieval (*RAG*);  
+ - the ground truthing and alignment of model outputs (*Fine-tuning*).
 
 This paper is advocating for an approach grounded in open data science but backed with human review. Some key considerations to implement this involve to look at:
 

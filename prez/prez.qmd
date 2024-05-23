@@ -240,9 +240,24 @@ Quick implementation with vendor support. Cost-effective for standard applicatio
 
 ## Some Considerations
 
-::: {style="font-size: 90%;"}
--   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing/insourcing.
+::: {style="font-size: 80%;"}
+-   **Total Cost of Ownership**: Off-the-shelves "production-level" solutions do not exist. The real challenge is to correctly balance outsourcing vs insourcing.
 -   **Modular Customization**: The "*orchestration*" solution should be flexible to adapt itself to incoming new development, without changing everything.
 -   **Agility - Iterate & Deliver**: Adopt short development round to test with users.
+-   **Information Formatting**: Promote specific format for report publication, specifically Markdown rather than PDF, to ease the ingestion of content by the models.
 -   **Expertise & Training**: Need to nurture in-house awareness and expertise to understand how RAG works, to test and then to help building validation dataset.
 :::
+
+::: notes
+by refining the AI with ORGANISATION SPECIFIC Operational data, we can enhance its ability to support our teams more accurately and efficiently
+:::
+
+
+## Conclusions
+
+Blind trust in AI definitely comes with **serious risks to manage**. And at first on one side, the lack of transparency and explainability and on the other side the occurence and reproduction of bias and discrimination. 
+
+Trust building will therefore require **organizational commitement to control**:  
+
+ - the performance of information retrieval (*RAG*);  
+ - the ground truthing and alignment of model outputs (*Fine-tuning*).
